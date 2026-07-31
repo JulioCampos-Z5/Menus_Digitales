@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encholadas — Pantalla Vertical 1080x1920</title>
+<link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1lcKrzXscte4HOkDrmBDMFD7gRxC-F4hL">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Bebas+Neue&family=Oswald:wght@300;400;500;600&family=Permanent+Marker&family=Cinzel:wght@400..900&family=UnifrakturMaguntia&family=Sedgwick+Ave+Display&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0d0c0b;
+    --black-2:#161412;
+    --gold:#d4af37;
+    --gold-2:#f2d675;
+    --red:#b81d24;
+    --red-2:#8a1319;
+    --green:#1f6f3f;
+    --cream:#f4e9d3;
+    --card:#1e1b18;
+    --line: rgba(212,175,55,.3);
+  }
+  *{box-sizing:border-box; font-optical-sizing:auto; -webkit-tap-highlight-color:transparent;}
+  html,body{
+    margin:0; padding:0; width:100%; height:100%;
+    background:#000;
+    overflow:hidden;
+    font-family:'Sedgwick Ave Display', cursive;
+  }
+
+  /* Outer wrapper centers+scales the fixed 1080x1920 stage to fit any real screen */
+  #scaleWrap{
+    position:fixed; top:0; left:0;
+    width:1080px; height:1920px;
+    transform-origin: top left;
+  }
+
+  .stage{
+    width:1080px; height:1920px;
+    position:relative;
+    background:
+      radial-gradient(ellipse at 50% 0%, #221e19 0%, var(--black) 55%),
+      var(--black);
+    color:var(--cream);
+    display:flex; flex-direction:column;
+    overflow:hidden;
+  }
+
+  .serape{
+    height:16px; width:100%; flex:0 0 auto;
+    background:repeating-linear-gradient(90deg,
+      var(--red) 0 30px, var(--gold) 30px 60px, var(--black-2) 60px 90px,
+      var(--green) 90px 120px, var(--gold) 120px 150px, var(--black-2) 150px 180px);
+    background-size:180px 100%;
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    flex:0 0 auto;
+    text-align:center;
+    padding:38px 20px 20px;
+    position:relative;
+    border-bottom:1px solid var(--line);
+  }
+  .logo-img{
+    width:220px; height:220px;
+    margin:0 auto;
+    display:block;
+    filter:drop-shadow(0 8px 20px rgba(0,0,0,.55));
+  }
+  .tagline{
+    font-family:'UnifrakturMaguntia', cursive;
+    font-weight:400;
+    font-size:34px; letter-spacing:1px;
+    color:var(--cream); opacity:.9; margin-top:10px;
+  }
+  .clock{
+    position:absolute; top:40px; right:40px;
+    text-align:right; font-family:'Sedgwick Ave Display', cursive;
+  }
+  .clock .time{font-weight:400; font-size:44px; color:var(--gold-2); line-height:1;}
+  .clock .date{font-size:18px; color:#cdbfa4; letter-spacing:1px; text-transform:capitalize;}
+
+  /* ---------- CAROUSEL ---------- */
+  .carousel{
+    flex:1 1 auto;
+    position:relative;
+    overflow:hidden;
+  }
+  .slide{
+    position:absolute; inset:0;
+    padding:50px 60px 30px;
+    display:flex; flex-direction:column;
+    opacity:0; transform: translateX(60px);
+    transition: opacity .7s ease, transform .7s ease;
+    pointer-events:none;
+  }
+  .slide.active{
+    opacity:1; transform:translateX(0);
+    pointer-events:auto;
+  }
+  .slide h1{
+    font-family:'UnifrakturMaguntia', cursive;
+    font-weight:400;
+    font-size:74px; letter-spacing:1px;
+    text-align:center; margin:0 0 6px;
+    color:var(--gold-2);
+    text-shadow: 0 0 24px rgba(212,175,55,.3);
+  }
+  .slide .sub{
+    text-align:center; font-size:20px; color:#c9bda3;
+    letter-spacing:2px; margin-bottom:34px; text-transform:uppercase;
+  }
+  .items{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:24px;
+    flex:1; align-content:start;
+  }
+  .item{
+    background:linear-gradient(160deg, var(--card), #17140f);
+    border:1px solid var(--line);
+    border-radius:24px;
+    overflow:hidden;
+    display:flex; flex-direction:column;
+    position:relative;
+    box-shadow: 0 10px 26px rgba(0,0,0,.4);
+  }
+  .item.wide{ grid-column:1 / -1; }
+  .item .badge{
+    width:100%; height:260px; border-radius:0; border:none;
+    background:var(--black-2);
+  }
+  .item .badge img{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+  .item .info{padding:22px 26px 26px;}
+  .item .info h3{
+    font-family:'UnifrakturMaguntia', cursive;
+    font-weight:400;
+    font-size:34px; letter-spacing:1px; margin:0 0 8px; color:var(--cream);
+  }
+  .item .info p{
+    margin:0; font-size:17px; color:#b9ac91; line-height:1.35;
+  }
+  .item .price{
+    position:absolute; top:20px; right:20px;
+    font-family:'Sedgwick Ave Display', cursive;
+    font-weight:400;
+    font-size:30px; color:var(--cream);
+    background:var(--red-2);
+    padding:8px 18px; border-radius:12px;
+    border:1px solid rgba(255,255,255,.15);
+    box-shadow:0 4px 14px rgba(0,0,0,.4);
+  }
+
+  /* ---------- DOTS ---------- */
+  .dots{
+    flex:0 0 auto;
+    display:flex; justify-content:center; gap:14px;
+    padding:22px 0;
+  }
+  .dot{
+    width:16px; height:16px; border-radius:50%;
+    background:var(--black-2); border:2px solid var(--gold);
+    transition:.3s;
+  }
+  .dot.active{ background:var(--gold); box-shadow:0 0 12px rgba(212,175,55,.6); }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    flex:0 0 auto;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:24px 60px 40px;
+    border-top:1px solid var(--line);
+    background:var(--black-2);
+  }
+  footer .addr{font-size:20px; color:#cdbfa4; line-height:1.4;}
+  footer .addr b{color:var(--gold-2); font-family:'Sedgwick Ave Display', cursive; font-weight:400; font-size:24px; letter-spacing:1px; display:block;}
+  .qr{
+    width:110px; height:110px; border-radius:12px;
+    background:
+      repeating-linear-gradient(0deg, var(--cream) 0 8px, transparent 8px 16px),
+      repeating-linear-gradient(90deg, var(--cream) 0 8px, transparent 8px 16px);
+    background-color:#000;
+    border:6px solid var(--cream);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Sedgwick Ave Display', cursive; font-weight:400; color:#000; font-size:12px;
+    text-align:center;
+  }
+</style>
+</head>
+<body>
+
+<div id="scaleWrap">
+  <div class="stage">
+    <div class="serape"></div>
+
+    <header>
+      <img src="https://lh3.googleusercontent.com/d/1ESpU18bgRhrxRYfQ-HF6ziob7pP4CPxr" alt="Encholadas y Panvaso - Cenaduría" class="logo-img">
+      <p class="tagline">Sabor del Barrio</p>
+      <div class="clock">
+        <div class="time" id="clockTime">--:--</div>
+        <div class="date" id="clockDate">-- de -- --</div>
+      </div>
+    </header>
+
+    <div class="carousel" id="carousel">
+
+      <section class="slide active" data-cat="antojitos">
+        <h1>Antojitos</h1>
+        <div class="sub">Para picar y compartir</div>
+        <div class="items">
+          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/elote,corn?lock=10" alt="Elotes Locos del Barrio"></div><div class="info"><h3>Elotes Locos del Barrio</h3><p>Elote asado, mayo, queso cotija, chile piquín y limón.</p></div><div class="price">$45</div></div>
+          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/nachos,mexican?lock=11" alt="Nachos La Raza"></div><div class="info"><h3>Nachos La Raza</h3><p>Totopos, frijoles, queso derretido, jalapeños, pico de gallo.</p></div><div class="price">$65</div></div>
+          <div class="item wide"><div class="badge"><img src="https://loremflickr.com/500/300/mexican,snack?lock=12" alt="Tostilocos Callejeros"></div><div class="info"><h3>Tostilocos Callejeros</h3><p>Tostitos, pepino, jícama, chamoy y gomitas.</p></div><div class="price">$50</div></div>
+        </div>
+      </section>
+
+      <section class="slide" data-cat="tacos">
+        <h1>Tacos</h1>
+        <div class="sub">Orden por 3 piezas</div>
+        <div class="items">
+          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/tacos,pastor?lock=13" alt="Al Pastor El Trompo"></div><div class="info"><h3>Al Pastor "El Trompo"</h3><p>Piña asada, cebolla y cilantro.</p></div><div class="price">$55</div></div>
+          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/tacos,beef?lock=14" alt="Carne Asada La Jefa"></div><div class="info"><h3>Carne Asada "La Jefa"</h3><p>A la parrilla con guacamole casero.</p></div><div class="price">$60</div></div>
+          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/tacos,mexican?lock=15" alt="Cabeza El Padrino"></div><div class="info"><h3>Cabeza "El Padrino"</h3><p>Estilo tradicional, fuego lento.</p></div><div class="price">$58</div></div>
+          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/shrimp,tacos?lock=16" alt="Camaron Bajo Palapa"></div><div class="info"><h3>Camarón "Bajo Palapa"</h3><p>Empanizado con mayo de chipotle.</p></div><div class="price">$70</div></div>
+        </div>
+      </section>
+
+      <section class="slide" data-cat="burritos">
+        <h1>Burritos</h1>
+        <div class="sub">Tamaño barrio</div>
+        <div class="items">
+          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/burrito?lock=17" alt="El Cholo Loco"></div><div class="info"><h3>El Cholo Loco</h3><p>Arroz, frijoles, carne asada, queso y pico de gallo. XL.</p></div><div class="price">$95</div></div>
+          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/burrito,vegetarian?lock=18" alt="La Reina del Barrio"></div><div class="info"><h3>La Reina del Barrio</h3><p>Vegetariano: nopales, frijoles, arroz y guacamole.</p></div><div class="price">$80</div></div>
+          <div class="item wide"><div class="badge"><img src="https://loremflickr.com/500/300/burrito,mexican?lock=19" alt="El Padrino Especial"></div><div class="info"><h3>El Padrino Especial</h3><p>Carnitas, queso derretido, salsa verde y crema.</p></div><div class="price">$100</div></div>
+        </div>
+      </section>
+
+      <section class="slide" data-cat="quesadillas">
+        <h1>Quesadillas</h1>
+        <div class="sub">Hechas a mano</div>
+        <div class="items">
+          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/quesadilla,cheese?lock=20" alt="Quesadilla Sencilla"></div><div class="info"><h3>Quesadilla Sencilla</h3><p>Queso Oaxaca fundido.</p></div><div class="price">$40</div></div>
+          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/quesadilla?lock=21" alt="Quesadilla Suprema"></div><div class="info"><h3>Quesadilla Suprema</h3><p>Queso, carne asada y champiñones.</p></div><div class="price">$65</div></div>
+        </div>
+      </section>
+
+      <section class="slide" data-cat="bebidas">
+        <h1>Bebidas</h1>
+        <div class="sub">Fresquecitas todo el día</div>
+        <div class="items">
+          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/hibiscus,drink?lock=22" alt="Agua de Jamaica"></div><div class="info"><h3>Agua de Jamaica</h3><p>Infusión natural de flor de jamaica.</p></div><div class="price">$30</div></div>
+          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/horchata?lock=23" alt="Agua de Horchata"></div><div class="info"><h3>Agua de Horchata</h3><p>Receta de la abuela, con canela.</p></div><div class="price">$30</div></div>
+          <div class="item wide"><div class="badge"><img src="https://loremflickr.com/500/300/michelada?lock=24" alt="Michelada La Chida"></div><div class="info"><h3>Michelada "La Chida"</h3><p>Cerveza con limón, salsas y chamoy.</p></div><div class="price">$70</div></div>
+        </div>
+      </section>
+
+      <section class="slide" data-cat="postres">
+        <h1>Postres</h1>
+        <div class="sub">Para cerrar con gusto</div>
+        <div class="items">
+          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/churros?lock=26" alt="Churros con Cajeta"></div><div class="info"><h3>Churros con Cajeta</h3><p>Crujientes, azúcar y canela.</p></div><div class="price">$45</div></div>
+          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/flan,custard?lock=27" alt="Flan Napolitano"></div><div class="info"><h3>Flan Napolitano</h3><p>Cremoso, receta de la casa.</p></div><div class="price">$50</div></div>
+          <div class="item wide"><div class="badge"><img src="https://loremflickr.com/500/300/popsicle?lock=28" alt="Paletas Artesanales"></div><div class="info"><h3>Paletas Artesanales</h3><p>Sabores de temporada, hechas a mano.</p></div><div class="price">$35</div></div>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="dots" id="dots"></div>
+
+    <footer>
+      <div class="addr">
+        <b>Encholadas</b>
+        Av. siempre viva #123, Col. Centro · Lun–Dom 12:00–23:00
+      </div>
+      <div class="qr">MENÚ<br>COMPLETO</div>
+    </footer>
+
+  </div>
+</div>
+
+<script>
+  // Scale the fixed 1080x1920 stage to fit whatever real screen this loads on
+  function fitStage(){
+    const scale = Math.min(window.innerWidth / 1080, window.innerHeight / 1920);
+    const wrap = document.getElementById('scaleWrap');
+    const offX = (window.innerWidth - 1080 * scale) / 2;
+    const offY = (window.innerHeight - 1920 * scale) / 2;
+    wrap.style.transform = `translate(${offX}px, ${offY}px) scale(${scale})`;
+  }
+  window.addEventListener('resize', fitStage);
+  fitStage();
+
+  // Clock
+  function tick(){
+    const now = new Date();
+    document.getElementById('clockTime').textContent =
+      now.toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'});
+    document.getElementById('clockDate').textContent =
+      now.toLocaleDateString('es-MX', {weekday:'long', day:'numeric', month:'long'});
+  }
+  tick();
+  setInterval(tick, 1000 * 15);
+
+  // Carousel autoplay
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const dotsWrap = document.getElementById('dots');
+  slides.forEach((_, i)=>{
+    const d = document.createElement('div');
+    d.className = 'dot' + (i===0 ? ' active' : '');
+    dotsWrap.appendChild(d);
+  });
+  const dots = Array.from(dotsWrap.children);
+  let current = 0;
+  const INTERVAL_MS = 7000;
+
+  function goTo(index){
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (index + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+  }
+
+  setInterval(()=> goTo(current + 1), INTERVAL_MS);
+</script>
+
+</body>
+</html>

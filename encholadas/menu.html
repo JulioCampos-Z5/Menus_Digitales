@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encholadas — Menú Digital</title>
+<link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1lcKrzXscte4HOkDrmBDMFD7gRxC-F4hL">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Bebas+Neue&family=Oswald:wght@300;400;500;600&family=Permanent+Marker&family=Cinzel:wght@400..900&family=UnifrakturMaguntia&family=Sedgwick+Ave+Display&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0d0c0b;
+    --black-2:#161412;
+    --gold:#d4af37;
+    --gold-2:#f2d675;
+    --red:#b81d24;
+    --red-2:#8a1319;
+    --green:#1f6f3f;
+    --cream:#f4e9d3;
+    --card:#1e1b18;
+    --line: rgba(212,175,55,.25);
+    --nav-h: 62px;
+  }
+  *{box-sizing:border-box; font-optical-sizing:auto; -webkit-tap-highlight-color:transparent;}
+  a, button, .card, .qty-btn, .add-btn, .cart-open-btn{-webkit-tap-highlight-color:transparent; outline:none;}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--gold); outline-offset:2px;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse at top, #201c18 0%, var(--black) 55%),
+      var(--black);
+    color:var(--cream);
+    font-family:'Sedgwick Ave Display', cursive;
+    -webkit-font-smoothing:antialiased;
+    padding-top:var(--nav-h);
+  }
+  img{max-width:100%; display:block;}
+  .serape{
+    height:10px;
+    width:100%;
+    background:repeating-linear-gradient(90deg,
+      var(--red) 0 20px, var(--gold) 20px 40px, var(--black-2) 40px 60px,
+      var(--green) 60px 80px, var(--gold) 80px 100px, var(--black-2) 100px 120px);
+    background-size:120px 100%;
+  }
+
+  /* ---------- CATEGORY NAV (fixed, always visible) ---------- */
+  nav.cats{
+    position:fixed; top:0; left:0; right:0; z-index:150;
+    display:flex; align-items:center; gap:10px;
+    padding:10px 14px;
+    height:var(--nav-h);
+    background:rgba(13,12,11,.96);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-brand{
+    flex:0 0 auto; white-space:nowrap;
+    font-family:'Sedgwick Ave Display', cursive;
+    color:var(--gold); font-size:24px;
+    text-shadow:1px 1px 0 var(--red-2);
+  }
+  .nav-logo{
+    flex:0 0 auto;
+    height:44px; width:44px;
+    object-fit:contain;
+  }
+  .cats-scroll{
+    flex:1; min-width:0;
+    display:flex; gap:8px; overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .cats-scroll::-webkit-scrollbar{display:none;}
+  .cats-scroll a{
+    flex:0 0 auto;
+    font-family:'Sedgwick Ave Display', cursive;
+    font-weight:400;
+    letter-spacing:1.5px;
+    font-size:15px;
+    color:var(--cream);
+    background:var(--black-2);
+    border:1px solid var(--line);
+    padding:8px 16px;
+    border-radius:30px;
+    text-decoration:none;
+    transition:.2s;
+    white-space:nowrap;
+  }
+  .cats-scroll a.active, .cats-scroll a:hover{
+    background:var(--gold);
+    color:var(--black);
+    border-color:var(--gold);
+  }
+
+  /* ---------- HEADER ---------- */
+  header.top{
+    text-align:center;
+    padding:30px 16px 20px;
+  }
+  .logo-img{
+    width:150px; height:150px;
+    margin:0 auto;
+    display:block;
+    filter:drop-shadow(0 6px 16px rgba(0,0,0,.55));
+  }
+  .tagline{
+    font-family:'UnifrakturMaguntia', cursive;
+    font-weight:400;
+    color:var(--cream);
+    font-size:20px;
+    letter-spacing:1px;
+    margin-top:6px;
+    opacity:.85;
+  }
+  .tagline::before, .tagline::after{content:"✦ "; color:var(--red);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:70px 20px 46px;
+    text-align:center;
+    background:
+      linear-gradient(180deg, rgba(13,12,11,.55), rgba(13,12,11,.93) 85%),
+      url('https://loremflickr.com/1200/500/mexican,food,tacos?lock=5') center/cover no-repeat;
+  }
+  .hero h1{
+    font-family:'UnifrakturMaguntia', cursive;
+    font-weight:400;
+    font-size:40px;
+    letter-spacing:1px;
+    color:var(--gold-2);
+    margin:0 0 8px;
+  }
+  .hero p{
+    max-width:520px; margin:0 auto;
+    color:#e6dcc4; font-size:15px; line-height:1.5;
+  }
+  .eagle{font-size:34px; display:block; margin-bottom:6px;}
+
+  /* ---------- MAIN LAYOUT ---------- */
+  main{max-width:1200px; margin:0 auto; padding:0 16px 100px;}
+
+  .menu-section{padding-top:34px; scroll-margin-top:76px;}
+  .section-head{
+    display:flex; align-items:center; gap:14px;
+    margin-bottom:18px;
+  }
+  .section-head h2{
+    font-family:'UnifrakturMaguntia', cursive;
+    font-weight:400;
+    font-size:32px; letter-spacing:1px;
+    color:var(--cream); margin:0;
+    display:flex; align-items:center; gap:10px;
+  }
+  .section-head .line{
+    flex:1; height:2px;
+    background:repeating-linear-gradient(90deg, var(--gold) 0 8px, transparent 8px 14px);
+  }
+
+  .grid{
+    display:grid; grid-template-columns:1fr; gap:16px;
+  }
+  .card{
+    background:linear-gradient(160deg, var(--card), #17140f);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px;
+    display:flex; flex-wrap:wrap; gap:14px; align-items:center;
+    position:relative; overflow:hidden;
+    transition:transform .2s, border-color .2s;
+    cursor:pointer;
+  }
+  .card:hover{transform:translateY(-2px); border-color:var(--gold);}
+  .card::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(120deg, transparent 40%, rgba(212,175,55,.06) 50%, transparent 60%);
+    pointer-events:none;
+  }
+  .thumb{
+    flex:0 0 auto;
+    width:74px; height:74px; border-radius:14px;
+    border:2px solid var(--gold);
+    overflow:hidden; background:var(--black-2);
+  }
+  .thumb img{width:100%; height:100%; object-fit:cover;}
+  .card-body{flex:1; min-width:0;}
+  .card-body h3{
+    font-family:'UnifrakturMaguntia', cursive;
+    font-weight:400;
+    font-size:22px; letter-spacing:1px;
+    margin:0 0 4px; color:var(--gold-2);
+  }
+  .card-body p{
+    margin:0; font-size:13.5px; color:#c9bda3; line-height:1.4;
+  }
+  .price{
+    flex:0 0 auto;
+    font-family:'Sedgwick Ave Display', cursive;
+    font-weight:400;
+    font-size:22px; color:var(--cream);
+    background:var(--red-2);
+    padding:6px 12px; border-radius:8px;
+    border:1px solid rgba(255,255,255,.1);
+  }
+  .chevron{
+    flex:0 0 auto; color:var(--gold);
+    font-size:16px; transition:transform .25s;
+  }
+  .card.expanded .chevron{transform:rotate(180deg);}
+
+  .card-detail{
+    flex:0 0 100%; width:100%;
+    max-height:0; overflow:hidden;
+    transition:max-height .3s ease;
+  }
+  .card.expanded .card-detail{
+    max-height:120px;
+    margin-top:12px; padding-top:12px;
+    border-top:1px dashed var(--line);
+  }
+  .qty-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .qty-btn{
+    width:34px; height:34px; border-radius:8px;
+    border:1px solid var(--line); background:var(--black-2);
+    color:var(--cream); font-size:19px; cursor:pointer;
+  }
+  .qty-btn:active{background:var(--gold); color:var(--black);}
+  .qty-val{
+    font-family:'Sedgwick Ave Display', cursive; font-weight:400; font-size:19px;
+    min-width:22px; text-align:center;
+  }
+  .add-btn{
+    margin-left:auto;
+    background:var(--green); color:#fff; border:none;
+    padding:10px 18px; border-radius:8px;
+    font-family:'Sedgwick Ave Display', cursive; font-weight:400; font-size:16px; letter-spacing:1px;
+    cursor:pointer; transition:.2s;
+  }
+  .add-btn.added{background:var(--gold); color:#000;}
+
+  /* ---------- CART BAR ---------- */
+  .cart-bar{
+    position:fixed; left:0; right:0; bottom:0; z-index:180;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:14px; padding:14px 18px;
+    background:linear-gradient(90deg,var(--red-2),var(--red));
+    box-shadow:0 -4px 20px rgba(0,0,0,.4);
+    transform:translateY(120%);
+    transition:transform .3s ease;
+  }
+  .cart-bar.show{transform:translateY(0);}
+  .cart-info{color:#fff; font-family:'Sedgwick Ave Display', cursive; font-weight:400; font-size:17px; letter-spacing:1px;}
+  .cart-info b{color:var(--gold-2);}
+  .cart-open-btn{
+    background:var(--gold); color:#000; border:none;
+    padding:10px 20px; border-radius:8px;
+    font-family:'Sedgwick Ave Display', cursive; font-weight:400; font-size:16px; letter-spacing:1px;
+    cursor:pointer; white-space:nowrap;
+  }
+
+  /* ---------- CART MODAL ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; z-index:200;
+    background:rgba(0,0,0,.7);
+    display:flex; align-items:flex-end; justify-content:center;
+    opacity:0; pointer-events:none;
+    transition:opacity .25s;
+  }
+  .modal-overlay.show{opacity:1; pointer-events:auto;}
+  .modal{
+    width:100%; max-width:520px; max-height:82vh;
+    background:var(--black-2);
+    border:1px solid var(--line); border-bottom:none;
+    border-radius:20px 20px 0 0;
+    padding:22px; overflow-y:auto;
+    transform:translateY(30px);
+    transition:transform .25s;
+  }
+  .modal-overlay.show .modal{transform:translateY(0);}
+  .modal-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;}
+  .modal-head h2{
+    font-family:'Sedgwick Ave Display', cursive; font-weight:400; font-size:26px;
+    letter-spacing:1.5px; color:var(--gold-2); margin:0;
+  }
+  #closeModal{
+    background:var(--black); border:1px solid var(--line); color:var(--cream);
+    width:34px; height:34px; border-radius:50%; font-size:16px; cursor:pointer;
+  }
+  #cartItems{min-height:40px;}
+  .modal-line{
+    display:grid; grid-template-columns:1fr auto auto auto; gap:10px;
+    align-items:center; padding:10px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .ml-name{font-size:14px; color:var(--cream);}
+  .ml-controls{display:flex; align-items:center; gap:6px;}
+  .ml-controls .qty-btn{width:26px; height:26px; font-size:14px;}
+  .ml-sub{font-family:'Sedgwick Ave Display', cursive; font-weight:400; color:var(--gold-2); font-size:16px; white-space:nowrap;}
+  .ml-remove{background:none; border:none; color:#a08a6a; font-size:16px; cursor:pointer;}
+  .modal-total{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:'Sedgwick Ave Display', cursive; font-weight:400; font-size:26px; color:var(--cream);
+    padding-top:14px; margin-top:8px; border-top:1px solid var(--line);
+  }
+  .whatsapp-btn{
+    display:block; width:100%; margin-top:18px;
+    background:#25D366; color:#fff; text-decoration:none;
+    padding:14px; border-radius:12px; text-align:center;
+    font-family:'Sedgwick Ave Display', cursive; font-weight:400; font-size:19px; letter-spacing:1px;
+    border:none; cursor:pointer;
+  }
+  .whatsapp-btn.disabled{opacity:.4; pointer-events:none;}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--black-2);
+    border-top:1px solid var(--line);
+    padding:36px 20px 26px;
+    text-align:center;
+  }
+  .foot-logo-img{
+    width:64px; height:64px;
+    margin:0 auto 10px;
+    display:block;
+  }
+  footer p{margin:4px 0; font-size:13.5px; color:#b9ac91;}
+  footer .social{margin-top:14px; font-size:20px; letter-spacing:14px;}
+
+  /* ---------- TABLET ---------- */
+  @media (min-width:900px){
+    .logo-img{width:190px; height:190px;}
+    .hero h1{font-size:48px;}
+    .grid{grid-template-columns:repeat(2,1fr);}
+  }
+
+  /* ---------- DESKTOP: sidebar categories ---------- */
+  @media (min-width:1200px){
+    body{
+      display:grid;
+      grid-template-columns:230px 1fr;
+      padding-top:0;
+    }
+    header.top, footer{grid-column:1 / -1;}
+    nav.cats{
+      position:sticky; top:0; height:100vh;
+      grid-column:1; grid-row:2;
+      flex-direction:column; align-items:stretch;
+      border-right:1px solid var(--line); border-bottom:none;
+      padding:24px 14px; gap:10px;
+    }
+    .nav-logo{display:none;}
+    .cats-scroll{flex-direction:column; overflow:visible; gap:8px;}
+    .cats-scroll a{text-align:center;}
+    main{grid-column:2; grid-row:2; max-width:none;}
+    .grid{grid-template-columns:repeat(2,1fr);}
+    .menu-section{scroll-margin-top:20px;}
+    .cart-bar{
+      left:auto; right:30px; bottom:30px;
+      border-radius:16px; max-width:380px;
+      box-shadow:0 8px 30px rgba(0,0,0,.5);
+    }
+  }
+  @media (min-width:1500px){
+    .grid{grid-template-columns:repeat(3,1fr);}
+  }
+</style>
+</head>
+<body>
+
+<nav class="cats" id="catNav">
+  <img src="https://lh3.googleusercontent.com/d/1lcKrzXscte4HOkDrmBDMFD7gRxC-F4hL" alt="Encholadas y Panvaso" class="nav-logo">
+  <div class="cats-scroll">
+    <a href="#antojitos">Antojitos</a>
+    <a href="#tacos">Tacos</a>
+    <a href="#burritos">Burritos</a>
+    <a href="#quesadillas">Quesadillas</a>
+    <a href="#bebidas">Bebidas</a>
+    <a href="#postres">Postres</a>
+  </div>
+</nav>
+
+<header class="top">
+  <img src="https://lh3.googleusercontent.com/d/1ESpU18bgRhrxRYfQ-HF6ziob7pP4CPxr" alt="Encholadas y Panvaso - Cenaduría" class="logo-img">
+  <p class="tagline">Sabor del Barrio</p>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>Comida de Barrio, Sabor de Casa</h1>
+    <p>Recetas heredadas, sazón callejero y mucho corazón. Toca un platillo para verlo y agregarlo a tu pedido.</p>
+  </div>
+
+  <section class="menu-section" id="antojitos">
+    <div class="section-head"><h2>Antojitos</h2><div class="line"></div></div>
+    <div class="grid">
+      <div class="card" data-name="Elotes Locos del Barrio" data-price="45">
+        <div class="thumb"><img src="https://loremflickr.com/160/160/elote,corn?lock=10" alt="Elotes Locos del Barrio" loading="lazy"></div>
+        <div class="card-body"><h3>Elotes Locos del Barrio</h3><p>Elote asado bañado en mayo, queso cotija, chile piquín y limón.</p></div>
+        <div class="price">$45</div>
+        <span class="chevron">▾</span>
+        <div class="card-detail">
+          <div class="qty-row">
+            <button type="button" class="qty-btn minus">−</button>
+            <span class="qty-val">1</span>
+            <button type="button" class="qty-btn plus">+</button>
+            <button type="button" class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" data-name="Nachos La Raza" data-price="65">
+        <div class="thumb"><img src="https://loremflickr.com/160/160/nachos,mexican?lock=11" alt="Nachos La Raza" loading="lazy"></div>
+        <div class="card-body"><h3>Nachos La Raza</h3><p>Totopos, frijoles refritos, queso derretido, jalapeños y pico de gallo.</p></div>
+        <div class="price">$65</div>
+        <span class="chevron">▾</span>
+        <div class="card-detail">
+          <div class="qty-row">
+            <button type="button" class="qty-btn minus">−</button>
+            <span class="qty-val">1</span>
+            <button type="button" class="qty-btn plus">+</button>
+            <button type="button" class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" data-name="Tostilocos Callejeros" data-price="50">
+        <div class="thumb"><img src="https://loremflickr.com/160/160/mexican,snack?lock=12" alt="Tostilocos Callejeros" loading="lazy"></div>
+        <div class="card-body"><h3>Tostilocos Callejeros</h3><p>Tostitos, pepino, jícama, chamoy, chile en polvo y gomitas.</p></div>
+        <div class="price">$50</div>
+        <span class="chevron">▾</span>
+        <div class="card-detail">
+          <div class="qty-row">
+            <button type="button" class="qty-btn minus">−</button>
+            <span class="qty-val">1</span>
+            <button type="button" class="qty-btn plus">+</button>
+            <button type="button" class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="menu-section" id="tacos">
+    <div class="section-head"><h2>Tacos <small style="font-size:13px;color:#9c8f74;font-family:'Sedgwick Ave Display', cursive;letter-spacing:0">(orden x3)</small></h2><div class="line"></div></div>
+    <div class="grid">
+      <div class="card" data-name='Al Pastor "El Trompo"' data-price="55">
+        <div class="thumb"><img src="https://loremflickr.com/160/160/tacos,pastor?lock=13" alt="Al Pastor El Trompo" loading="lazy"></div>
+        <div class="card-body"><h3>Al Pastor "El Trompo"</h3><p>Piña asada, cebolla y cilantro sobre tortilla de maíz recién hecha.</p></div>
+        <div class="price">$55</div>
+        <span class="chevron">▾</span>
+        <div class="card-detail">
+          <div class="qty-row">
+            <button type="button" class="qty-btn minus">−</button>
+            <span class="qty-val">1</span>
+            <button type="button" class="qty-btn plus">+</button>
+            <button type="button" class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" data-name='Carne Asada "La Jefa"' data-price="60">
+        <div class="thumb"><img src="https://loremflickr.com/160/160/tacos,beef?lock=14" alt="Carne Asada La Jefa" loading="lazy"></div>
+        <div class="card-body"><h3>Carne Asada "La Jefa"</h3><p>Carne asada a la parrilla con guacamole casero.</p></div>
+        <div class="price">$60</div>
+        <span class="chevron">▾</span>
+        <div class="card-detail">
+          <div class="qty-row">
+            <button type="button" class="qty-btn minus">−</button>
+            <span class="qty-val">1</span>
+            <button type="button" class="qty-btn plus">+</button>
+            <button type="button" class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" data-name='Cabeza "El Padrino"' data-price="58">
+        <div class="thumb"><img src="https://loremflickr.com/160/160/tacos,mexican?lock=15" alt="Cabeza El Padrino" loading="lazy"></div>
+        <div class="card-body"><h3>Cabeza "El Padrino"</h3><p>Cabeza de res estilo tradicional, cocida a fuego lento.</p></div>
+        <div class="price">$58</div>
+        <span class="chevron">▾</span>
+        <div class="card-detail">
+          <div class="qty-row">
+            <button type="button" class="qty-btn minus">−</button>
+            <span class="qty-val">1</span>
+            <button type="button" class="qty-btn plus">+</button>
+            <button type="button" class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" data-name='Camarón "Bajo Palapa"' data-price="70">
+        <div class="thumb"><img src="https://loremflickr.com/160/160/shrimp,tacos?lock=16" alt="Camaron Bajo Palapa" loading="lazy"></div>
+        <div class="card-body"><h3>Camarón "Bajo Palapa"</h3><p>Camarón empanizado con mayo de chipotle.</p></div>
+        <div class="price">$70</div>
+        <span class="chevron">▾</span>
+        <div class="card-detail">
+          <div class="qty-row">
+            <button type="button" class="qty-btn minus">−</button>
+            <span class="qty-val">1</span>
+            <button type="button" class="qty-btn plus">+</button>
+            <button type="button" class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="menu-section" id="burritos">
+    <div class="section-head"><h2>Burritos</h2><div class="line"></div></div>
+    <div class="grid">
+      <div class="card" data-name="El Cholo Loco" data-price="95">
+        <div class="thumb"><img src="https://loremflickr.com/160/160/burrito?lock=17" alt="El Cholo Loco" loading="lazy"></div>
+        <div class="card-body"><h3>El Cholo Loco</h3><p>Arroz, frijoles, carne asada, queso y pico de gallo. Tamaño XL.</p></div>
+        <div class="price">$95</div>
+        <span class="chevron">▾</span>
+        <div class="card-detail">
+          <div class="qty-row">
+            <button type="button" class="qty-btn minus">−</button>
+            <span class="qty-val">1</span>
+            <button type="button" class="qty-btn plus">+</button>
+            <button type="button" class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" data-name="La Reina del Barrio" data-price="80">
+        <div class="thumb"><img src="https://loremflickr.com/160/160/burrito,vegetarian?lock=18" alt="La Reina del Barrio" loading="lazy"></div>
+        <div class="card-body"><h3>La Reina del Barrio</h3><p>Vegetariano: frijoles, arroz, nopales, queso y guacamole.</p></div>
+        <div class="price">$80</div>
+        <span class="chevron">▾</span>
+        <div class="card-detail">
+          <div class="qty-row">
+            <button type="button" class="qty-btn minus">−</button>
+            <span class="qty-val">1</span>
+            <button type="button" class="qty-btn plus">+</button>
+            <button type="button" class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" data-name="El Padrino Especial" data-price="100">
+        <div class="thumb"><img src="https://loremflickr.com/160/160/burrito,mexican?lock=19" alt="El Padrino Especial" loading="lazy"></div>
+        <div class="card-body"><h3>El Padrino Especial</h3><p>Carnitas, queso derretido, salsa verde y crema.</p></div>
+        <div class="price">$100</div>
+        <span class="chevron">▾</span>
+        <div class="card-detail">
+          <div class="qty-row">
+            <button type="button" class="qty-btn minus">−</button>
+            <span class="qty-val">1</span>
+            <button type="button" class="qty-btn plus">+</button>
+            <button type="button" class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="menu-section" id="quesadillas">
+    <div class="section-head"><h2>Quesadillas</h2><div class="line"></div></div>
+    <div class="grid">
+      <div class="card" data-name="Quesadilla Sencilla" data-price="40">
+        <div class="thumb"><img src="https://loremflickr.com/160/160/quesadilla,cheese?lock=20" alt="Quesadilla Sencilla" loading="lazy"></div>
+        <div class="card-body"><h3>Quesadilla Sencilla</h3><p>Queso Oaxaca fundido en tortilla hecha a mano.</p></div>
+        <div class="price">$40</div>
+        <span class="chevron">▾</span>
+        <div class="card-detail">
+          <div class="qty-row">
+            <button type="button" class="qty-btn minus">−</button>
+            <span class="qty-val">1</span>
+            <button type="button" class="qty-btn plus">+</button>
+            <button type="button" class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" data-name="Quesadilla Suprema" data-price="65">
+        <div class="thumb"><img src="https://loremflickr.com/160/160/quesadilla?lock=21" alt="Quesadilla Suprema" loading="lazy"></div>
+        <div class="card-body"><h3>Quesadilla Suprema</h3><p>Queso, carne asada y champiñones salteados.</p></div>
+        <div class="price">$65</div>
+        <span class="chevron">▾</span>
+        <div class="card-detail">
+          <div class="qty-row">
+            <button type="button" class="qty-btn minus">−</button>
+            <span class="qty-val">1</span>
+            <button type="button" class="qty-btn plus">+</button>
+            <button type="button" class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="menu-section" id="bebidas">
+    <div class="section-head"><h2>Bebidas</h2><div class="line"></div></div>
+    <div class="grid">
+      <div class="card" data-name="Agua de Jamaica" data-price="30">
+        <div class="thumb"><img src="https://loremflickr.com/160/160/hibiscus,drink?lock=22" alt="Agua de Jamaica" loading="lazy"></div>
+        <div class="card-body"><h3>Agua de Jamaica</h3><p>Refrescante infusión natural de flor de jamaica.</p></div>
+        <div class="price">$30</div>
+        <span class="chevron">▾</span>
+        <div class="card-detail">
+          <div class="qty-row">
+            <button type="button" class="qty-btn minus">−</button>
+            <span class="qty-val">1</span>
+            <button type="button" class="qty-btn plus">+</button>
+            <button type="button" class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" data-name="Agua de Horchata" data-price="30">
+        <div class="thumb"><img src="https://loremflickr.com/160/160/horchata?lock=23" alt="Agua de Horchata" loading="lazy"></div>
+        <div class="card-body"><h3>Agua de Horchata</h3><p>Receta de la abuela, con canela.</p></div>
+        <div class="price">$30</div>
+        <span class="chevron">▾</span>
+        <div class="card-detail">
+          <div class="qty-row">
+            <button type="button" class="qty-btn minus">−</button>
+            <span class="qty-val">1</span>
+            <button type="button" class="qty-btn plus">+</button>
+            <button type="button" class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" data-name="Agua de Tamarindo" data-price="30">
+        <div class="thumb"><img src="https://loremflickr.com/160/160/tamarind,drink?lock=29" alt="Agua de Tamarindo" loading="lazy"></div>
+        <div class="card-body"><h3>Agua de Tamarindo</h3><p>Dulce, ácida y bien fría.</p></div>
+        <div class="price">$30</div>
+        <span class="chevron">▾</span>
+        <div class="card-detail">
+          <div class="qty-row">
+            <button type="button" class="qty-btn minus">−</button>
+            <span class="qty-val">1</span>
+            <button type="button" class="qty-btn plus">+</button>
+            <button type="button" class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" data-name='Michelada "La Chida"' data-price="70">
+        <div class="thumb"><img src="https://loremflickr.com/160/160/michelada?lock=24" alt="Michelada La Chida" loading="lazy"></div>
+        <div class="card-body"><h3>Michelada "La Chida"</h3><p>Cerveza preparada con limón, salsas y chamoy.</p></div>
+        <div class="price">$70</div>
+        <span class="chevron">▾</span>
+        <div class="card-detail">
+          <div class="qty-row">
+            <button type="button" class="qty-btn minus">−</button>
+            <span class="qty-val">1</span>
+            <button type="button" class="qty-btn plus">+</button>
+            <button type="button" class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" data-name="Refresco Mexicano" data-price="35">
+        <div class="thumb"><img src="https://loremflickr.com/160/160/soda,drink?lock=25" alt="Refresco Mexicano" loading="lazy"></div>
+        <div class="card-body"><h3>Refresco Mexicano</h3><p>Jarritos o Boing, sabores surtidos.</p></div>
+        <div class="price">$35</div>
+        <span class="chevron">▾</span>
+        <div class="card-detail">
+          <div class="qty-row">
+            <button type="button" class="qty-btn minus">−</button>
+            <span class="qty-val">1</span>
+            <button type="button" class="qty-btn plus">+</button>
+            <button type="button" class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="menu-section" id="postres">
+    <div class="section-head"><h2>Postres</h2><div class="line"></div></div>
+    <div class="grid">
+      <div class="card" data-name="Churros con Cajeta" data-price="45">
+        <div class="thumb"><img src="https://loremflickr.com/160/160/churros?lock=26" alt="Churros con Cajeta" loading="lazy"></div>
+        <div class="card-body"><h3>Churros con Cajeta</h3><p>Crujientes, bañados en azúcar y canela.</p></div>
+        <div class="price">$45</div>
+        <span class="chevron">▾</span>
+        <div class="card-detail">
+          <div class="qty-row">
+            <button type="button" class="qty-btn minus">−</button>
+            <span class="qty-val">1</span>
+            <button type="button" class="qty-btn plus">+</button>
+            <button type="button" class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" data-name="Flan Napolitano" data-price="50">
+        <div class="thumb"><img src="https://loremflickr.com/160/160/flan,custard?lock=27" alt="Flan Napolitano" loading="lazy"></div>
+        <div class="card-body"><h3>Flan Napolitano</h3><p>Cremoso, receta de la casa.</p></div>
+        <div class="price">$50</div>
+        <span class="chevron">▾</span>
+        <div class="card-detail">
+          <div class="qty-row">
+            <button type="button" class="qty-btn minus">−</button>
+            <span class="qty-val">1</span>
+            <button type="button" class="qty-btn plus">+</button>
+            <button type="button" class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" data-name="Paletas Artesanales" data-price="35">
+        <div class="thumb"><img src="https://loremflickr.com/160/160/popsicle?lock=28" alt="Paletas Artesanales" loading="lazy"></div>
+        <div class="card-body"><h3>Paletas Artesanales</h3><p>Sabores de temporada, hechas a mano.</p></div>
+        <div class="price">$35</div>
+        <span class="chevron">▾</span>
+        <div class="card-detail">
+          <div class="qty-row">
+            <button type="button" class="qty-btn minus">−</button>
+            <span class="qty-val">1</span>
+            <button type="button" class="qty-btn plus">+</button>
+            <button type="button" class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="serape"></div>
+<footer>
+  <img src="https://lh3.googleusercontent.com/d/1ESpU18bgRhrxRYfQ-HF6ziob7pP4CPxr" alt="Encholadas y Panvaso" class="foot-logo-img">
+  <p>Av. siempre viva #123, Col. Centro</p>
+  <p>Lun–Dom · 12:00 – 23:00 hrs</p>
+  <div class="social">(Datos base)</div>
+</footer>
+
+<!-- Cart bar -->
+<div class="cart-bar" id="cartBar">
+  <div class="cart-info"><b id="cartCount">0</b> platillos · <b id="cartTotal">$0</b></div>
+  <button type="button" class="cart-open-btn" id="cartOpenBtn">Ver pedido</button>
+</div>
+
+<!-- Cart modal -->
+<div class="modal-overlay" id="cartModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h2>Tu Pedido</h2>
+      <button type="button" id="closeModal">✕</button>
+    </div>
+    <div id="cartItems"></div>
+    <div class="modal-total"><span>Total</span><span id="modalTotal">$0</span></div>
+    <a href="#" id="whatsappBtn" class="whatsapp-btn disabled" target="_blank" rel="noopener">Enviar pedido por WhatsApp</a>
+  </div>
+</div>
+
+<script>
+  const links = document.querySelectorAll('#catNav a');
+  const sections = document.querySelectorAll('.menu-section');
+
+  links.forEach(link=>{
+    link.addEventListener('click', e=>{
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      const offset = window.innerWidth >= 1200 ? 20 : 76;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({top, behavior:'smooth'});
+    });
+  });
+
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        links.forEach(l=>l.classList.remove('active'));
+        const active = document.querySelector(`#catNav a[href="#${entry.target.id}"]`);
+        if(active) active.classList.add('active');
+      }
+    });
+  }, {rootMargin:"-40% 0px -55% 0px"});
+
+  sections.forEach(sec=>obs.observe(sec));
+
+  /* ---------------- CART ---------------- */
+  (function(){
+    const cart = {}; // name -> {price, qty}
+    const WHATSAPP_NUMBER = '523521079421'; // 52 = México
+
+    const money = n => '$' + n;
+
+    document.querySelectorAll('.card').forEach(card=>{
+      const minus = card.querySelector('.minus');
+      const plus = card.querySelector('.plus');
+      const qtyVal = card.querySelector('.qty-val');
+      const addBtn = card.querySelector('.add-btn');
+
+      card.addEventListener('click', ()=>{
+        document.querySelectorAll('.card.expanded').forEach(c=>{ if(c!==card) c.classList.remove('expanded'); });
+        card.classList.toggle('expanded');
+      });
+
+      [minus, plus, addBtn].forEach(btn=> btn.addEventListener('click', e=> e.stopPropagation()));
+
+      minus.addEventListener('click', ()=>{
+        let q = parseInt(qtyVal.textContent, 10);
+        if(q > 1) qtyVal.textContent = q - 1;
+      });
+      plus.addEventListener('click', ()=>{
+        let q = parseInt(qtyVal.textContent, 10);
+        if(q < 20) qtyVal.textContent = q + 1;
+      });
+      addBtn.addEventListener('click', ()=>{
+        const name = card.dataset.name;
+        const price = parseFloat(card.dataset.price);
+        const qty = parseInt(qtyVal.textContent, 10);
+        if(!cart[name]) cart[name] = {price, qty:0};
+        cart[name].qty += qty;
+        qtyVal.textContent = '1';
+        addBtn.textContent = '✓ Agregado';
+        addBtn.classList.add('added');
+        setTimeout(()=>{
+          addBtn.textContent = 'Agregar';
+          addBtn.classList.remove('added');
+          card.classList.remove('expanded');
+        }, 800);
+        updateCartUI();
+      });
+    });
+
+    const cartBar = document.getElementById('cartBar');
+    const cartCountEl = document.getElementById('cartCount');
+    const cartTotalEl = document.getElementById('cartTotal');
+    const cartOpenBtn = document.getElementById('cartOpenBtn');
+    const cartModal = document.getElementById('cartModal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const cartItemsEl = document.getElementById('cartItems');
+    const modalTotalEl = document.getElementById('modalTotal');
+    const whatsappBtn = document.getElementById('whatsappBtn');
+
+    function totals(){
+      let count = 0, total = 0;
+      Object.values(cart).forEach(it=>{ count += it.qty; total += it.qty * it.price; });
+      return {count, total};
+    }
+
+    function renderModal(){
+      const entries = Object.entries(cart).filter(([,it])=> it.qty > 0);
+      cartItemsEl.innerHTML = '';
+      if(entries.length === 0){
+        cartItemsEl.innerHTML = '<p style="text-align:center;color:#9c8f74;padding:18px 0;">Tu pedido está vacío. Toca un platillo para agregarlo.</p>';
+      }
+      entries.forEach(([name, it])=>{
+        const row = document.createElement('div');
+        row.className = 'modal-line';
+        row.innerHTML = `
+          <div class="ml-name">${name}</div>
+          <div class="ml-controls">
+            <button type="button" class="qty-btn ml-minus">−</button>
+            <span class="qty-val">${it.qty}</span>
+            <button type="button" class="qty-btn ml-plus">+</button>
+          </div>
+          <div class="ml-sub">${money(it.qty * it.price)}</div>
+          <button type="button" class="ml-remove">✕</button>
+        `;
+        row.querySelector('.ml-minus').addEventListener('click', ()=>{
+          cart[name].qty -= 1;
+          if(cart[name].qty <= 0) delete cart[name];
+          updateCartUI();
+        });
+        row.querySelector('.ml-plus').addEventListener('click', ()=>{
+          cart[name].qty += 1;
+          updateCartUI();
+        });
+        row.querySelector('.ml-remove').addEventListener('click', ()=>{
+          delete cart[name];
+          updateCartUI();
+        });
+        cartItemsEl.appendChild(row);
+      });
+
+      const {total} = totals();
+      modalTotalEl.textContent = money(total);
+
+      if(total > 0){
+        const lines = entries.map(([name, it])=> `• ${it.qty}x ${name} — ${money(it.qty * it.price)}`).join('\n');
+        const msg = ` *Pedido Encholadas* \n\n${lines}\n\n*Total: ${money(total)} MXN*\n\n¡Gracias!`;
+        whatsappBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+        whatsappBtn.classList.remove('disabled');
+      } else {
+        whatsappBtn.removeAttribute('href');
+        whatsappBtn.classList.add('disabled');
+      }
+    }
+
+    function updateCartUI(){
+      const {count, total} = totals();
+      cartCountEl.textContent = count;
+      cartTotalEl.textContent = money(total);
+      cartBar.classList.toggle('show', count > 0);
+      renderModal();
+    }
+
+    cartOpenBtn.addEventListener('click', ()=> cartModal.classList.add('show'));
+    closeModalBtn.addEventListener('click', ()=> cartModal.classList.remove('show'));
+    cartModal.addEventListener('click', e=>{ if(e.target === cartModal) cartModal.classList.remove('show'); });
+
+    updateCartUI();
+  })();
+</script>
+
+</body>
+</html>
