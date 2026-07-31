@@ -6,14 +6,16 @@
 <!-- ⚠️ CAMBIAR: título y descripción del negocio -->
 <title>Nombre del negocio — Menú</title>
 <meta name="description" content="Menú digital: descripción corta del negocio, su especialidad y la ciudad.">
-<meta name="theme-color" content="#faf8f5">
+<meta name="theme-color" content="#ffffff">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Barlow+Condensed:wght@400;500;600&family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="assets/css/estilos.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 12 92 50 50 88 8 50Z' fill='none' stroke='%2316130f' stroke-width='7'/></svg>">
+<!-- ⚠️ CAMBIAR: el iconito de la pestaña. Lo más fácil es dejar la inicial
+     del negocio; si tienes un .png o .ico, pon  href="assets/img/favicon.png" -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231b1b1b'/><text x='50' y='70' font-family='Georgia,serif' font-size='58' fill='%23ffffff' text-anchor='middle'>N</text></svg>">
 </head>
 <body>
 
@@ -21,11 +23,10 @@
 
 <!-- ===================================================== BARRA SUPERIOR -->
 <header class="barra">
+  <!-- ⚠️ CAMBIAR: la marca de la barra. Si tienes logotipo, cambia el
+       <span class="inicial"> por  <img src="assets/img/logo.png" alt="..."> -->
   <a class="barra-logo" href="#inicio" aria-label="Inicio">
-    <svg viewBox="0 0 100 100" aria-hidden="true">
-      <path d="M50 10 94 50 50 90 6 50Z" fill="none" stroke="currentColor" stroke-width="6"/>
-      <path d="M50 26 76 50 50 74 24 50Z" fill="none" stroke="currentColor" stroke-width="3" opacity=".5"/>
-    </svg>
+    <span class="inicial" aria-hidden="true">N</span>
     <span class="sans">Tu negocio</span>
   </a>
 
@@ -60,15 +61,15 @@
 
   <!-- =============================================================== HERO -->
   <header class="hero" id="inicio">
-    <!-- ⚠️ CAMBIAR: el logo. Puedes editar los textos de este rombo o
-         sustituir todo el <svg> por  <img class="rombo" src="assets/img/logo.png" alt="...">  -->
-    <svg class="rombo" viewBox="0 0 420 210" aria-label="Nombre del negocio">
-      <path d="M210 8 404 105 210 202 16 105Z" fill="none" stroke="currentColor" stroke-width="5"/>
-      <path d="M186 26 380 105 186 184 -8 105Z" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".45" transform="translate(24 0)"/>
-      <text x="210" y="80" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-size="15" letter-spacing="4" fill="currentColor" opacity=".7">— EST. 2020 —</text>
-      <text x="210" y="118" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="600" font-size="38" letter-spacing="3" fill="currentColor">TU NEGOCIO</text>
-      <text x="210" y="142" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-size="14" letter-spacing="6.5" fill="currentColor" opacity=".7">GIRO O CIUDAD</text>
-    </svg>
+    <!-- ⚠️ CAMBIAR: el logotipo del negocio.
+         Lo más rápido: sustituir todo este bloque por
+             <img class="logo" src="assets/img/logo.png" alt="Nombre del negocio">
+         Mientras tanto queda este letrero con el nombre. -->
+    <div class="logo logo-texto">
+      <span class="logo-desde">Est. 2020</span>
+      <span class="logo-nombre">Tu negocio</span>
+      <span class="logo-giro">Giro o ciudad</span>
+    </div>
 
     <h1 data-txt="menu">Menú</h1>
     <!-- El texto de esta frase y el de abajo salen de assets/js/idiomas.js (ui.es.intro y ui.es.resumen) -->
@@ -98,12 +99,11 @@
 
   <!-- =============================================================== PIE -->
   <footer>
-    <!-- ⚠️ CAMBIAR: mismo logo que arriba, en versión corta -->
-    <svg class="rombo" viewBox="0 0 420 210" aria-hidden="true">
-      <path d="M210 8 404 105 210 202 16 105Z" fill="none" stroke="currentColor" stroke-width="5"/>
-      <text x="210" y="112" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="600" font-size="34" letter-spacing="2.5" fill="currentColor">TU NEGOCIO</text>
-      <text x="210" y="136" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-size="13" letter-spacing="6" fill="currentColor" opacity=".7">GIRO O CIUDAD</text>
-    </svg>
+    <!-- ⚠️ CAMBIAR: el mismo logotipo que arriba, en versión corta -->
+    <div class="logo logo-texto logo-pie">
+      <span class="logo-nombre">Tu negocio</span>
+      <span class="logo-giro">Giro o ciudad</span>
+    </div>
 
     <div class="datos">
       <p><a data-marca="web" href="#"></a></p>
@@ -243,14 +243,12 @@
 <!-- ============================================ PORTADA: ELEGIR IDIOMA -->
 <div class="portada oculto" id="portada">
   <div class="portada-caja">
-    <!-- ⚠️ CAMBIAR: mismo logo que en la portada del menú -->
-    <svg class="rombo" viewBox="0 0 420 210" aria-label="Nombre del negocio">
-      <path d="M210 8 404 105 210 202 16 105Z" fill="none" stroke="currentColor" stroke-width="5"/>
-      <path d="M186 26 380 105 186 184 -8 105Z" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".45" transform="translate(24 0)"/>
-      <text x="210" y="80" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-size="15" letter-spacing="4" fill="currentColor" opacity=".7">— EST. 2020 —</text>
-      <text x="210" y="118" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="600" font-size="38" letter-spacing="3" fill="currentColor">TU NEGOCIO</text>
-      <text x="210" y="142" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-size="14" letter-spacing="6.5" fill="currentColor" opacity=".7">GIRO O CIUDAD</text>
-    </svg>
+    <!-- ⚠️ CAMBIAR: el mismo logotipo que en la portada del menú -->
+    <div class="logo logo-texto">
+      <span class="logo-desde">Est. 2020</span>
+      <span class="logo-nombre">Tu negocio</span>
+      <span class="logo-giro">Giro o ciudad</span>
+    </div>
 
     <p class="portada-titulo">Elige tu idioma<span>Choose your language</span></p>
     <!-- Si el negocio no necesita inglés: pon preguntarIdioma:false en datos.js -->

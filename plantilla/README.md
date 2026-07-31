@@ -108,16 +108,32 @@ publicar el menú antes de tener la sesión de fotos.
 
 ### 5. El logotipo y los textos de portada — `index.html`
 
-Busca los comentarios `⚠️ CAMBIAR`. Son cuatro cosas: el título de la
-página, el nombre en la barra de arriba, y el rombo del logotipo (arriba y
-en el pie). Si el negocio tiene logotipo propio, se sustituye el `<svg>`
-por `<img class="rombo" src="assets/img/logo.png" alt="...">`.
+Busca los comentarios `⚠️ CAMBIAR`. La plantilla viene **sin ninguna forma
+de marca**: mientras no haya logotipo, se muestra el nombre del negocio
+entre dos filetes, y en la barra de arriba un cuadrito con la inicial.
+
+Para poner el logotipo real, sustituye cada bloque `<div class="logo
+logo-texto">` por:
+
+```html
+<img class="logo" src="assets/img/logo.png" alt="Nombre del negocio">
+```
+
+Aparece en tres lugares —portada del menú, pie y portada de idioma— más el
+cuadrito de la barra y el icono de la pestaña (`<link rel="icon">`).
 
 ### 6. Los colores — `assets/css/estilos.css`
 
-Al inicio del archivo, en `:root`. Ahí están el color del papel, la tinta y
-el acento. Más abajo, en `:root[data-tema="oscuro"]`, los mismos colores
-para el modo oscuro.
+Al inicio del archivo, en `:root`, con un comentario en cada uno. Vienen en
+**gris neutro a propósito**, para que se note qué falta vestir. El que más
+se ve es `--acento`: precios, enlaces y detalles.
+
+Más abajo, en `:root[data-tema="oscuro"]`, los mismos colores para cuando
+el teléfono está en modo nocturno. Regla práctica: el acento debe aclararse
+ahí para que se lea sobre fondo oscuro.
+
+Si el negocio tiene una textura o motivo de fondo, en ese mismo archivo hay
+un bloque `.patron` comentado, listo para activarlo.
 
 ## Lo que ya viene resuelto
 
@@ -138,6 +154,8 @@ para el modo oscuro.
 - [ ] Variables de Resend en Cloudflare, si se usan las calificaciones
 - [ ] Nombre, dirección y redes del negocio
 - [ ] Precios revisados con el cliente
-- [ ] Logotipo cambiado en `index.html` (arriba y en el pie)
+- [ ] Logotipo cambiado en `index.html` (portada, pie, portada de idioma,
+      barra de arriba e icono de pestaña)
+- [ ] Colores del negocio en `estilos.css`, claro y oscuro
 - [ ] Título y descripción de la página (salen en Google y al compartir)
 - [ ] Probado en un celular de verdad, no sólo en la computadora

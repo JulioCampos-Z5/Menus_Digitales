@@ -21,7 +21,7 @@
        ]
      }
 
-   Los platillos sin foto se dibujan con un monograma en rombo, así que
+   Los platillos sin foto se dibujan con un monograma, así que
    se puede publicar el menú completo antes de tener las fotografías.
    ===================================================================== */
 
