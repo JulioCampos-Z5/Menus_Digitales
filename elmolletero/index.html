@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es" data-tema="claro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>El Molletero de Guadalajara — Menú</title>
+<meta name="description" content="Menú digital de El Molletero de Guadalajara: molletes salados y dulces de birote fleyman, chilaquiles, omelets, café de especialidad, smoothies y coctelería.">
+<meta name="theme-color" content="#faf8f5">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Barlow+Condensed:wght@400;500;600&family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/estilos.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 12 92 50 50 88 8 50Z' fill='none' stroke='%2316130f' stroke-width='7'/></svg>">
+</head>
+<body>
+
+<div class="patron" aria-hidden="true"></div>
+
+<!-- ===================================================== BARRA SUPERIOR -->
+<header class="barra">
+  <a class="barra-logo" href="#inicio" aria-label="Inicio">
+    <svg viewBox="0 0 100 100" aria-hidden="true">
+      <path d="M50 10 94 50 50 90 6 50Z" fill="none" stroke="currentColor" stroke-width="6"/>
+      <path d="M50 26 76 50 50 74 24 50Z" fill="none" stroke="currentColor" stroke-width="3" opacity=".5"/>
+    </svg>
+    <span class="sans">El Molletero</span>
+  </a>
+
+  <div class="buscador">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>
+    </svg>
+    <label for="campoBusqueda" class="oculto">Buscar en el menú</label>
+    <input id="campoBusqueda" type="search" placeholder="Buscar platillo" autocomplete="off">
+    <button id="limpiarBusqueda" class="limpiar oculto" type="button" aria-label="Limpiar búsqueda">✕</button>
+  </div>
+
+  <button id="btnTema" class="btn-icono" type="button" aria-label="Cambiar tema">
+    <svg class="icono-luna" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+    </svg>
+    <svg class="icono-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="4.2"/>
+      <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"/>
+    </svg>
+  </button>
+</header>
+
+<!-- ================================================ NAVEGACIÓN DE CATEGORÍAS -->
+<nav class="nav-cats" aria-label="Categorías del menú">
+  <ul id="navLista"></ul>
+</nav>
+
+<div class="contenido">
+
+  <!-- =============================================================== HERO -->
+  <header class="hero" id="inicio">
+    <svg class="rombo" viewBox="0 0 420 210" aria-label="El Molletero de Guadalajara, est. 2016">
+      <path d="M210 8 404 105 210 202 16 105Z" fill="none" stroke="currentColor" stroke-width="5"/>
+      <path d="M186 26 380 105 186 184 -8 105Z" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".45" transform="translate(24 0)"/>
+      <text x="210" y="80" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-size="15" letter-spacing="4" fill="currentColor" opacity=".7">— EST. 2016 —</text>
+      <text x="210" y="118" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="600" font-size="40" letter-spacing="3" fill="currentColor">EL MOLLETERO</text>
+      <text x="210" y="142" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-size="14" letter-spacing="6.5" fill="currentColor" opacity=".7">DE GUADALAJARA</text>
+    </svg>
+
+    <h1>Menú</h1>
+    <p>Molletes de birote fleyman tradicional de masa madre, gratinados con queso especial de la casa. <span id="heroAccion">Toca cualquier platillo para verlo en grande y sumarlo a tu pedido.</span></p>
+
+    <div class="hero-datos">
+      <span>Salados · Dulces</span>
+      <span>Desayunos</span>
+      <span>Barra de café</span>
+      <span>Coctelería</span>
+    </div>
+  </header>
+
+  <!-- ============================================================== MENÚ -->
+  <main>
+    <div id="secciones"></div>
+
+    <div id="sinResultados" class="sin-resultados oculto">
+      <b>Sin coincidencias</b>
+      Prueba con otro nombre o revisa las categorías del menú.
+    </div>
+
+    <div class="avisos">
+      <p data-marca="avisoCombinacion"></p>
+      <p data-marca="aviso"></p>
+    </div>
+  </main>
+
+  <!-- =============================================================== PIE -->
+  <footer>
+    <svg class="rombo" viewBox="0 0 420 210" aria-hidden="true">
+      <path d="M210 8 404 105 210 202 16 105Z" fill="none" stroke="currentColor" stroke-width="5"/>
+      <text x="210" y="112" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="600" font-size="34" letter-spacing="2.5" fill="currentColor">EL MOLLETERO</text>
+      <text x="210" y="136" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-size="13" letter-spacing="6" fill="currentColor" opacity=".7">DE GUADALAJARA</text>
+    </svg>
+
+    <div class="datos">
+      <p><a data-marca="web" href="#"></a></p>
+      <p><a data-marca="correo" href="#"></a></p>
+      <p data-marca="social"></p>
+    </div>
+
+    <div class="sucursales" data-marca="sucursales"></div>
+
+    <p class="firma">Menú digital · El Molletero®</p>
+  </footer>
+
+</div>
+
+<!-- ==================================================== BARRA DE PEDIDO -->
+<div class="barra-pedido" id="barraPedido">
+  <div class="resumen"><b id="piezas">0</b> <span id="palabraPiezas">productos</span> · <b id="totalBarra">$0</b></div>
+  <button id="btnVerPedido" type="button">Ver pedido</button>
+</div>
+
+<!-- ================================================== MODAL DE DETALLE -->
+<div class="velo" id="modalDetalle" role="dialog" aria-modal="true" aria-label="Detalle del platillo">
+  <div class="hoja">
+    <div class="hoja-cab">
+      <h2 id="tituloDetalle">Platillo</h2>
+      <button class="cerrar" type="button" data-cerrar aria-label="Cerrar">✕</button>
+    </div>
+    <div class="hoja-cuerpo" id="detalleCuerpo"></div>
+    <div class="hoja-pie">
+      <div class="fila-agregar">
+        <div class="contador" id="contadorDetalle"></div>
+        <button class="btn-principal" id="btnAgregarDetalle" type="button">Agregar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================================================== MODAL DE PEDIDO -->
+<div class="velo" id="modalPedido" role="dialog" aria-modal="true" aria-label="Tu pedido">
+  <div class="hoja">
+    <div class="hoja-cab">
+      <h2>Tu pedido</h2>
+      <button class="cerrar" type="button" data-cerrar aria-label="Cerrar">✕</button>
+    </div>
+    <div class="hoja-cuerpo">
+      <div id="listaPedido"></div>
+    </div>
+    <div class="hoja-pie">
+      <div class="total"><span>Total</span><b id="totalPedido">$0</b></div>
+      <button class="btn-principal wa" id="btnWhatsapp" type="button" disabled>Enviar pedido por WhatsApp</button>
+      <p class="aviso-modal">
+        <button id="btnVaciar" class="oculto" type="button" style="background:none;border:none;text-decoration:underline;color:inherit;font:inherit;padding:0;">Vaciar pedido</button>
+      </p>
+      <p class="aviso-modal" data-marca="aviso"></p>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/datos.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
