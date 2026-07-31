@@ -1,0 +1,854 @@
+/* =====================================================================
+   MI MENÚ CARTA — Plantilla de menú digital
+   Los colores se cambian abajo, en :root (y en :root[data-tema="oscuro"]
+   para el modo nocturno).
+   ===================================================================== */
+
+:root{
+  --papel:       #faf8f5;
+  --papel-2:     #ffffff;
+  --tinta:       #16130f;
+  --tinta-suave: #4a443c;
+  --gris:        #8b8378;
+  --linea:       rgba(22,19,15,.12);
+  --linea-fuerte:rgba(22,19,15,.22);
+  --acento:      #a87b3c;
+  --acento-claro:#c9a063;
+  --verde:       #4a7c59;
+  --rojo:        #b2432f;
+  --sombra:      0 1px 2px rgba(22,19,15,.04), 0 8px 24px -12px rgba(22,19,15,.18);
+  --sombra-alta: 0 24px 60px -24px rgba(22,19,15,.38);
+  --radio:       4px;
+  --barra:       64px;
+  --lateral:     236px;
+  --nav-pie:     63px;                        /* alto del nav inferior en móvil */
+  --pedido-alto: 64px;                        /* alto de la barra de pedido */
+  --seguro-abajo: env(safe-area-inset-bottom, 0px);
+}
+
+:root[data-tema="oscuro"]{
+  --papel:       #14120f;
+  --papel-2:     #1c1917;
+  --tinta:       #f4f0e9;
+  --tinta-suave: #cec7bb;
+  --gris:        #8f877b;
+  --linea:       rgba(244,240,233,.14);
+  --linea-fuerte:rgba(244,240,233,.26);
+  --acento:      #d0a664;
+  --acento-claro:#e5c48c;
+  --verde:       #7bab88;
+  --rojo:        #dd7a63;
+  --sombra:      0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+  --sombra-alta: 0 24px 60px -24px rgba(0,0,0,.8);
+  --patron:      rgba(244,240,233,.05);
+}
+
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  padding-top:var(--barra);
+  background:var(--papel);
+  color:var(--tinta);
+  font-family:'EB Garamond', Georgia, serif;
+  font-size:17px;
+  -webkit-font-smoothing:antialiased;
+  transition:background .3s, color .3s;
+}
+img{ max-width:100%; display:block; }
+button{ font:inherit; color:inherit; cursor:pointer; }
+a{ color:inherit; }
+
+:focus-visible{ outline:2px solid var(--acento); outline-offset:3px; border-radius:2px; }
+
+/* Rombos entrelazados de la marca, como marca de agua del papel */
+.patron{
+  position:fixed; inset:0; z-index:-1; pointer-events:none;
+  opacity:.038;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='80' viewBox='0 0 160 80'%3E%3Cg fill='none' stroke='%23000' stroke-width='1.3'%3E%3Cpath d='M0 40 80 0 160 40 80 80Z'/%3E%3Cpath d='M-40 40 40 0 120 40 40 80Z'/%3E%3Cpath d='M40 40 120 0 200 40 120 80Z'/%3E%3Cpath d='M20 40 80 15 140 40 80 65Z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:260px 130px;
+}
+:root[data-tema="oscuro"] .patron{ filter:invert(1); opacity:.06; }
+
+.oculto{ display:none !important; }
+
+/* ------------------------------------------------------- TIPOGRAFÍA */
+.display{
+  font-family:'Bodoni Moda', 'Playfair Display', Didot, serif;
+  font-weight:400;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.sans{
+  font-family:'Barlow Condensed', 'Oswald', sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.13em;
+}
+
+/* ============================================================ BARRA */
+.barra{
+  position:fixed; top:0; left:0; right:0; z-index:120;
+  height:var(--barra);
+  display:flex; align-items:center; gap:14px;
+  padding:0 18px;
+  background:color-mix(in srgb, var(--papel) 88%, transparent);
+  backdrop-filter:blur(14px) saturate(1.2);
+  border-bottom:1px solid var(--linea);
+}
+.barra-logo{ display:flex; align-items:center; gap:10px; flex:0 0 auto; text-decoration:none; }
+.barra-logo svg{ width:34px; height:34px; }
+.barra-logo span{ font-size:15px; font-weight:600; }
+@media (max-width:520px){ .barra-logo span{ display:none; } }
+
+.buscador{
+  flex:1; min-width:0; max-width:380px; margin-left:auto;
+  position:relative; display:flex; align-items:center;
+}
+.buscador svg{
+  position:absolute; left:12px; width:15px; height:15px;
+  stroke:var(--gris); pointer-events:none;
+}
+.buscador input{
+  width:100%; padding:9px 34px 9px 34px;
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:16px; letter-spacing:.06em;
+  color:var(--tinta);
+  background:var(--papel-2);
+  border:1px solid var(--linea);
+  border-radius:99px;
+  transition:border-color .2s;
+}
+.buscador input::placeholder{ color:var(--gris); text-transform:uppercase; letter-spacing:.1em; font-size:13px; }
+.buscador input:focus{ outline:none; border-color:var(--acento); }
+.buscador .limpiar{
+  position:absolute; right:8px;
+  width:22px; height:22px; line-height:1;
+  border:none; background:none; color:var(--gris); font-size:16px;
+}
+
+.btn-icono{
+  flex:0 0 auto;
+  width:38px; height:38px; display:grid; place-items:center;
+  background:none; border:1px solid var(--linea); border-radius:99px;
+  transition:border-color .2s, background .2s;
+}
+.btn-icono:hover{ border-color:var(--acento); }
+.btn-icono svg{ width:17px; height:17px; }
+:root[data-tema="oscuro"] .icono-luna{ display:none; }
+:root:not([data-tema="oscuro"]) .icono-sol{ display:none; }
+
+.btn-idioma{
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:14px; font-weight:600; letter-spacing:.12em;
+  width:auto; min-width:44px; padding:0 12px;
+  color:var(--tinta-suave);
+}
+.btn-idioma:hover{ color:var(--tinta); }
+
+/* ==================================== PORTADA: ELEGIR IDIOMA AL ENTRAR */
+.portada{
+  position:fixed; inset:0; z-index:400;
+  height:100%; height:100dvh;
+  display:grid; place-items:center;
+  padding:28px 22px;
+  background:var(--papel);
+  animation:portada-entra .4s ease both;
+}
+.portada::before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='80' viewBox='0 0 160 80'%3E%3Cg fill='none' stroke='%23000' stroke-width='1.3'%3E%3Cpath d='M0 40 80 0 160 40 80 80Z'/%3E%3Cpath d='M-40 40 40 0 120 40 40 80Z'/%3E%3Cpath d='M40 40 120 0 200 40 120 80Z'/%3E%3Cpath d='M20 40 80 15 140 40 80 65Z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:260px 130px;
+}
+:root[data-tema="oscuro"] .portada::before{ filter:invert(1); opacity:.07; }
+.portada.cerrando{ animation:portada-sale .35s ease both; }
+
+@keyframes portada-entra{ from{ opacity:0; } to{ opacity:1; } }
+@keyframes portada-sale{ to{ opacity:0; transform:scale(1.02); } }
+
+.portada-caja{
+  position:relative;
+  width:100%; max-width:430px;
+  text-align:center;
+}
+.portada .rombo{
+  width:270px; max-width:76vw; height:auto;
+  margin:0 auto 34px;
+  animation:portada-sube .55s .06s ease both;
+}
+.portada-titulo{
+  font-family:'Bodoni Moda', serif;
+  font-size:23px; letter-spacing:.16em; text-transform:uppercase;
+  margin:0 0 26px; line-height:1.5;
+  animation:portada-sube .55s .12s ease both;
+}
+.portada-titulo span{
+  display:block;
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:14px; letter-spacing:.2em; color:var(--gris);
+  margin-top:6px;
+}
+.portada-botones{
+  display:grid; gap:12px;
+  animation:portada-sube .55s .18s ease both;
+}
+.portada-btn{
+  display:block; width:100%;
+  padding:17px 20px;
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:19px; font-weight:500; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--tinta);
+  background:var(--papel-2);
+  border:1px solid var(--linea-fuerte);
+  border-radius:99px;
+  transition:.2s;
+}
+.portada-btn small{
+  display:block; margin-top:3px;
+  font-family:'EB Garamond', serif;
+  font-size:14px; letter-spacing:0; text-transform:none;
+  color:var(--gris);
+}
+.portada-btn:hover, .portada-btn:active{
+  background:var(--tinta); color:var(--papel); border-color:var(--tinta);
+}
+.portada-btn:hover small, .portada-btn:active small{ color:rgba(255,255,255,.6); }
+
+@keyframes portada-sube{
+  from{ opacity:0; transform:translateY(14px); }
+  to{ opacity:1; transform:none; }
+}
+
+@media (min-width:620px){
+  .portada-botones{ grid-template-columns:1fr 1fr; gap:14px; }
+}
+
+/* ============================================== NAV DE CATEGORÍAS */
+.nav-cats{
+  position:fixed; top:var(--barra); left:0; right:0; z-index:110;
+  background:color-mix(in srgb, var(--papel) 92%, transparent);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--linea);
+}
+.nav-cats ul{
+  display:flex; gap:6px; margin:0; padding:9px 14px;
+  list-style:none; overflow-x:auto; scrollbar-width:none;
+}
+.nav-cats ul::-webkit-scrollbar{ display:none; }
+.nav-cats a{
+  display:block; flex:0 0 auto; white-space:nowrap;
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:15px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--tinta-suave); text-decoration:none;
+  padding:6px 14px; border-radius:99px;
+  border:1px solid transparent;
+  transition:.2s;
+}
+.nav-cats a:hover{ color:var(--tinta); border-color:var(--linea); }
+.nav-cats a.activo{
+  color:var(--papel); background:var(--tinta); border-color:var(--tinta);
+}
+
+/* ============================================================ HERO */
+.hero{
+  text-align:center;
+  padding:78px 20px 54px;
+  border-bottom:1px solid var(--linea);
+}
+.hero .rombo{ width:230px; max-width:64vw; height:auto; margin:0 auto 26px; }
+.hero h1{
+  font-family:'Bodoni Moda', serif; font-weight:400;
+  font-size:clamp(38px, 9vw, 64px); letter-spacing:.2em;
+  margin:0 0 14px; text-transform:uppercase;
+}
+.hero p{
+  max-width:520px; margin:0 auto;
+  font-size:18px; line-height:1.6; color:var(--tinta-suave);
+}
+.hero-datos{
+  display:flex; justify-content:center; flex-wrap:wrap; gap:10px 26px;
+  margin-top:26px;
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:var(--gris);
+}
+
+/* ======================================================== SECCIONES */
+main{ max-width:1220px; margin:0 auto; padding:0 18px 140px; }
+
+.seccion{ padding-top:58px; scroll-margin-top:118px; }
+.seccion-cab{ text-align:center; margin-bottom:34px; }
+.seccion-cab h2{
+  font-family:'Bodoni Moda', serif; font-weight:400;
+  font-size:clamp(27px, 5.4vw, 40px); letter-spacing:.16em;
+  text-transform:uppercase; margin:0;
+}
+.seccion-cab .nota{
+  max-width:620px; margin:14px auto 0;
+  font-size:16px; line-height:1.55; color:var(--gris);
+}
+.filete{
+  width:76px; height:1px; margin:18px auto 0;
+  background:var(--linea-fuerte); position:relative;
+}
+.filete::after{
+  content:""; position:absolute; left:50%; top:50%;
+  width:7px; height:7px; margin:-3.5px 0 0 -3.5px;
+  background:var(--papel); border:1px solid var(--acento);
+  transform:rotate(45deg);
+}
+
+.grupo-titulo{
+  display:flex; align-items:center; gap:16px;
+  margin:34px 0 20px;
+}
+.grupo-titulo span{
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:15px; letter-spacing:.24em; text-transform:uppercase;
+  color:var(--tinta-suave); white-space:nowrap;
+}
+.grupo-titulo::before, .grupo-titulo::after{
+  content:""; flex:1; height:1px; background:var(--linea);
+}
+
+/* =========================================================== FICHAS */
+.rejilla{
+  display:grid; gap:18px;
+  grid-template-columns:repeat(auto-fill, minmax(255px, 1fr));
+}
+
+.ficha{
+  position:relative;
+  display:flex; flex-direction:column;
+  background:var(--papel-2);
+  border:1px solid var(--linea);
+  border-radius:var(--radio);
+  overflow:hidden;
+  text-align:left;
+  padding:0;
+  transition:transform .22s cubic-bezier(.2,.7,.3,1), box-shadow .22s, border-color .22s;
+}
+.ficha:hover{ transform:translateY(-3px); border-color:var(--linea-fuerte); box-shadow:var(--sombra); }
+
+.ficha-foto{
+  position:relative;
+  aspect-ratio:16/10;
+  display:grid; place-items:center;
+  background:
+    radial-gradient(ellipse at 50% 120%, color-mix(in srgb, var(--acento) 9%, transparent), transparent 62%),
+    var(--papel);
+  border-bottom:1px solid var(--linea);
+  overflow:hidden;
+}
+.ficha-foto img{
+  width:100%; height:100%; object-fit:contain;
+  padding:8px;
+  transition:transform .4s cubic-bezier(.2,.7,.3,1);
+}
+.ficha:hover .ficha-foto img{ transform:scale(1.06); }
+
+/* Los platillos sin foto ocupan menos alto: la retícula queda más pareja */
+.ficha-foto.sin-foto{ aspect-ratio:16/5; background:none; }
+.ficha-foto.sin-foto .monograma{ width:46px; height:46px; }
+.ficha-foto.sin-foto .monograma b{ font-size:18px; }
+
+/* Monograma para los platillos que no traen foto en el menú impreso */
+.monograma{
+  width:66px; height:66px; display:grid; place-items:center;
+  border:1px solid var(--linea-fuerte);
+  transform:rotate(45deg);
+  color:var(--gris);
+}
+.monograma b{
+  transform:rotate(-45deg);
+  font-family:'Bodoni Moda', serif; font-weight:400;
+  font-size:24px; letter-spacing:.04em;
+}
+
+.ficha-cuerpo{ padding:15px 16px 16px; display:flex; flex-direction:column; flex:1; gap:8px; }
+.ficha-linea{ display:flex; align-items:baseline; gap:8px; }
+.ficha-linea h3{
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:19px; font-weight:600; letter-spacing:.09em; text-transform:uppercase;
+  margin:0; line-height:1.15;
+}
+.puntos{ flex:1; border-bottom:1px dotted var(--linea-fuerte); transform:translateY(-4px); min-width:12px; }
+.precio{
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:19px; font-weight:600; letter-spacing:.04em;
+  color:var(--acento); white-space:nowrap;
+}
+.precio small{ font-size:13px; letter-spacing:.1em; color:var(--gris); }
+
+.ficha-desc{
+  margin:0; font-size:16px; line-height:1.5; color:var(--tinta-suave);
+  flex:1;
+}
+
+.etiquetas{ display:flex; gap:6px; flex-wrap:wrap; }
+.etiqueta{
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+  padding:3px 9px; border-radius:99px;
+  border:1px solid currentColor;
+}
+.etiqueta.veg{ color:var(--verde); }
+.etiqueta.picante{ color:var(--rojo); }
+
+.ficha-pie{ display:flex; align-items:center; gap:8px; margin-top:2px; }
+.btn-agregar{
+  flex:1;
+  padding:9px 14px;
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:14px; letter-spacing:.16em; text-transform:uppercase;
+  background:transparent; color:var(--tinta);
+  border:1px solid var(--linea-fuerte); border-radius:99px;
+  transition:.2s;
+}
+.btn-agregar:hover{ background:var(--tinta); color:var(--papel); border-color:var(--tinta); }
+.btn-agregar.hecho{ background:var(--verde); border-color:var(--verde); color:#fff; }
+
+/* ============================================================ EXTRAS */
+.extras{
+  margin-top:38px; padding:28px 24px;
+  border:1px solid var(--linea); border-radius:var(--radio);
+  background:var(--papel-2);
+}
+.extras h3{
+  font-family:'Bodoni Moda', serif; font-weight:400;
+  font-size:21px; letter-spacing:.16em; text-transform:uppercase;
+  margin:0 0 22px; text-align:center;
+}
+.extras-cols{
+  display:grid; gap:26px;
+  grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));
+}
+.extras-col h4{
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:14px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--tinta-suave); margin:0 0 10px;
+}
+.extras-col h4 b{ color:var(--acento); }
+.extras-col ul{ margin:0; padding:0; list-style:none; }
+.extras-col li{
+  font-size:16px; color:var(--tinta-suave);
+  padding:3px 0 3px 16px; position:relative;
+}
+.extras-col li::before{
+  content:""; position:absolute; left:0; top:12px;
+  width:5px; height:5px; background:var(--acento);
+  transform:rotate(45deg);
+}
+
+/* ================================================== BARRA DE PEDIDO */
+.barra-pedido{
+  position:fixed; left:0; right:0; bottom:0; z-index:130;
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding:14px 20px;
+  background:var(--tinta); color:var(--papel);
+  opacity:0; visibility:hidden;
+  transform:translateY(26px);
+  transition:transform .32s cubic-bezier(.2,.7,.3,1), opacity .26s, visibility .26s;
+}
+.barra-pedido.visible{ opacity:1; visibility:visible; transform:none; }
+.barra-pedido .resumen{
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:16px; letter-spacing:.1em; text-transform:uppercase;
+}
+.barra-pedido .resumen b{ color:var(--acento-claro); }
+.barra-pedido button{
+  padding:10px 22px;
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:15px; letter-spacing:.16em; text-transform:uppercase;
+  background:var(--acento); color:#fff;
+  border:none; border-radius:99px;
+  transition:background .2s;
+}
+.barra-pedido button:hover{ background:var(--acento-claro); }
+
+/* ============================================================ MODALES */
+.velo{
+  position:fixed; inset:0; z-index:200;
+  /* alto real de la ventana: en el celular, 100vh se pasa por debajo de la
+     barra del navegador y recortaba el final del modal */
+  height:100%;
+  height:100dvh;
+  background:rgba(12,10,8,.62);
+  backdrop-filter:blur(3px);
+  display:flex; align-items:flex-end; justify-content:center;
+  opacity:0; pointer-events:none;
+  transition:opacity .26s;
+}
+.velo.visible{ opacity:1; pointer-events:auto; }
+
+/* Las alturas van en % del velo (no en vh) para que siempre quepa */
+.hoja{
+  width:100%; max-width:560px; max-height:calc(100% - 34px);
+  display:flex; flex-direction:column;
+  background:var(--papel);
+  border:1px solid var(--linea);
+  border-radius:14px 14px 0 0;
+  box-shadow:var(--sombra-alta);
+  transform:translateY(26px);
+  transition:transform .26s cubic-bezier(.2,.7,.3,1);
+  overflow:hidden;
+}
+.velo.visible .hoja{ transform:none; }
+
+.hoja-cab{
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  padding:18px 22px; border-bottom:1px solid var(--linea);
+}
+.hoja-cab h2{
+  font-family:'Bodoni Moda', serif; font-weight:400;
+  font-size:21px; letter-spacing:.14em; text-transform:uppercase; margin:0;
+}
+.cerrar{
+  width:34px; height:34px; flex:0 0 auto;
+  display:grid; place-items:center;
+  background:none; border:1px solid var(--linea); border-radius:99px;
+  font-size:15px; line-height:1;
+}
+.cerrar:hover{ border-color:var(--acento); }
+
+/* El cerrar de abajo sólo existe en celular (ver media query) */
+.fila-cerrar{ display:none; }
+
+/* flex:1 + min-height:0 hacen que el scroll ocurra AQUÍ dentro y no que la
+   hoja crezca de más y se salga por abajo */
+.hoja-cuerpo{
+  flex:1 1 auto; min-height:0;
+  padding:22px; overflow-y:auto;
+  -webkit-overflow-scrolling:touch; overscroll-behavior:contain;
+}
+/* sin pie (modo consulta): el cuerpo respeta la barra de gestos del teléfono */
+.hoja-cuerpo:last-child{ padding-bottom:calc(22px + var(--seguro-abajo)); }
+.hoja-pie{ padding:18px 22px; border-top:1px solid var(--linea); background:var(--papel-2); }
+
+/* --- Detalle del platillo --- */
+.detalle-foto{
+  aspect-ratio:16/9; margin:-22px -22px 20px;
+  display:grid; place-items:center;
+  background:
+    radial-gradient(ellipse at 50% 120%, color-mix(in srgb, var(--acento) 12%, transparent), transparent 62%),
+    var(--papel-2);
+  border-bottom:1px solid var(--linea);
+}
+.detalle-foto img{ width:100%; height:100%; object-fit:contain; padding:12px; }
+.detalle-nombre{
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:26px; font-weight:600; letter-spacing:.09em; text-transform:uppercase;
+  margin:0 0 8px;
+}
+.detalle-desc{ margin:0 0 18px; font-size:17px; line-height:1.6; color:var(--tinta-suave); }
+
+.variantes{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+.variante{
+  padding:9px 16px;
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:14px; letter-spacing:.1em; text-transform:uppercase;
+  background:none; border:1px solid var(--linea-fuerte); border-radius:99px;
+  transition:.2s;
+}
+.variante b{ color:var(--acento); margin-left:6px; }
+.variante.activa{ background:var(--tinta); color:var(--papel); border-color:var(--tinta); }
+.variante.activa b{ color:var(--acento-claro); }
+
+/* Modo consulta: las variantes sólo informan el precio, no se eligen */
+.variantes.solo-lectura{ margin-bottom:2px; }
+.variantes.solo-lectura .variante{ cursor:default; }
+.variante.precio-suelto{ color:var(--acento); font-size:16px; }
+
+.aviso-consulta{
+  display:inline-block; margin:26px 0 0;
+  padding:9px 22px;
+  border:1px solid var(--linea-fuerte); border-radius:99px;
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:13.5px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--tinta-suave);
+}
+
+/* pie del modal: cantidad y botón en la misma fila, siempre visibles */
+.fila-agregar{ display:flex; align-items:center; gap:12px; }
+.fila-agregar .btn-principal{ flex:1; width:auto; }
+
+.contador{ display:flex; align-items:center; gap:14px; }
+.contador button{
+  width:38px; height:38px;
+  display:grid; place-items:center;
+  font-size:19px; line-height:1;
+  background:none; border:1px solid var(--linea-fuerte); border-radius:99px;
+}
+.contador button:hover{ border-color:var(--acento); }
+.contador span{
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:21px; min-width:30px; text-align:center;
+}
+
+.btn-principal{
+  width:100%; padding:14px;
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:16px; letter-spacing:.18em; text-transform:uppercase;
+  background:var(--tinta); color:var(--papel);
+  border:none; border-radius:99px;
+  white-space:nowrap;                 /* que nunca se parta en dos renglones */
+  transition:.2s;
+}
+.btn-principal:hover{ background:var(--acento); }
+.btn-principal.wa{ background:#1f9d55; color:#fff; }
+.btn-principal.wa:hover{ background:#25b463; }
+.btn-principal[disabled]{ opacity:.4; pointer-events:none; }
+
+/* --- Pedido --- */
+.renglon{
+  display:grid; grid-template-columns:1fr auto auto;
+  gap:12px; align-items:center;
+  padding:13px 0; border-bottom:1px dotted var(--linea-fuerte);
+}
+.renglon-nombre{
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:17px; letter-spacing:.06em; text-transform:uppercase;
+}
+.renglon-nombre small{
+  display:block; font-family:'EB Garamond', serif;
+  font-size:14px; letter-spacing:0; text-transform:none; color:var(--gris);
+}
+.renglon .contador button{ width:28px; height:28px; font-size:15px; }
+.renglon .contador span{ font-size:17px; min-width:22px; }
+.renglon-sub{
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:17px; color:var(--acento); white-space:nowrap;
+}
+.vacio{ text-align:center; color:var(--gris); padding:26px 0; font-size:17px; }
+
+.total{
+  display:flex; justify-content:space-between; align-items:baseline;
+  margin-bottom:16px;
+}
+.total span{
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:15px; letter-spacing:.2em; text-transform:uppercase; color:var(--gris);
+}
+.total b{ font-family:'Bodoni Moda', serif; font-weight:400; font-size:30px; }
+
+.aviso-modal{ font-size:14px; color:var(--gris); text-align:center; margin:12px 0 0; line-height:1.5; }
+
+/* ============================================================ AVISOS */
+.avisos{
+  margin-top:44px; text-align:center;
+  font-size:15px; line-height:1.7; color:var(--gris);
+}
+.avisos p{ margin:4px 0; }
+
+/* =========================================================== SIN RESULTADOS */
+.sin-resultados{
+  text-align:center; padding:70px 20px; color:var(--gris);
+}
+.sin-resultados b{ display:block; font-family:'Bodoni Moda', serif; font-size:24px; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta); margin-bottom:10px; }
+
+/* =========================================================== PIE */
+footer{
+  border-top:1px solid var(--linea);
+  background:var(--papel-2);
+  padding:52px 22px 42px;
+  text-align:center;
+}
+footer .rombo{ width:150px; margin:0 auto 22px; }
+footer .datos{ font-size:16px; line-height:1.8; color:var(--tinta-suave); }
+footer .datos a{ color:var(--acento); text-decoration:none; }
+footer .datos a:hover{ text-decoration:underline; }
+footer .sucursales{
+  margin-top:20px; padding-top:20px; border-top:1px solid var(--linea);
+  font-size:15px; color:var(--gris); line-height:1.8;
+}
+footer .firma{
+  margin-top:26px;
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--gris);
+}
+
+/* Crédito de Zyncosoft */
+.credito{
+  display:inline-flex; align-items:center; gap:8px;
+  margin-top:14px;
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--gris); text-decoration:none;
+  transition:color .3s;
+}
+.credito img{
+  width:16px; height:16px; object-fit:contain;
+  opacity:.6; transition:opacity .3s;
+}
+.credito:hover{ color:var(--tinta-suave); }
+.credito:hover img{ opacity:1; }
+:root[data-tema="oscuro"] .credito img{ filter:invert(1); }
+
+/* =========================================== ESCRITORIO: BARRA LATERAL */
+@media (min-width:1080px){
+  body{ padding-top:var(--barra); }
+  .nav-cats{
+    top:var(--barra); bottom:0; right:auto;
+    width:var(--lateral);
+    border-bottom:none; border-right:1px solid var(--linea);
+    overflow-y:auto;
+  }
+  .nav-cats ul{
+    flex-direction:column; gap:2px; padding:26px 16px; overflow:visible;
+  }
+  .nav-cats a{ padding:8px 16px; border-radius:2px; }
+  .contenido{ margin-left:var(--lateral); }
+  .seccion{ scroll-margin-top:84px; }
+  .barra-pedido{
+    left:auto; right:28px; bottom:28px;
+    width:min(400px, 90vw);
+    border-radius:99px;
+    box-shadow:var(--sombra-alta);
+  }
+  .velo{ align-items:center; }
+  .hoja{ border-radius:6px; max-height:calc(100% - 90px); }
+}
+
+/* ===================================================================
+   MÓVIL Y TABLETA — una sola columna vertical
+   La navegación de categorías baja al pie, fija, y se desliza en
+   horizontal; el resto del contenido se apila de arriba hacia abajo.
+   =================================================================== */
+@media (max-width:1079px){
+
+  body{
+    padding-top:var(--barra);
+    /* espacio para que el nav del pie nunca tape el final del contenido */
+    padding-bottom:calc(var(--nav-pie) + 10px + var(--seguro-abajo));
+    transition:padding-bottom .3s;
+  }
+  /* con pedido abierto, la barra ocupa otra franja: se suma al colchón */
+  body.con-pedido{
+    padding-bottom:calc(var(--nav-pie) + var(--pedido-alto) + 10px + var(--seguro-abajo));
+  }
+
+  /* --- navegación al pie --- */
+  .nav-cats{
+    top:auto; bottom:0; left:0; right:0;
+    border-bottom:none;
+    border-top:1px solid var(--linea);
+    box-shadow:0 -10px 26px -18px rgba(22,19,15,.5);
+    padding-bottom:var(--seguro-abajo);
+  }
+  .nav-cats::before{
+    /* asa: sugiere que la tira se desliza */
+    content:""; position:absolute; top:5px; left:50%;
+    width:34px; height:3px; margin-left:-17px; border-radius:99px;
+    background:var(--linea-fuerte);
+  }
+  .nav-cats ul{
+    padding:14px 16px 12px;
+    gap:7px;
+    scroll-padding-inline:16px;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-x:contain;
+    /* los chips se desvanecen en los bordes al salir de cuadro */
+    -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
+            mask-image:linear-gradient(90deg, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
+  }
+  .nav-cats a{ padding:8px 16px; font-size:15px; }
+
+  /* --- el pedido flota justo encima del nav --- */
+  .barra-pedido{
+    bottom:calc(var(--nav-pie) + var(--seguro-abajo));
+    padding:12px 18px;
+    border-top:1px solid var(--linea);
+  }
+
+  .seccion{ scroll-margin-top:80px; }
+
+  /* --- hero más corto: el menú empieza antes --- */
+  .hero{ padding:40px 20px 36px; }
+  .hero .rombo{ width:200px; margin-bottom:20px; }
+  .hero p{ font-size:17px; }
+  .hero-datos{ gap:8px 18px; margin-top:20px; font-size:12px; }
+
+  main{ padding:0 16px 60px; }
+  .seccion{ padding-top:46px; }
+  .seccion-cab{ margin-bottom:26px; }
+
+  /* --- las hojas suben desde abajo, por encima del nav --- */
+  .hoja{ max-height:calc(100% - 18px); }
+  .hoja-pie{ padding-bottom:calc(18px + var(--seguro-abajo)); }
+
+  /* --- cerrar: baja al final, flotando a la derecha sobre el pie --- */
+  .hoja-cab .cerrar{ display:none; }
+  .hoja-cab{ padding-right:22px; }
+
+  .fila-cerrar{
+    display:flex; justify-content:flex-end;
+    padding:0 16px 12px;
+    background:var(--papel);
+  }
+  /* si no hay pie (modo consulta) respeta la barra de gestos del teléfono */
+  .fila-cerrar:last-child{ padding-bottom:calc(12px + var(--seguro-abajo)); }
+
+  .fila-cerrar .cerrar{
+    width:46px; height:46px; font-size:17px;
+    background:var(--papel-2);
+    border-color:var(--linea-fuerte);
+    box-shadow:var(--sombra);
+  }
+  .fila-cerrar .cerrar:active{
+    background:var(--tinta); color:var(--papel); border-color:var(--tinta);
+  }
+}
+
+/* ===================================== TELÉFONO: apilado y compacto */
+@media (max-width:600px){
+  .rejilla{ grid-template-columns:1fr; gap:14px; }
+
+  .ficha-foto{ aspect-ratio:16/9; }
+  /* sin foto: sólo el monograma, sin reservar el alto de una imagen */
+  .ficha-foto.sin-foto{
+    aspect-ratio:auto; padding:16px 0 2px; border-bottom:none;
+  }
+  .ficha-foto.sin-foto .monograma{ width:40px; height:40px; }
+  .ficha-foto.sin-foto .monograma b{ font-size:16px; }
+  .ficha-cuerpo{ padding:14px 15px 15px; }
+  .ficha-linea h3{ font-size:19px; }
+  .ficha-desc{ font-size:16px; line-height:1.45; }
+
+  .extras{ padding:24px 18px; }
+  .extras-cols{ grid-template-columns:1fr; gap:22px; }
+
+  .barra{ padding:0 14px; gap:10px; }
+  .barra-logo svg{ width:30px; height:30px; }
+  .buscador input{ padding:8px 32px; }
+
+  .grupo-titulo{ margin:28px 0 16px; }
+  .hoja-cab{ padding:16px 18px; }
+  .hoja-cuerpo{ padding:18px; }
+  .detalle-foto{ margin:-18px -18px 18px; }
+  .hoja-pie{ padding-left:18px; padding-right:18px; }
+
+  footer{ padding:42px 18px 34px; }
+  footer .rombo{ width:172px; }
+}
+
+/* Pantallas muy angostas: todo un punto más compacto */
+@media (max-width:380px){
+  .barra-logo svg{ width:28px; height:28px; }
+  .btn-icono{ width:34px; height:34px; }
+  .hero h1{ font-size:34px; }
+
+  /* títulos de grupo largos ("Coctelería y bebidas con alcohol") en 2 renglones */
+  .grupo-titulo{ gap:10px; }
+  .grupo-titulo span{ white-space:normal; text-align:center; }
+
+  /* el pie del modal debe caber aunque el total sea de cuatro cifras */
+  .fila-agregar{ gap:8px; }
+  .fila-agregar .contador{ gap:8px; }
+  .fila-agregar .contador button{ width:34px; height:34px; font-size:17px; }
+  .fila-agregar .contador span{ min-width:20px; font-size:18px; }
+  .fila-agregar .btn-principal{ padding:13px 10px; font-size:15px; letter-spacing:.09em; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{ animation-duration:.01ms !important; transition-duration:.01ms !important; }
+  html{ scroll-behavior:auto; }
+}
