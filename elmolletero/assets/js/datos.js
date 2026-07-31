@@ -31,11 +31,23 @@ window.MENU = {
     //   index.html?pedidos=off   → apaga los pedidos y lo recuerda
     //   index.html?pedidos=on    → los vuelve a prender
     //   index.html?pedidos=auto  → olvida lo anterior y obedece a este archivo
-    pedidos: true,
+    pedidos: false,
 
     // Aviso que se muestra cuando los pedidos están apagados (déjalo vacío
     // con '' si prefieres que no aparezca ninguno).
-    avisoSinPedidos: 'Menú de consulta. Para ordenar, pídelo con tu mesero.'
+    avisoSinPedidos: 'Menú de consulta. Para ordenar, pídelo con tu mesero.',
+
+    // --- Idioma ---------------------------------------------------------
+    // El inglés vive en assets/js/idiomas.js; aquí sólo se configura.
+    // true  → al abrir sale la portada preguntando Español / English.
+    // false → entra directo en el idioma de abajo (se puede cambiar igual
+    //         con el botón ES/EN de la barra de arriba).
+    preguntarIdioma: true,
+    idiomaPorDefecto: 'es',         // 'es' o 'en'
+
+    // Nombre con el que se guardan el pedido, el idioma y el tema en el
+    // navegador. Debe ser distinto en cada menú que publiques.
+    almacen: 'molletero'
   },
 
   marca: {

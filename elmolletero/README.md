@@ -14,8 +14,9 @@ elmolletero/
 │   ├── css/
 │   │   └── estilos.css         ← diseño (colores, tipografía, tarjetas)
 │   ├── js/
-│   │   ├── datos.js            ← ★ TODO el menú: platillos y precios
-│   │   └── app.js              ← lógica (menú, buscador, pedido, tema)
+│   │   ├── datos.js            ← ★ TODO el menú en español: platillos y precios
+│   │   ├── idiomas.js          ← ★ TODO el inglés (traducciones)
+│   │   └── app.js              ← lógica (menú, buscador, pedido, idioma, tema)
 │   └── img/
 │       └── platillos/          ← 55 fotos recortadas del PDF (.webp)
 ├── MENU QR COCTELERIA.pdf      ← menú original de referencia
@@ -61,6 +62,56 @@ Si un producto tiene tamaños, se cambia `precio` por `variantes`:
 
 Los platillos que no traen foto en el menú impreso se dibujan con un
 monograma en rombo, así la retícula se mantiene pareja.
+
+### Español e inglés
+
+El menú en español vive en `datos.js` y **todo el inglés está aparte**, en
+`assets/js/idiomas.js`. Los precios, las fotos y el orden de los platillos
+sólo existen en `datos.js`: así no hay dos listas de precios que se puedan
+desincronizar.
+
+Al abrir el menú sale una **portada con dos botones, Español y English**.
+Lo que elija el cliente se recuerda en su teléfono, así que la portada sólo
+aparece la primera vez; después puede cambiar de idioma con el botón
+**ES / EN** de la barra de arriba.
+
+Se configura en `datos.js`:
+
+```js
+config: {
+  preguntarIdioma: true,   // false = entra directo, sin portada
+  idiomaPorDefecto: 'es'   // 'es' o 'en'
+}
+```
+
+También se puede forzar por dirección: `index.html?idioma=en`.
+
+**Para traducir o corregir un texto en inglés**, en `idiomas.js`:
+
+```js
+platillos: {
+  'salados/Tradicional': {
+    nombre: 'Traditional',
+    desc: 'Refried bean base gratinated with house cheese.' },
+}
+```
+
+La clave es `idDeLaCategoria/Nombre en español` — el id es el campo `id` de
+la categoría en `datos.js`. Se usa el id para que no se confundan dos
+platillos que se llaman igual en secciones distintas (por ejemplo
+"Tropical", que está en Dulces y en Smoothies).
+
+Si a un platillo le falta su traducción, se muestra en español y el resto
+del menú sigue funcionando. Los textos de la página (botones, avisos) están
+arriba del mismo archivo, en `ui`.
+
+Dos detalles útiles:
+
+- **El buscador encuentra en los dos idiomas siempre**: con el menú en
+  español, escribir "eggs" también encuentra los huevos.
+- **El pedido no se pierde al cambiar de idioma**: por dentro se guarda el
+  nombre en español y se traduce al mostrarlo, así que la cuenta y los
+  platillos se conservan.
 
 ### Prender y apagar los pedidos
 

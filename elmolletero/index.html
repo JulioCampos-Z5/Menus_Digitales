@@ -32,10 +32,12 @@
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true">
       <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>
     </svg>
-    <label for="campoBusqueda" class="oculto">Buscar en el menú</label>
+    <label for="campoBusqueda" class="oculto" data-txt="buscarEtiqueta">Buscar en el menú</label>
     <input id="campoBusqueda" type="search" placeholder="Buscar platillo" autocomplete="off">
     <button id="limpiarBusqueda" class="limpiar oculto" type="button" aria-label="Limpiar búsqueda">✕</button>
   </div>
+
+  <button id="btnIdioma" class="btn-icono btn-idioma" type="button" aria-label="Cambiar idioma">ES</button>
 
   <button id="btnTema" class="btn-icono" type="button" aria-label="Cambiar tema">
     <svg class="icono-luna" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -65,10 +67,10 @@
       <text x="210" y="142" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-size="14" letter-spacing="6.5" fill="currentColor" opacity=".7">DE GUADALAJARA</text>
     </svg>
 
-    <h1>Menú</h1>
-    <p>Molletes de birote fleyman tradicional de masa madre, gratinados con queso especial de la casa. <span id="heroAccion">Toca cualquier platillo para verlo en grande y sumarlo a tu pedido.</span></p>
+    <h1 data-txt="menu">Menú</h1>
+    <p><span data-txt="intro">Molletes de birote fleyman tradicional de masa madre, gratinados con queso especial de la casa.</span> <span id="heroAccion">Toca cualquier platillo para verlo en grande y sumarlo a tu pedido.</span></p>
 
-    <div class="hero-datos">
+    <div class="hero-datos" id="heroDatos">
       <span>Salados · Dulces</span>
       <span>Desayunos</span>
       <span>Barra de café</span>
@@ -81,8 +83,8 @@
     <div id="secciones"></div>
 
     <div id="sinResultados" class="sin-resultados oculto">
-      <b>Sin coincidencias</b>
-      Prueba con otro nombre o revisa las categorías del menú.
+      <b data-txt="sinResultadosTitulo">Sin coincidencias</b>
+      <span data-txt="sinResultadosTexto">Prueba con otro nombre o revisa las categorías del menú.</span>
     </div>
 
     <div class="avisos">
@@ -107,7 +109,13 @@
 
     <div class="sucursales" data-marca="sucursales"></div>
 
-    <p class="firma">Menú digital · El Molletero®</p>
+    <p class="firma" data-txt="firma">Menú digital · El Molletero®</p>
+
+    <a class="credito" href="https://zyncosoft.pages.dev" target="_blank"
+       rel="noopener noreferrer" title="Desarrollado por Zyncosoft">
+      <span>Desarrollado por</span>
+      <img src="assets/img/zyncosoft.png" alt="Zyncosoft" width="16" height="16" loading="lazy">
+    </a>
   </footer>
 
 </div>
@@ -115,7 +123,7 @@
 <!-- ==================================================== BARRA DE PEDIDO -->
 <div class="barra-pedido" id="barraPedido">
   <div class="resumen"><b id="piezas">0</b> <span id="palabraPiezas">productos</span> · <b id="totalBarra">$0</b></div>
-  <button id="btnVerPedido" type="button">Ver pedido</button>
+  <button id="btnVerPedido" type="button" data-txt="verPedido">Ver pedido</button>
 </div>
 
 <!-- ================================================== MODAL DE DETALLE -->
@@ -143,7 +151,7 @@
 <div class="velo" id="modalPedido" role="dialog" aria-modal="true" aria-label="Tu pedido">
   <div class="hoja">
     <div class="hoja-cab">
-      <h2>Tu pedido</h2>
+      <h2 data-txt="tuPedido">Tu pedido</h2>
       <button class="cerrar" type="button" data-cerrar aria-label="Cerrar">✕</button>
     </div>
     <div class="hoja-cuerpo">
@@ -153,17 +161,42 @@
       <button class="cerrar" type="button" data-cerrar aria-label="Cerrar">✕</button>
     </div>
     <div class="hoja-pie">
-      <div class="total"><span>Total</span><b id="totalPedido">$0</b></div>
-      <button class="btn-principal wa" id="btnWhatsapp" type="button" disabled>Enviar pedido por WhatsApp</button>
+      <div class="total"><span data-txt="total">Total</span><b id="totalPedido">$0</b></div>
+      <button class="btn-principal wa" id="btnWhatsapp" type="button" disabled data-txt="enviarWhatsapp">Enviar pedido por WhatsApp</button>
       <p class="aviso-modal">
-        <button id="btnVaciar" class="oculto" type="button" style="background:none;border:none;text-decoration:underline;color:inherit;font:inherit;padding:0;">Vaciar pedido</button>
+        <button id="btnVaciar" class="oculto" type="button" data-txt="vaciarPedido" style="background:none;border:none;text-decoration:underline;color:inherit;font:inherit;padding:0;">Vaciar pedido</button>
       </p>
       <p class="aviso-modal" data-marca="aviso"></p>
     </div>
   </div>
 </div>
 
+<!-- ============================================ PORTADA: ELEGIR IDIOMA -->
+<div class="portada oculto" id="portada">
+  <div class="portada-caja">
+    <svg class="rombo" viewBox="0 0 420 210" aria-label="El Molletero de Guadalajara">
+      <path d="M210 8 404 105 210 202 16 105Z" fill="none" stroke="currentColor" stroke-width="5"/>
+      <path d="M186 26 380 105 186 184 -8 105Z" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".45" transform="translate(24 0)"/>
+      <text x="210" y="80" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-size="15" letter-spacing="4" fill="currentColor" opacity=".7">— EST. 2016 —</text>
+      <text x="210" y="118" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="600" font-size="40" letter-spacing="3" fill="currentColor">EL MOLLETERO</text>
+      <text x="210" y="142" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-size="14" letter-spacing="6.5" fill="currentColor" opacity=".7">DE GUADALAJARA</text>
+    </svg>
+
+    <p class="portada-titulo">Elige tu idioma<span>Choose your language</span></p>
+
+    <div class="portada-botones">
+      <button type="button" class="portada-btn" data-idioma="es">
+        Español<small>Menú completo</small>
+      </button>
+      <button type="button" class="portada-btn" data-idioma="en">
+        English<small>Full menu</small>
+      </button>
+    </div>
+  </div>
+</div>
+
 <script src="assets/js/datos.js"></script>
+<script src="assets/js/idiomas.js"></script>
 <script src="assets/js/app.js"></script>
 </body>
 </html>

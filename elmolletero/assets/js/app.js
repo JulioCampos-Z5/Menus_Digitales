@@ -15,10 +15,72 @@
   var MENU  = window.MENU;
   var MARCA = MENU.marca;
   var CONFIG = MENU.config || {};
+  var IDIOMAS = window.IDIOMAS || { ui: { es: {} }, en: {} };
   var RUTA_IMG = 'assets/img/platillos/';
-  var LLAVE_PEDIDO  = 'molletero:pedido';
-  var LLAVE_TEMA    = 'molletero:tema';
-  var LLAVE_PEDIDOS = 'molletero:pedidos';
+  /* Nombre con el que se guardan el pedido, el idioma y el tema en el
+     navegador del cliente. Si publicas varios menús bajo el mismo dominio,
+     dale a cada uno el suyo con config.almacen en datos.js: así el pedido
+     de un negocio no se mezcla con el de otro. */
+  var ALMACEN = (CONFIG.almacen || 'menu') + ':';
+  var LLAVE_PEDIDO  = ALMACEN + 'pedido';
+  var LLAVE_TEMA    = ALMACEN + 'tema';
+  var LLAVE_PEDIDOS = ALMACEN + 'pedidos';
+  var LLAVE_IDIOMA  = ALMACEN + 'idioma';
+
+  /* ============================================================ IDIOMA ---
+     El español sale de datos.js; el inglés, de idiomas.js. Si a un texto
+     le falta traducción se muestra el español. */
+
+  var IDIOMA = 'es';
+  var T = IDIOMAS.ui.es;              // textos de la interfaz
+  var EN = IDIOMAS.en || {};          // traducción del menú
+
+  function leerIdiomaGuardado() {
+    var porUrl = (new URLSearchParams(location.search).get('idioma') || '').toLowerCase();
+    if (porUrl === 'es' || porUrl === 'en') {
+      try { localStorage.setItem(LLAVE_IDIOMA, porUrl); } catch (e) {}
+      return porUrl;
+    }
+    try {
+      var guardado = localStorage.getItem(LLAVE_IDIOMA);
+      if (guardado === 'es' || guardado === 'en') return guardado;
+    } catch (e) {}
+    return null;
+  }
+
+  function fijarIdioma(codigo) {
+    IDIOMA = codigo === 'en' ? 'en' : 'es';
+    T = IDIOMAS.ui[IDIOMA] || IDIOMAS.ui.es;
+    document.documentElement.lang = IDIOMA;
+    try { localStorage.setItem(LLAVE_IDIOMA, IDIOMA); } catch (e) {}
+  }
+
+  /* Traducción de un platillo: se busca por 'idCategoria/Nombre' */
+  function traducirItem(item) {
+    if (IDIOMA === 'es') return item;
+    var t = (EN.platillos || {})[item._catId + '/' + item.nombre];
+    if (!t) return item;
+    return {
+      nombre: t.nombre || item.nombre,
+      desc: t.desc || item.desc
+    };
+  }
+
+  /* Traducción de un texto suelto (grupos, extras, tamaños) */
+  function traducir(mapa, texto) {
+    if (IDIOMA === 'es') return texto;
+    return (EN[mapa] || {})[texto] || texto;
+  }
+
+  function categoriaTraducida(cat) {
+    if (IDIOMA === 'es') return cat;
+    var t = (EN.categorias || {})[cat.id] || {};
+    return {
+      nav: t.nav || cat.nav || cat.titulo,
+      titulo: t.titulo || cat.titulo,
+      nota: t.nota || cat.nota
+    };
+  }
 
   /* ------------------------------------------- ¿pedidos activos o no? -----
      Manda lo que diga la URL (?pedidos=on|off|auto), que se recuerda en el
@@ -74,7 +136,9 @@
     return 0;
   }
 
-  var NOMBRE_TAG = { veg: 'Vegetariano', picante: 'Picante' };
+  function nombreTag(t) {
+    return T[t] || t;
+  }
 
   /* ==================================================== DIBUJAR EL MENÚ */
 
@@ -84,10 +148,17 @@
     var contenedor = $('#secciones');
     var navLista   = $('#navLista');
 
+    /* se puede volver a dibujar (al cambiar de idioma) */
+    contenedor.replaceChildren();
+    navLista.replaceChildren();
+    indice = [];
+
     MENU.categorias.forEach(function (cat) {
+      var tc = categoriaTraducida(cat);
+
       /* --- entrada en la navegación --- */
       var li = elem('li');
-      var a  = elem('a', null, cat.nav || cat.titulo);
+      var a  = elem('a', null, tc.nav || tc.titulo);
       a.href = '#' + cat.id;
       li.appendChild(a);
       navLista.appendChild(li);
@@ -97,21 +168,22 @@
       sec.id = cat.id;
 
       var cab = elem('div', 'seccion-cab');
-      cab.appendChild(elem('h2', null, cat.titulo));
-      if (cat.nota) cab.appendChild(elem('p', 'nota', cat.nota));
+      cab.appendChild(elem('h2', null, tc.titulo));
+      if (tc.nota) cab.appendChild(elem('p', 'nota', tc.nota));
       cab.appendChild(elem('div', 'filete'));
       sec.appendChild(cab);
 
       cat.grupos.forEach(function (grupo) {
         if (grupo.titulo) {
           var gt = elem('div', 'grupo-titulo');
-          gt.appendChild(elem('span', null, grupo.titulo));
+          gt.appendChild(elem('span', null, traducir('grupos', grupo.titulo)));
           sec.appendChild(gt);
         }
         var rejilla = elem('div', 'rejilla');
         grupo.items.forEach(function (item) {
           item._id = indice.length;
-          item._cat = cat.titulo;
+          item._catId = cat.id;
+          item._cat = tc.titulo;
           indice.push(item);
           rejilla.appendChild(ficha(item));
         });
@@ -126,22 +198,28 @@
 
   function ficha(item) {
     var art = elem('article', 'ficha');
+    var txt = traducirItem(item);
+    var ingles = (EN.platillos || {})[item._catId + '/' + item.nombre] || {};
     art.dataset.id = item._id;
-    art.dataset.buscar = normalizar(item.nombre + ' ' + (item.desc || '') + ' ' + item._cat);
+    /* el buscador siempre mira los dos idiomas: encuentra "eggs" y "huevos"
+       sin importar en cuál esté puesto el menú */
+    art.dataset.buscar = normalizar([
+      item.nombre, item.desc, ingles.nombre, ingles.desc, item._cat
+    ].join(' '));
 
     /* foto o monograma */
     var foto = elem('div', 'ficha-foto');
     if (item.img) {
       var img = new Image();
       img.src = RUTA_IMG + item.img + '.webp';
-      img.alt = item.nombre;
+      img.alt = txt.nombre;
       img.loading = 'lazy';
       img.decoding = 'async';
-      img.onerror = function () { foto.replaceChildren(monograma(item.nombre)); };
+      img.onerror = function () { foto.replaceChildren(monograma(txt.nombre)); };
       foto.appendChild(img);
     } else {
       foto.classList.add('sin-foto');
-      foto.appendChild(monograma(item.nombre));
+      foto.appendChild(monograma(txt.nombre));
     }
     art.appendChild(foto);
 
@@ -149,11 +227,11 @@
     var cuerpo = elem('div', 'ficha-cuerpo');
 
     var linea = elem('div', 'ficha-linea');
-    linea.appendChild(elem('h3', null, item.nombre));
+    linea.appendChild(elem('h3', null, txt.nombre));
     linea.appendChild(elem('div', 'puntos'));
     var precio = elem('div', 'precio');
     if (item.variantes) {
-      precio.appendChild(elem('small', null, 'desde '));
+      precio.appendChild(elem('small', null, T.desde));
       precio.appendChild(document.createTextNode(dinero(precioBase(item))));
     } else {
       precio.textContent = dinero(precioBase(item));
@@ -161,19 +239,19 @@
     linea.appendChild(precio);
     cuerpo.appendChild(linea);
 
-    if (item.desc) cuerpo.appendChild(elem('p', 'ficha-desc', item.desc));
+    if (txt.desc) cuerpo.appendChild(elem('p', 'ficha-desc', txt.desc));
 
     if (item.tags && item.tags.length) {
       var tags = elem('div', 'etiquetas');
       item.tags.forEach(function (t) {
-        tags.appendChild(elem('span', 'etiqueta ' + t, NOMBRE_TAG[t] || t));
+        tags.appendChild(elem('span', 'etiqueta ' + t, nombreTag(t)));
       });
       cuerpo.appendChild(tags);
     }
 
     if (PEDIDOS) {
       var pie = elem('div', 'ficha-pie');
-      var btn = elem('button', 'btn-agregar', item.variantes ? 'Elegir' : 'Agregar');
+      var btn = elem('button', 'btn-agregar', item.variantes ? T.elegir : T.agregar);
       btn.type = 'button';
       pie.appendChild(btn);
       cuerpo.appendChild(pie);
@@ -193,16 +271,18 @@
 
   function bloqueExtras(extras) {
     var caja = elem('div', 'extras');
-    caja.appendChild(elem('h3', null, extras.titulo));
+    caja.appendChild(elem('h3', null, traducir('extras', extras.titulo)));
     var cols = elem('div', 'extras-cols');
     extras.columnas.forEach(function (col) {
       var c = elem('div', 'extras-col');
       var h = elem('h4');
-      h.appendChild(document.createTextNode(col.titulo + ' '));
+      h.appendChild(document.createTextNode(traducir('extras', col.titulo) + ' '));
       if (col.precio) h.appendChild(elem('b', null, dinero(col.precio)));
       c.appendChild(h);
       var ul = elem('ul');
-      col.lista.forEach(function (x) { ul.appendChild(elem('li', null, x)); });
+      col.lista.forEach(function (x) {
+        ul.appendChild(elem('li', null, traducir('extras', x)));
+      });
       c.appendChild(ul);
       cols.appendChild(c);
     });
@@ -212,10 +292,15 @@
 
   /* ================================================= NAVEGACIÓN ACTIVA */
 
+  var observador = null;
+
   function activarNavegacion() {
     var enlaces = $$('#navLista a');
     var mapa = {};
     enlaces.forEach(function (a) { mapa[a.getAttribute('href').slice(1)] = a; });
+
+    /* al cambiar de idioma se redibuja: hay que soltar el observador viejo */
+    if (observador) observador.disconnect();
 
     var obs = new IntersectionObserver(function (entradas) {
       entradas.forEach(function (e) {
@@ -230,6 +315,7 @@
     }, { rootMargin: '-30% 0px -60% 0px' });
 
     $$('.seccion').forEach(function (s) { obs.observe(s); });
+    observador = obs;
   }
 
   /* Desplaza la tira de categorías (no la página) para centrar el chip activo */
@@ -310,28 +396,29 @@
     var cuerpo = $('#detalleCuerpo');
     cuerpo.replaceChildren();
 
+    var txt = traducirItem(item);
     $('#tituloDetalle').textContent = item._cat;
 
     var foto = elem('div', 'detalle-foto');
     if (item.img) {
       var img = new Image();
       img.src = RUTA_IMG + item.img + '.webp';
-      img.alt = item.nombre;
-      img.onerror = function () { foto.replaceChildren(monograma(item.nombre)); };
+      img.alt = txt.nombre;
+      img.onerror = function () { foto.replaceChildren(monograma(txt.nombre)); };
       foto.appendChild(img);
     } else {
-      foto.appendChild(monograma(item.nombre));
+      foto.appendChild(monograma(txt.nombre));
     }
     cuerpo.appendChild(foto);
 
-    cuerpo.appendChild(elem('h3', 'detalle-nombre', item.nombre));
-    if (item.desc) cuerpo.appendChild(elem('p', 'detalle-desc', item.desc));
+    cuerpo.appendChild(elem('h3', 'detalle-nombre', txt.nombre));
+    if (txt.desc) cuerpo.appendChild(elem('p', 'detalle-desc', txt.desc));
 
     if (item.tags && item.tags.length) {
       var tags = elem('div', 'etiquetas');
       tags.style.marginBottom = '18px';
       item.tags.forEach(function (t) {
-        tags.appendChild(elem('span', 'etiqueta ' + t, NOMBRE_TAG[t] || t));
+        tags.appendChild(elem('span', 'etiqueta ' + t, nombreTag(t)));
       });
       cuerpo.appendChild(tags);
     }
@@ -342,7 +429,7 @@
       if (item.variantes) {
         item.variantes.forEach(function (v) {
           var p = elem('span', 'variante');
-          p.appendChild(document.createTextNode(v.nombre));
+          p.appendChild(document.createTextNode(traducir('variantes', v.nombre)));
           p.appendChild(elem('b', null, dinero(v.precio)));
           precios.appendChild(p);
         });
@@ -358,7 +445,7 @@
       item.variantes.forEach(function (v, i) {
         var b = elem('button', 'variante' + (i === detalle.variante ? ' activa' : ''));
         b.type = 'button';
-        b.appendChild(document.createTextNode(v.nombre));
+        b.appendChild(document.createTextNode(traducir('variantes', v.nombre)));
         b.appendChild(elem('b', null, dinero(v.precio)));
         b.addEventListener('click', function () {
           detalle.variante = i;
@@ -394,7 +481,7 @@
 
   function refrescarBotonDetalle() {
     $('#btnAgregarDetalle').textContent =
-      'Agregar · ' + dinero(precioDetalle() * detalle.cantidad);
+      T.agregar + ' · ' + dinero(precioDetalle() * detalle.cantidad);
   }
 
   /* ============================================================ PEDIDO */
@@ -412,12 +499,27 @@
     try { localStorage.setItem(LLAVE_PEDIDO, JSON.stringify(pedido)); } catch (e) {}
   }
 
-  function agregar(nombre, variante, precio, cantidad) {
-    var clave = nombre + '||' + (variante || '');
-    if (!pedido[clave]) pedido[clave] = { nombre: nombre, variante: variante || '', precio: precio, cantidad: 0 };
+  /* En el pedido se guarda SIEMPRE el nombre en español, más el id de la
+     categoría. Así el pedido sobrevive a un cambio de idioma: al pintarlo
+     se traduce al vuelo. */
+  function agregar(item, variante, precio, cantidad) {
+    var clave = item._catId + '||' + item.nombre + '||' + (variante || '');
+    if (!pedido[clave]) {
+      pedido[clave] = {
+        catId: item._catId, nombre: item.nombre,
+        variante: variante || '', precio: precio, cantidad: 0
+      };
+    }
     pedido[clave].precio = precio;
     pedido[clave].cantidad += cantidad;
     refrescarPedido();
+  }
+
+  /* Nombre y tamaño de una línea del pedido, en el idioma actual */
+  function nombreDePedido(it) {
+    if (IDIOMA === 'es') return it.nombre;
+    var t = (EN.platillos || {})[it.catId + '/' + it.nombre];
+    return (t && t.nombre) || it.nombre;
   }
 
   function totales() {
@@ -434,7 +536,7 @@
     var t = totales();
 
     $('#piezas').textContent = t.piezas;
-    $('#palabraPiezas').textContent = t.piezas === 1 ? 'producto' : 'productos';
+    $('#palabraPiezas').textContent = t.piezas === 1 ? T.producto : T.productos;
     $('#totalBarra').textContent = dinero(t.total);
     var mostrar = PEDIDOS && t.piezas > 0;
     $('#barraPedido').classList.toggle('visible', mostrar);
@@ -446,15 +548,15 @@
 
     var claves = Object.keys(pedido);
     if (!claves.length) {
-      lista.appendChild(elem('p', 'vacio', 'Tu pedido está vacío. Toca un platillo para agregarlo.'));
+      lista.appendChild(elem('p', 'vacio', T.pedidoVacio));
     }
 
     claves.forEach(function (clave) {
       var it = pedido[clave];
       var fila = elem('div', 'renglon');
 
-      var nombre = elem('div', 'renglon-nombre', it.nombre);
-      if (it.variante) nombre.appendChild(elem('small', null, it.variante));
+      var nombre = elem('div', 'renglon-nombre', nombreDePedido(it));
+      if (it.variante) nombre.appendChild(elem('small', null, traducir('variantes', it.variante)));
       fila.appendChild(nombre);
 
       var cont = elem('div', 'contador');
@@ -485,13 +587,13 @@
 
     var lineas = Object.keys(pedido).map(function (k) {
       var it = pedido[k];
-      return '• ' + it.cantidad + ' × ' + it.nombre +
-             (it.variante ? ' (' + it.variante + ')' : '') +
+      return '• ' + it.cantidad + ' × ' + nombreDePedido(it) +
+             (it.variante ? ' (' + traducir('variantes', it.variante) + ')' : '') +
              ' — ' + dinero(it.cantidad * it.precio);
     }).join('\n');
 
-    var texto = '*Pedido — El Molletero*\n\n' + lineas +
-                '\n\n*Total: ' + dinero(t.total) + ' MXN*\n\n¡Gracias!';
+    var texto = T.waTitulo + '\n\n' + lineas +
+                '\n\n*' + T.total + ': ' + dinero(t.total) + ' MXN*\n\n' + T.waGracias;
 
     window.open('https://wa.me/' + MARCA.whatsapp + '?text=' + encodeURIComponent(texto), '_blank', 'noopener');
   }
@@ -560,10 +662,57 @@
     $('[data-marca="social"]').textContent = MARCA.social;
 
     var suc = $('[data-marca="sucursales"]');
+    suc.replaceChildren();
     MARCA.sucursales.forEach(function (s) { suc.appendChild(elem('p', null, s)); });
 
-    $$('[data-marca="aviso"]').forEach(function (n) { n.textContent = '“' + MARCA.aviso + '”' ; });
-    $('[data-marca="avisoCombinacion"]').textContent = '*' + MARCA.avisoCombinacion + '*';
+    var enMarca = (EN.marca || {});
+    var aviso = (IDIOMA === 'en' && enMarca.aviso) || MARCA.aviso;
+    var avisoComb = (IDIOMA === 'en' && enMarca.avisoCombinacion) || MARCA.avisoCombinacion;
+
+    $$('[data-marca="aviso"]').forEach(function (n) { n.textContent = '“' + aviso + '”'; });
+    $('[data-marca="avisoCombinacion"]').textContent = '*' + avisoComb + '*';
+  }
+
+  /* ================================================= TEXTOS DE LA PÁGINA */
+
+  function aplicarTextos() {
+    /* todo lo que lleva data-txt en el HTML */
+    $$('[data-txt]').forEach(function (n) {
+      var clave = n.dataset.txt;
+      if (T[clave]) n.textContent = T[clave];
+    });
+
+    $('#campoBusqueda').placeholder = T.buscar;
+    $('#limpiarBusqueda').setAttribute('aria-label', T.limpiarBusqueda);
+    $('#btnTema').setAttribute('aria-label', T.cambiarTema);
+    $('.barra-logo').setAttribute('aria-label', T.inicio);
+    $$('[data-cerrar]').forEach(function (b) { b.setAttribute('aria-label', T.cerrar); });
+
+    var botonIdioma = $('#btnIdioma');
+    if (botonIdioma) {
+      /* el botón muestra el idioma al que se va a cambiar */
+      var otro = IDIOMA === 'es' ? 'en' : 'es';
+      botonIdioma.textContent = IDIOMAS.ui[otro].idiomaCorto;
+      botonIdioma.setAttribute('aria-label', T.cambiarIdioma);
+    }
+
+    var datos = $('#heroDatos');
+    if (datos && T.resumen) {
+      datos.replaceChildren();
+      T.resumen.forEach(function (x) { datos.appendChild(elem('span', null, x)); });
+    }
+
+    var accion = $('#heroAccion');
+    if (accion) accion.textContent = PEDIDOS ? T.accionPedido : T.accionConsulta;
+
+    var avisoConsulta = $('.aviso-consulta');
+    if (avisoConsulta) avisoConsulta.textContent = textoSinPedidos();
+
+    document.title = MARCA.nombre + ' — ' + T.menu;
+  }
+
+  function textoSinPedidos() {
+    return (IDIOMA === 'en' && (EN.config || {}).avisoSinPedidos) || CONFIG.avisoSinPedidos;
   }
 
   /* ============================== MODO CONSULTA (pedidos apagados) ----- */
@@ -581,35 +730,60 @@
     if (pieModal) pieModal.remove();
 
     var accion = $('#heroAccion');
-    if (accion) accion.textContent = 'Toca cualquier platillo para verlo en grande.';
+    if (accion) accion.textContent = T.accionConsulta;
 
-    var texto = CONFIG.avisoSinPedidos;
+    var texto = textoSinPedidos();
     var hero = $('.hero');
     if (texto && hero) hero.appendChild(elem('p', 'aviso-consulta', texto));
   }
 
-  /* ============================================================ ARRANQUE */
+  /* =================================================== PORTADA DE IDIOMA */
 
-  dibujarMenu();
-  rellenarMarca();
-  activarNavegacion();
-  activarBuscador();
-  activarVelos();
-  activarTema();
+  function mostrarPortada() {
+    var portada = $('#portada');
+    if (!portada) return;
+    portada.classList.remove('oculto');
+    document.body.style.overflow = 'hidden';
 
-  if (PEDIDOS) {
-    cargarPedido();     // el pedido guardado sigue ahí si se vuelven a prender
-    refrescarPedido();
-    activarPedido();
-  } else {
-    aplicarModoConsulta();
+    $$('.portada-btn', portada).forEach(function (b) {
+      b.addEventListener('click', function () {
+        fijarIdioma(b.dataset.idioma);
+        redibujar();
+        portada.classList.add('cerrando');
+        document.body.style.overflow = '';
+        setTimeout(function () { portada.remove(); }, 360);
+      });
+    });
+  }
+
+  /* Vuelve a dibujar todo el menú en el idioma actual */
+  function redibujar() {
+    dibujarMenu();
+    engancharNav();
+    activarNavegacion();
+    aplicarTextos();
+    rellenarMarca();
+    if (PEDIDOS) refrescarPedido();
+  }
+
+  /* enlaces del nav: desplazamiento con el offset correcto */
+  function engancharNav() {
+    $$('#navLista a').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        var destino = document.getElementById(a.getAttribute('href').slice(1));
+        if (!destino) return;
+        var margen = window.innerWidth >= 1080 ? 84 : 80;
+        window.scrollTo({ top: destino.getBoundingClientRect().top + window.scrollY - margen, behavior: 'smooth' });
+      });
+    });
   }
 
   function activarPedido() {
     $('#btnAgregarDetalle').addEventListener('click', function () {
       var item = detalle.item;
       var variante = item.variantes ? item.variantes[detalle.variante].nombre : '';
-      agregar(item.nombre, variante, precioDetalle(), detalle.cantidad);
+      agregar(item, variante, precioDetalle(), detalle.cantidad);
       cerrarVelo($('#modalDetalle'));
     });
 
@@ -621,15 +795,40 @@
     });
   }
 
-  /* enlaces del nav: desplazamiento con el offset correcto */
-  $$('#navLista a').forEach(function (a) {
-    a.addEventListener('click', function (e) {
-      e.preventDefault();
-      var destino = document.getElementById(a.getAttribute('href').slice(1));
-      if (!destino) return;
-      var margen = window.innerWidth >= 1080 ? 84 : 80;
-      window.scrollTo({ top: destino.getBoundingClientRect().top + window.scrollY - margen, behavior: 'smooth' });
-    });
+  /* ============================================================ ARRANQUE */
+
+  var idiomaGuardado = leerIdiomaGuardado();
+  fijarIdioma(idiomaGuardado || CONFIG.idiomaPorDefecto || 'es');
+
+  dibujarMenu();
+  engancharNav();
+  rellenarMarca();
+  activarNavegacion();
+  activarBuscador();
+  activarVelos();
+  activarTema();
+  aplicarTextos();
+
+  if (PEDIDOS) {
+    cargarPedido();     // el pedido guardado sigue ahí si se vuelven a prender
+    refrescarPedido();
+    activarPedido();
+  } else {
+    aplicarModoConsulta();
+  }
+
+  /* botón ES / EN de la barra */
+  $('#btnIdioma').addEventListener('click', function () {
+    fijarIdioma(IDIOMA === 'es' ? 'en' : 'es');
+    redibujar();
   });
+
+  /* La portada sólo sale si aún no se ha elegido idioma en este aparato */
+  if (CONFIG.preguntarIdioma !== false && !idiomaGuardado) {
+    mostrarPortada();
+  } else {
+    var portada = $('#portada');
+    if (portada) portada.remove();
+  }
 
 })();

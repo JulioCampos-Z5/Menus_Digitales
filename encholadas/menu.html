@@ -326,6 +326,23 @@
   footer p{margin:4px 0; font-size:13.5px; color:#b9ac91;}
   footer .social{margin-top:14px; font-size:20px; letter-spacing:14px;}
 
+  /* Crédito de Zyncosoft */
+  .credito{
+    display:inline-flex; align-items:center; gap:8px;
+    margin-top:16px;
+    font-family:'Oswald', sans-serif;
+    font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+    color:#8d8168; text-decoration:none;
+    transition:color .3s;
+  }
+  .credito img{
+    width:16px; height:16px; object-fit:contain;
+    opacity:.55; filter:invert(1);
+    transition:opacity .3s;
+  }
+  .credito:hover{color:var(--cream);}
+  .credito:hover img{opacity:1;}
+
   /* ---------- TABLET ---------- */
   @media (min-width:900px){
     .logo-img{width:190px; height:190px;}
@@ -713,6 +730,12 @@
   <p>Av. siempre viva #123, Col. Centro</p>
   <p>Lun–Dom · 12:00 – 23:00 hrs</p>
   <div class="social">(Datos base)</div>
+
+  <a class="credito" href="https://zyncosoft.pages.dev" target="_blank"
+     rel="noopener noreferrer" title="Desarrollado por Zyncosoft">
+    <span>Desarrollado por</span>
+    <img src="img/zyncosoft.png" alt="Zyncosoft" width="16" height="16" loading="lazy">
+  </a>
 </footer>
 
 <!-- Cart bar -->

@@ -136,6 +136,92 @@ a{ color:inherit; }
 :root[data-tema="oscuro"] .icono-luna{ display:none; }
 :root:not([data-tema="oscuro"]) .icono-sol{ display:none; }
 
+.btn-idioma{
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:14px; font-weight:600; letter-spacing:.12em;
+  width:auto; min-width:44px; padding:0 12px;
+  color:var(--tinta-suave);
+}
+.btn-idioma:hover{ color:var(--tinta); }
+
+/* ==================================== PORTADA: ELEGIR IDIOMA AL ENTRAR */
+.portada{
+  position:fixed; inset:0; z-index:400;
+  height:100%; height:100dvh;
+  display:grid; place-items:center;
+  padding:28px 22px;
+  background:var(--papel);
+  animation:portada-entra .4s ease both;
+}
+.portada::before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='80' viewBox='0 0 160 80'%3E%3Cg fill='none' stroke='%23000' stroke-width='1.3'%3E%3Cpath d='M0 40 80 0 160 40 80 80Z'/%3E%3Cpath d='M-40 40 40 0 120 40 40 80Z'/%3E%3Cpath d='M40 40 120 0 200 40 120 80Z'/%3E%3Cpath d='M20 40 80 15 140 40 80 65Z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:260px 130px;
+}
+:root[data-tema="oscuro"] .portada::before{ filter:invert(1); opacity:.07; }
+.portada.cerrando{ animation:portada-sale .35s ease both; }
+
+@keyframes portada-entra{ from{ opacity:0; } to{ opacity:1; } }
+@keyframes portada-sale{ to{ opacity:0; transform:scale(1.02); } }
+
+.portada-caja{
+  position:relative;
+  width:100%; max-width:430px;
+  text-align:center;
+}
+.portada .rombo{
+  width:270px; max-width:76vw; height:auto;
+  margin:0 auto 34px;
+  animation:portada-sube .55s .06s ease both;
+}
+.portada-titulo{
+  font-family:'Bodoni Moda', serif;
+  font-size:23px; letter-spacing:.16em; text-transform:uppercase;
+  margin:0 0 26px; line-height:1.5;
+  animation:portada-sube .55s .12s ease both;
+}
+.portada-titulo span{
+  display:block;
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:14px; letter-spacing:.2em; color:var(--gris);
+  margin-top:6px;
+}
+.portada-botones{
+  display:grid; gap:12px;
+  animation:portada-sube .55s .18s ease both;
+}
+.portada-btn{
+  display:block; width:100%;
+  padding:17px 20px;
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:19px; font-weight:500; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--tinta);
+  background:var(--papel-2);
+  border:1px solid var(--linea-fuerte);
+  border-radius:99px;
+  transition:.2s;
+}
+.portada-btn small{
+  display:block; margin-top:3px;
+  font-family:'EB Garamond', serif;
+  font-size:14px; letter-spacing:0; text-transform:none;
+  color:var(--gris);
+}
+.portada-btn:hover, .portada-btn:active{
+  background:var(--tinta); color:var(--papel); border-color:var(--tinta);
+}
+.portada-btn:hover small, .portada-btn:active small{ color:rgba(255,255,255,.6); }
+
+@keyframes portada-sube{
+  from{ opacity:0; transform:translateY(14px); }
+  to{ opacity:1; transform:none; }
+}
+
+@media (min-width:620px){
+  .portada-botones{ grid-template-columns:1fr 1fr; gap:14px; }
+}
+
 /* ============================================== NAV DE CATEGORÍAS */
 .nav-cats{
   position:fixed; top:var(--barra); left:0; right:0; z-index:110;
@@ -578,6 +664,23 @@ footer .firma{
   font-family:'Barlow Condensed', sans-serif;
   font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--gris);
 }
+
+/* Crédito de Zyncosoft */
+.credito{
+  display:inline-flex; align-items:center; gap:8px;
+  margin-top:14px;
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--gris); text-decoration:none;
+  transition:color .3s;
+}
+.credito img{
+  width:16px; height:16px; object-fit:contain;
+  opacity:.6; transition:opacity .3s;
+}
+.credito:hover{ color:var(--tinta-suave); }
+.credito:hover img{ opacity:1; }
+:root[data-tema="oscuro"] .credito img{ filter:invert(1); }
 
 /* =========================================== ESCRITORIO: BARRA LATERAL */
 @media (min-width:1080px){
