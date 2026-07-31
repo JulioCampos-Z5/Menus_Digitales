@@ -6,11 +6,16 @@ instalar nada.
 
 ```
 mimc/
-├── index.html          ← landing de MIMC (el producto)
-├── zyncosoft.png       ← logo para el crédito del pie
-├── plantilla/          ← ★ base para empezar un menú nuevo
-├── elmolletero/        ← menú de El Molletero de Guadalajara
-└── encholadas/         ← menú de Encholadas y Panvaso
+├── index.html                    ← landing de MIMC (el producto)
+├── assets/
+│   ├── css/estilos.css           ← estilos de la landing
+│   ├── js/
+│   │   ├── app.js                ← año del pie y códigos QR
+│   │   └── vendor/qrcode.min.js  ← librería de QR (local, sin internet)
+│   └── img/zyncosoft.png         ← logo del crédito del pie
+├── plantilla/                    ← ★ base para empezar un menú nuevo
+├── elmolletero/                  ← menú de El Molletero de Guadalajara
+└── encholadas/                   ← menú de Encholadas y Panvaso
 ```
 
 ## La landing
@@ -30,6 +35,31 @@ Paleta propia: grafito azulado con acento champán. El naranja es de la
 marca Zyncosoft y aquí no se usa, para que no compitan.
 
 Los botones de contacto llevan al WhatsApp y al correo de Zyncosoft.
+
+### Los códigos QR
+
+Cada tarjeta de ejemplo lleva debajo su QR. **No son imágenes guardadas**:
+se generan al abrir la página con la dirección real donde esté publicada
+(`assets/js/app.js`). Así el mismo archivo funciona en la computadora, en
+el dominio de pruebas y en el definitivo, sin tener que regenerar nada.
+
+Para añadir el QR de otro menú, basta con poner el atributo en un div:
+
+```html
+<div class="qr-lienzo" data-qr="ruta/al/menu.html" data-qr-nombre="Nombre"></div>
+```
+
+Al abrir el archivo con doble clic (`file://`) el QR no aparece: esa ruta
+sólo existe en esa computadora y no serviría al escanearla. En su lugar
+sale el aviso "El QR aparece al publicar la página".
+
+### El precio
+
+Está en la sección `#precios` del `index.html`, escrito directamente en el
+HTML: **$199 al mes con 3 menús incluidos y $10 al mes por menú extra**.
+Los 3 menús son por cliente, repartibles entre cartas de un negocio o
+entre negocios distintos. Si cambia la tarifa, se edita ahí y también el
+texto del enlace de WhatsApp de ese botón, que menciona el monto.
 
 ## Empezar un menú nuevo
 
