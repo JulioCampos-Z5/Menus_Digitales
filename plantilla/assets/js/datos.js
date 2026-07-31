@@ -54,7 +54,21 @@ window.MENU = {
     // ⚠️ CAMBIAR: nombre con el que se guardan el pedido, el idioma y el
     // tema en el navegador del cliente. Ponle el del negocio: si publicas
     // varios menús en el mismo dominio, así no se mezclan entre ellos.
-    almacen: 'tunegocio'
+    almacen: 'tunegocio',
+
+    // --- Calificaciones -------------------------------------------------
+    // true  → aparece el botón "Califícanos" al final del menú y la
+    //         calificación le llega al negocio por correo.
+    // false → se quita el botón por completo.
+    //
+    // El correo NO se manda desde el navegador: lo manda el servidor, en
+    // functions/api/calificacion.js. Para que funcione hay que publicar el
+    // menú en Cloudflare Pages y llenar allá estas variables de entorno:
+    //   RESEND_API_KEY   la llave de Resend
+    //   CORREO_DESTINO   a dónde llegan las calificaciones
+    //   CORREO_FROM      remitente verificado en Resend
+    //   NOMBRE_NEGOCIO   sale en el asunto del correo
+    calificaciones: true
   },
 
   /* --------------------------------------------------------------- MARCA */

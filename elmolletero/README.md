@@ -113,6 +113,34 @@ Dos detalles útiles:
   nombre en español y se traduce al mostrarlo, así que la cuenta y los
   platillos se conservan.
 
+### Calificaciones por correo
+
+Al final del menú aparece el botón **Califícanos**: el cliente da de 1 a 5
+estrellas, puede dejar comentario y correo, y todo llega al negocio por
+correo electrónico. Usa el mismo mecanismo que el formulario de contacto de
+Zyncosoft: **Cloudflare Pages Function + Resend**, con la llave guardada en
+el servidor y nunca en el navegador.
+
+Se configura en el panel de Cloudflare Pages → *Settings → Environment
+variables*:
+
+| Variable | Para qué |
+|---|---|
+| `RESEND_API_KEY` | La llave secreta de Resend |
+| `CORREO_DESTINO` | A dónde llegan las calificaciones |
+| `CORREO_FROM` | Remitente verificado en Resend |
+| `NOMBRE_NEGOCIO` | Sale en el asunto del correo |
+
+El correo llega con las estrellas y un color según la nota (verde, ámbar o
+rojo) para verlo de un vistazo. Si el cliente dejó su correo, se le puede
+responder directamente desde ahí.
+
+Para quitar el botón: `calificaciones: false` en `datos.js`. A la misma
+persona no se le vuelve a pedir calificación hasta 12 horas después.
+
+⚠️ En un hosting sin funciones (sólo archivos), el botón aparece pero el
+envío falla. O se publica en Cloudflare Pages, o se apaga.
+
 ### Prender y apagar los pedidos
 
 Cuando los pedidos están apagados, el menú queda de **sólo consulta**: se

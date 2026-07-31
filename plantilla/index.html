@@ -113,6 +113,10 @@
 
     <div class="sucursales" data-marca="sucursales"></div>
 
+    <button id="btnCalificar" class="btn-calificar oculto" type="button" data-txt="calificar">
+      Califícanos
+    </button>
+
     <p class="firma" data-txt="firma">Menú digital</p>
 
     <a class="credito" href="https://zyncosoft.pages.dev" target="_blank"
@@ -171,6 +175,67 @@
         <button id="btnVaciar" class="oculto" type="button" data-txt="vaciarPedido" style="background:none;border:none;text-decoration:underline;color:inherit;font:inherit;padding:0;">Vaciar pedido</button>
       </p>
       <p class="aviso-modal" data-marca="aviso"></p>
+    </div>
+  </div>
+</div>
+
+<!-- =============================================== MODAL DE CALIFICACIÓN -->
+<div class="velo" id="modalCalificar" role="dialog" aria-modal="true" aria-label="Calificar">
+  <div class="hoja">
+    <div class="hoja-cab">
+      <h2 data-txt="calificarTitulo">¿Cómo te fue?</h2>
+      <button class="cerrar" type="button" data-cerrar aria-label="Cerrar">✕</button>
+    </div>
+
+    <form class="hoja-cuerpo" id="formCalificar" novalidate>
+      <p class="calificar-intro" data-txt="calificarIntro">
+        Tu opinión llega directo al dueño y nos ayuda a mejorar.
+      </p>
+
+      <div class="estrellas" id="estrellas" role="radiogroup" aria-label="Calificación">
+        <button type="button" class="estrella" data-valor="1" aria-label="1">★</button>
+        <button type="button" class="estrella" data-valor="2" aria-label="2">★</button>
+        <button type="button" class="estrella" data-valor="3" aria-label="3">★</button>
+        <button type="button" class="estrella" data-valor="4" aria-label="4">★</button>
+        <button type="button" class="estrella" data-valor="5" aria-label="5">★</button>
+      </div>
+      <p class="estrellas-juicio" id="estrellasJuicio"></p>
+
+      <label class="campo">
+        <span data-txt="calificarComentario">Cuéntanos (opcional)</span>
+        <textarea name="comentario" rows="3" maxlength="2000"></textarea>
+      </label>
+
+      <label class="campo">
+        <span data-txt="calificarPlatillo">¿Qué fue lo que más te gustó? (opcional)</span>
+        <input type="text" name="platillo" maxlength="160" autocomplete="off">
+      </label>
+
+      <div class="campo-doble">
+        <label class="campo">
+          <span data-txt="calificarNombre">Tu nombre (opcional)</span>
+          <input type="text" name="nombre" maxlength="120" autocomplete="name">
+        </label>
+        <label class="campo">
+          <span data-txt="calificarCorreo">Tu correo (opcional)</span>
+          <input type="email" name="correo" maxlength="160" autocomplete="email">
+        </label>
+      </div>
+
+      <!-- Campo trampa: invisible para las personas, los bots sí lo llenan -->
+      <input type="text" name="website" tabindex="-1" autocomplete="off"
+             aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0">
+
+      <p class="calificar-aviso" id="calificarAviso" role="status"></p>
+    </form>
+
+    <div class="fila-cerrar">
+      <button class="cerrar" type="button" data-cerrar aria-label="Cerrar">✕</button>
+    </div>
+
+    <div class="hoja-pie">
+      <button class="btn-principal" id="btnEnviarCalificacion" type="button" disabled
+              data-txt="calificarEnviar">Enviar calificación</button>
     </div>
   </div>
 </div>

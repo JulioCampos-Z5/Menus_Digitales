@@ -737,6 +737,155 @@
     if (texto && hero) hero.appendChild(elem('p', 'aviso-consulta', texto));
   }
 
+  /* ====================================================== CALIFICACIÓN ---
+     El correo se manda desde el servidor (functions/api/calificacion.js),
+     nunca desde aquí: así la llave de Resend no viaja al navegador. */
+
+  var calificacion = { estrellas: 0, enviando: false };
+  var LLAVE_CALIFICO = ALMACEN + 'califico';
+  var HORAS_ENTRE_CALIFICACIONES = 12;
+
+  /* Para no pedirle calificación dos veces a la misma persona el mismo
+     día. Pasadas las horas de espera puede volver a calificar: un cliente
+     frecuente sí debería poder opinar de otra visita. */
+  function calificoHacePoco() {
+    try {
+      var cuando = Number(localStorage.getItem(LLAVE_CALIFICO) || 0);
+      return !!cuando && (Date.now() - cuando) < HORAS_ENTRE_CALIFICACIONES * 3600000;
+    } catch (e) { return false; }
+  }
+
+  function activarCalificacion() {
+    var boton = $('#btnCalificar');
+    var modal = $('#modalCalificar');
+    if (!boton || !modal) return;
+
+    /* Se puede apagar con config.calificaciones: false */
+    if (CONFIG.calificaciones === false) {
+      boton.remove();
+      modal.remove();
+      return;
+    }
+    if (calificoHacePoco()) {
+      boton.remove();
+      modal.remove();
+      return;
+    }
+    boton.classList.remove('oculto');
+
+    boton.addEventListener('click', function () {
+      reiniciarCalificacion();
+      abrirVelo(modal);
+    });
+
+    $$('.estrella', modal).forEach(function (est) {
+      est.addEventListener('click', function () {
+        calificacion.estrellas = Number(est.dataset.valor);
+        pintarEstrellas();
+      });
+    });
+
+    $('#btnEnviarCalificacion').addEventListener('click', enviarCalificacion);
+  }
+
+  function pintarEstrellas() {
+    $$('#modalCalificar .estrella').forEach(function (est) {
+      est.classList.toggle('activa', Number(est.dataset.valor) <= calificacion.estrellas);
+      est.setAttribute('aria-checked', Number(est.dataset.valor) === calificacion.estrellas);
+    });
+    var juicio = $('#estrellasJuicio');
+    if (juicio) {
+      juicio.textContent = calificacion.estrellas
+        ? (T.juicios || [])[calificacion.estrellas - 1] || ''
+        : '';
+    }
+    $('#btnEnviarCalificacion').disabled = calificacion.estrellas === 0;
+  }
+
+  function reiniciarCalificacion() {
+    calificacion.estrellas = 0;
+    calificacion.enviando = false;
+    var form = $('#formCalificar');
+    if (form) form.reset();
+    var aviso = $('#calificarAviso');
+    if (aviso) { aviso.textContent = ''; aviso.className = 'calificar-aviso'; }
+    pintarEstrellas();
+  }
+
+  function enviarCalificacion() {
+    if (calificacion.enviando || !calificacion.estrellas) return;
+
+    var form = $('#formCalificar');
+    var boton = $('#btnEnviarCalificacion');
+    var aviso = $('#calificarAviso');
+    var datos = new FormData(form);
+
+    var correo = (datos.get('correo') || '').trim();
+    if (correo && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(correo)) {
+      aviso.textContent = T.calificarCorreoMal;
+      aviso.className = 'calificar-aviso error';
+      return;
+    }
+
+    calificacion.enviando = true;
+    boton.disabled = true;
+    boton.textContent = T.calificarEnviando;
+    aviso.textContent = '';
+    aviso.className = 'calificar-aviso';
+
+    fetch(CONFIG.rutaCalificacion || '/api/calificacion', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        estrellas: calificacion.estrellas,
+        comentario: datos.get('comentario'),
+        platillo: datos.get('platillo'),
+        nombre: datos.get('nombre'),
+        correo: correo,
+        website: datos.get('website'),   // campo trampa
+        idioma: IDIOMA
+      })
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error(String(res.status));
+        mostrarGracias();
+      })
+      .catch(function () {
+        calificacion.enviando = false;
+        boton.disabled = false;
+        boton.textContent = T.calificarEnviar;
+        aviso.textContent = T.calificarError;
+        aviso.className = 'calificar-aviso error';
+      });
+  }
+
+  function mostrarGracias() {
+    try { localStorage.setItem(LLAVE_CALIFICO, String(Date.now())); } catch (e) {}
+
+    /* Se oculta el formulario y el pie en vez de borrarlos: así el modal
+       no queda inservible si el cliente lo vuelve a abrir. */
+    var form = $('#formCalificar');
+    form.classList.add('oculto');
+    var pie = $('#btnEnviarCalificacion').closest('.hoja-pie');
+    if (pie) pie.classList.add('oculto');
+
+    var caja = elem('div', 'hoja-cuerpo calificar-gracias');
+    caja.id = 'calificarGracias';
+    caja.appendChild(elem('div', 'marca-estrellas', '★'.repeat(calificacion.estrellas)));
+    caja.appendChild(elem('h3', null, T.calificarGraciasTitulo));
+    caja.appendChild(elem('p', null, T.calificarGraciasTexto));
+    form.parentNode.insertBefore(caja, form.nextSibling);
+
+    /* Ya calificó: el botón del pie del menú sobra */
+    var boton = $('#btnCalificar');
+    if (boton) boton.remove();
+
+    setTimeout(function () {
+      var modal = $('#modalCalificar');
+      if (modal && modal.classList.contains('visible')) cerrarVelo(modal);
+    }, 2600);
+  }
+
   /* =================================================== PORTADA DE IDIOMA */
 
   function mostrarPortada() {
@@ -808,6 +957,7 @@
   activarVelos();
   activarTema();
   aplicarTextos();
+  activarCalificacion();
 
   if (PEDIDOS) {
     cargarPedido();     // el pedido guardado sigue ahí si se vuelven a prender

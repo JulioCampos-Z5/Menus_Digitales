@@ -65,7 +65,40 @@ su traducción, se muestra en español y el resto sigue funcionando.
 
 ¿El negocio no necesita inglés? Pon `preguntarIdioma: false` en `datos.js`.
 
-### 3. Las fotos — `assets/img/platillos/`
+### 3. Las calificaciones — correo al negocio
+
+Al final del menú aparece el botón **Califícanos**: el cliente da de 1 a 5
+estrellas, puede dejar un comentario y su correo, y todo le llega al dueño
+por correo electrónico. Es el mismo mecanismo del formulario de contacto de
+Zyncosoft: **Cloudflare Pages Function + Resend**.
+
+La llave de Resend nunca viaja al navegador; el correo lo manda el servidor
+desde `functions/api/calificacion.js`. Para que funcione, en el panel de
+Cloudflare Pages → *Settings → Environment variables*:
+
+| Variable | Para qué |
+|---|---|
+| `RESEND_API_KEY` | La llave secreta de Resend |
+| `CORREO_DESTINO` | A dónde llegan las calificaciones (el correo del negocio) |
+| `CORREO_FROM` | Remitente verificado en Resend |
+| `NOMBRE_NEGOCIO` | Sale en el asunto del correo |
+
+El correo llega con las estrellas grandes y un color según la nota: verde si
+es buena, ámbar si es regular y rojo si es mala, para verlo de un vistazo en
+la bandeja. Si el cliente dejó su correo, se puede responder directamente
+desde ahí.
+
+Detalles ya resueltos: hay un campo trampa contra bots, el comentario y los
+datos se recortan a un tamaño máximo, y a la misma persona no se le vuelve a
+pedir calificación hasta 12 horas después.
+
+Para quitar el botón: `calificaciones: false` en `datos.js`.
+
+⚠️ Si el menú se publica en un hosting sin funciones (sólo archivos), el
+botón aparece pero el envío falla y el cliente ve un aviso de error. O se
+publica en Cloudflare Pages, o se apaga con `calificaciones: false`.
+
+### 4. Las fotos — `assets/img/platillos/`
 
 Un archivo `.webp` por platillo, con el mismo nombre que pusiste en `img`.
 Recomendado: máximo 640 px de ancho, fondo recortado si se puede.
@@ -73,14 +106,14 @@ Recomendado: máximo 640 px de ancho, fondo recortado si se puede.
 Los platillos sin foto salen con un monograma en rombo, así que se puede
 publicar el menú antes de tener la sesión de fotos.
 
-### 4. El logotipo y los textos de portada — `index.html`
+### 5. El logotipo y los textos de portada — `index.html`
 
 Busca los comentarios `⚠️ CAMBIAR`. Son cuatro cosas: el título de la
 página, el nombre en la barra de arriba, y el rombo del logotipo (arriba y
 en el pie). Si el negocio tiene logotipo propio, se sustituye el `<svg>`
 por `<img class="rombo" src="assets/img/logo.png" alt="...">`.
 
-### 5. Los colores — `assets/css/estilos.css`
+### 6. Los colores — `assets/css/estilos.css`
 
 Al inicio del archivo, en `:root`. Ahí están el color del papel, la tinta y
 el acento. Más abajo, en `:root[data-tema="oscuro"]`, los mismos colores
@@ -102,6 +135,7 @@ para el modo oscuro.
 
 - [ ] WhatsApp real en `datos.js`
 - [ ] `config.almacen` con el nombre del negocio
+- [ ] Variables de Resend en Cloudflare, si se usan las calificaciones
 - [ ] Nombre, dirección y redes del negocio
 - [ ] Precios revisados con el cliente
 - [ ] Logotipo cambiado en `index.html` (arriba y en el pie)

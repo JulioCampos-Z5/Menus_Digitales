@@ -64,7 +64,22 @@ window.IDIOMAS = {
       waTitulo: '*Pedido*',
       waGracias: '¡Gracias!',
       portadaTitulo: 'Elige tu idioma',
-      portadaBoton: 'Español'
+      portadaBoton: 'Español',
+      // calificación
+      calificar: 'Califícanos',
+      calificarTitulo: '¿Cómo te fue?',
+      calificarIntro: 'Tu opinión llega directo al dueño y nos ayuda a mejorar.',
+      calificarComentario: 'Cuéntanos (opcional)',
+      calificarPlatillo: '¿Qué fue lo que más te gustó? (opcional)',
+      calificarNombre: 'Tu nombre (opcional)',
+      calificarCorreo: 'Tu correo (opcional)',
+      calificarEnviar: 'Enviar calificación',
+      calificarEnviando: 'Enviando…',
+      calificarError: 'No se pudo enviar. Revisa tu conexión e inténtalo de nuevo.',
+      calificarCorreoMal: 'Ese correo no se ve bien. Revísalo o déjalo vacío.',
+      calificarGraciasTitulo: '¡Gracias!',
+      calificarGraciasTexto: 'Tu calificación ya va en camino. Nos ayuda muchísimo.',
+      juicios: ['Muy mala', 'Mala', 'Regular', 'Buena', 'Excelente']
     },
 
     en: {
@@ -102,7 +117,22 @@ window.IDIOMAS = {
       waTitulo: '*Order*',
       waGracias: 'Thank you!',
       portadaTitulo: 'Choose your language',
-      portadaBoton: 'English'
+      portadaBoton: 'English',
+      // calificación
+      calificar: 'Rate us',
+      calificarTitulo: 'How was everything?',
+      calificarIntro: 'Your feedback goes straight to the owner and helps us get better.',
+      calificarComentario: 'Tell us more (optional)',
+      calificarPlatillo: 'What did you like the most? (optional)',
+      calificarNombre: 'Your name (optional)',
+      calificarCorreo: 'Your email (optional)',
+      calificarEnviar: 'Send rating',
+      calificarEnviando: 'Sending…',
+      calificarError: "Couldn't send it. Check your connection and try again.",
+      calificarCorreoMal: "That email doesn't look right. Fix it or leave it empty.",
+      calificarGraciasTitulo: 'Thank you!',
+      calificarGraciasTexto: 'Your rating is on its way. It helps us a lot.',
+      juicios: ['Very poor', 'Poor', 'Fair', 'Good', 'Excellent']
     }
 
   },
