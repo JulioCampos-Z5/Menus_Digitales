@@ -31,7 +31,7 @@ window.MENU = {
     //   index.html?pedidos=off   → apaga los pedidos y lo recuerda
     //   index.html?pedidos=on    → los vuelve a prender
     //   index.html?pedidos=auto  → olvida lo anterior y obedece a este archivo
-    pedidos: false,
+    pedidos: true,
 
     // Aviso que se muestra cuando los pedidos están apagados (déjalo vacío
     // con '' si prefieres que no aparezca ninguno).

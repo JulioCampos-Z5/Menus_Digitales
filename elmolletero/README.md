@@ -123,6 +123,10 @@ navegación y `nav` el texto del botón; el resto se dibuja solo.
   compacto, fichas con la foto arriba, extras en una columna y modales que
   suben desde abajo. La barra del pedido se coloca justo encima del nav y el
   contenido reserva ese espacio para que nada quede tapado.
+- En celular, el botón de cerrar los modales baja al final, **flotando a la
+  derecha justo encima de la barra del pie**, al alcance del pulgar. En
+  escritorio se queda en la esquina superior. Son dos botones en el HTML y
+  el CSS muestra el que toca según el ancho de pantalla.
 - Buscador que filtra sobre nombre, descripción y categoría (ignora acentos).
 - Ficha ampliada al tocar un platillo, con selector de tamaño y cantidad.
 - Pedido con total en vivo, guardado en `localStorage` y envío por WhatsApp.

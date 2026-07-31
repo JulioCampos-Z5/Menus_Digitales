@@ -423,6 +423,9 @@ main{ max-width:1220px; margin:0 auto; padding:0 18px 140px; }
 }
 .cerrar:hover{ border-color:var(--acento); }
 
+/* El cerrar de abajo sólo existe en celular (ver media query) */
+.fila-cerrar{ display:none; }
+
 /* flex:1 + min-height:0 hacen que el scroll ocurra AQUÍ dentro y no que la
    hoja crezca de más y se salga por abajo */
 .hoja-cuerpo{
@@ -500,6 +503,7 @@ main{ max-width:1220px; margin:0 auto; padding:0 18px 140px; }
   font-size:16px; letter-spacing:.18em; text-transform:uppercase;
   background:var(--tinta); color:var(--papel);
   border:none; border-radius:99px;
+  white-space:nowrap;                 /* que nunca se parta en dos renglones */
   transition:.2s;
 }
 .btn-principal:hover{ background:var(--acento); }
@@ -666,6 +670,28 @@ footer .firma{
   /* --- las hojas suben desde abajo, por encima del nav --- */
   .hoja{ max-height:calc(100% - 18px); }
   .hoja-pie{ padding-bottom:calc(18px + var(--seguro-abajo)); }
+
+  /* --- cerrar: baja al final, flotando a la derecha sobre el pie --- */
+  .hoja-cab .cerrar{ display:none; }
+  .hoja-cab{ padding-right:22px; }
+
+  .fila-cerrar{
+    display:flex; justify-content:flex-end;
+    padding:0 16px 12px;
+    background:var(--papel);
+  }
+  /* si no hay pie (modo consulta) respeta la barra de gestos del teléfono */
+  .fila-cerrar:last-child{ padding-bottom:calc(12px + var(--seguro-abajo)); }
+
+  .fila-cerrar .cerrar{
+    width:46px; height:46px; font-size:17px;
+    background:var(--papel-2);
+    border-color:var(--linea-fuerte);
+    box-shadow:var(--sombra);
+  }
+  .fila-cerrar .cerrar:active{
+    background:var(--tinta); color:var(--papel); border-color:var(--tinta);
+  }
 }
 
 /* ===================================== TELÉFONO: apilado y compacto */
@@ -700,11 +726,22 @@ footer .firma{
   footer .rombo{ width:172px; }
 }
 
-/* Pantallas muy angostas: el buscador se lleva todo el ancho libre */
+/* Pantallas muy angostas: todo un punto más compacto */
 @media (max-width:380px){
   .barra-logo svg{ width:28px; height:28px; }
   .btn-icono{ width:34px; height:34px; }
   .hero h1{ font-size:34px; }
+
+  /* títulos de grupo largos ("Coctelería y bebidas con alcohol") en 2 renglones */
+  .grupo-titulo{ gap:10px; }
+  .grupo-titulo span{ white-space:normal; text-align:center; }
+
+  /* el pie del modal debe caber aunque el total sea de cuatro cifras */
+  .fila-agregar{ gap:8px; }
+  .fila-agregar .contador{ gap:8px; }
+  .fila-agregar .contador button{ width:34px; height:34px; font-size:17px; }
+  .fila-agregar .contador span{ min-width:20px; font-size:18px; }
+  .fila-agregar .btn-principal{ padding:13px 10px; font-size:15px; letter-spacing:.09em; }
 }
 
 @media (prefers-reduced-motion:reduce){
