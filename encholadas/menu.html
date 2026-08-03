@@ -232,7 +232,7 @@
       text-align: center;
       background:
         linear-gradient(180deg, rgba(13, 12, 11, .55), rgba(13, 12, 11, .93) 85%),
-        url('https://loremflickr.com/1200/500/mexican,food,tacos?lock=5') center/cover no-repeat;
+        url('img/portada.jpg') center/cover no-repeat;
     }
 
     .hero h1 {
@@ -503,18 +503,101 @@
       white-space: nowrap;
     }
 
-    /* ---------- CART MODAL ---------- */
+    .thumb {
+      flex: 0 0 auto;
+      width: 74px;
+      height: 74px;
+      border-radius: 14px;
+      border: 2px solid var(--gold);
+      overflow: hidden;
+      background: var(--black-2);
+      transition: transform .2s, border-color .2s;
+    }
+
+    .thumb:hover {
+      transform: scale(1.06);
+      border-color: var(--gold-2);
+    }
+
+    /* ---------- CART & IMAGE LIGHTBOX MODALS ---------- */
     .modal-overlay {
       position: fixed;
       inset: 0;
       z-index: 200;
-      background: rgba(0, 0, 0, .7);
+      background: rgba(0, 0, 0, .85);
       display: flex;
       align-items: flex-end;
       justify-content: center;
       opacity: 0;
       pointer-events: none;
       transition: opacity .25s;
+    }
+
+    .modal-overlay.img-modal-overlay {
+      align-items: center;
+      padding: 20px;
+    }
+
+    .img-modal-content {
+      position: relative;
+      max-width: 92vw;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--black-2);
+      border: 1px solid var(--gold);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, .9);
+      transform: scale(.88);
+      transition: transform .25s ease;
+    }
+
+    .modal-overlay.show .img-modal-content {
+      transform: scale(1);
+    }
+
+    .img-modal-content img {
+      max-width: 100%;
+      max-height: 72vh;
+      object-fit: contain;
+      border-radius: 12px;
+      border: 1px solid rgba(212, 175, 55, .3);
+    }
+
+    .lightbox-caption {
+      margin-top: 12px;
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: 24px;
+      color: var(--gold-2);
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    .close-img-modal {
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      background: var(--red-2);
+      border: 1px solid var(--gold);
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .6);
+      transition: transform .2s;
+    }
+
+    .close-img-modal:hover {
+      transform: scale(1.1);
     }
 
     .modal-overlay.show {
@@ -899,8 +982,8 @@
 
   <main>
     <div class="hero">
-      <h1>Comida de Barrio, Sabor de Casa</h1>
-      <p>Recetas heredadas, sazón callejero y mucho corazón. Toca un platillo para verlo y agregarlo a tu pedido.</p>
+      <h1>Del barrio a tu mesa</h1>
+      <p>Si traes hambre, ya chigaste, si quieres algo fino, ya te chingaste</p>
     </div>
 
     <section class="menu-section" id="combos-ciegos">
@@ -910,8 +993,6 @@
       </div>
       <div class="grid">
         <div class="card" data-name="Combo Al Cien #1 (Combos Ciegos)" data-price="100">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/mexican,combo?lock=30" alt="Combo Al Cien #1"
-              loading="lazy"></div>
           <div class="card-body">
             <h3>Combo Al Cien #1 </h3>
             <p>Tortuga + Agua Loca chica o Chesco + Zape + Encholada + Enchiluda + Takuache.</p>
@@ -928,8 +1009,6 @@
           </div>
         </div>
         <div class="card" data-name="Combo Al Cien #2 (Combos Ciegos)" data-price="100">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/tacos,combo?lock=31" alt="Combo Al Cien #2"
-              loading="lazy"></div>
           <div class="card-body">
             <h3>Combo Al Cien #2 </h3>
             <p>2 Takuaches + Zape + Agua Loca chica o Chesco + Encholada + Enchiluda + Enchilarga + Takuache extra.</p>
@@ -956,8 +1035,6 @@
       </div>
       <div class="grid">
         <div class="card" data-name="Combo Del Barrio #1 (Ciegos Tostoneados)" data-price="150">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/pambazo,combo?lock=32" alt="Combo Del Barrio #1"
-              loading="lazy"></div>
           <div class="card-body">
             <h3>Combo Del Barrio #1 </h3>
             <p>Pantalón (pambazo + 2 tacos) + Agua Loca grande + Tostanchos.</p>
@@ -974,8 +1051,6 @@
           </div>
         </div>
         <div class="card" data-name="Combo Del Barrio #2 (Ciegos Tostoneados)" data-price="150">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/mexican,feast?lock=33" alt="Combo Del Barrio #2"
-              loading="lazy"></div>
           <div class="card-body">
             <h3>Combo Del Barrio #2</h3>
             <p>Takabrón + Agua Loca chica o Chesco + Encholada + Enchiluda + Enchilarga.</p>
@@ -1003,8 +1078,7 @@
       </div>
       <div class="grid">
         <div class="card" data-name="Enchilargas (enchiladas largas)" data-price="15">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/enchiladas?lock=1" alt="Enchilargas"
-              loading="lazy"></div>
+          <div class="thumb"><img src="img/enchilargas.webp" alt="Enchilargas" loading="lazy"></div>
           <div class="card-body">
             <h3>Enchilargas</h3>
             <p>Enchiladas largas estilo casero.</p>
@@ -1021,8 +1095,7 @@
           </div>
         </div>
         <div class="card" data-name="Enchiludas (en habanera)" data-price="8">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/enchiladas,spicy?lock=2" alt="Enchiludas"
-              loading="lazy"></div>
+          <div class="thumb"><img src="img/enchiludas.webp" alt="Enchiludas" loading="lazy"></div>
           <div class="card-body">
             <h3>Enchiludas</h3>
             <p>En salsa habanera, picantes y con sazón.</p>
@@ -1039,8 +1112,7 @@
           </div>
         </div>
         <div class="card" data-name="Encholadas (enchilada clásica)" data-price="8">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/enchiladas,mexican?lock=3" alt="Encholadas"
-              loading="lazy"></div>
+          <div class="thumb"><img src="img/encholadas.webp" alt="Encholadas" loading="lazy"></div>
           <div class="card-body">
             <h3>Encholadas</h3>
             <p>La enchilada clásica tradicional de la casa.</p>
@@ -1057,8 +1129,7 @@
           </div>
         </div>
         <div class="card" data-name="Enchilocas (con guiso)" data-price="17">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/enchiladas,stew?lock=4" alt="Enchilocas"
-              loading="lazy"></div>
+          <div class="thumb"><img src="img/enchilocas.webp" alt="Enchilocas" loading="lazy"></div>
           <div class="card-body">
             <h3>Enchilocas</h3>
             <p>Servidas con abundante guiso a elegir.</p>
@@ -1086,7 +1157,7 @@
       </div>
       <div class="grid">
         <div class="card" data-name="Panvaso (pambazo clásico)" data-price="55">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/pambazo?lock=5" alt="Panvaso" loading="lazy">
+          <div class="thumb"><img src="img/panvaso.webp" alt="Panvaso" loading="lazy">
           </div>
           <div class="card-body">
             <h3>Panvaso</h3>
@@ -1104,8 +1175,7 @@
           </div>
         </div>
         <div class="card" data-name="Panzaso (pambazo doble)" data-price="85">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/pambazo,sandwich?lock=6" alt="Panzaso"
-              loading="lazy"></div>
+          <div class="thumb"><img src="img/panvaso.webp" alt="Panzaso" loading="lazy"></div>
           <div class="card-body">
             <h3>Panzaso</h3>
             <p>Pambazo doble extra relleno y bien servido.</p>
@@ -1122,8 +1192,7 @@
           </div>
         </div>
         <div class="card" data-name="Pantalón (pambazo con 2 tacos)" data-price="70">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/pambazo,tacos?lock=7" alt="Pantalón"
-              loading="lazy"></div>
+          <div class="thumb"><img src="img/pantalon.webp" alt="Pantalón" loading="lazy"></div>
           <div class="card-body">
             <h3>Pantalón</h3>
             <p>Pambazo preparado acompañado de 2 tacos dorados.</p>
@@ -1140,8 +1209,7 @@
           </div>
         </div>
         <div class="card" data-name="Pantalón miado (con queso)" data-price="80">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/pambazo,cheese?lock=8" alt="Pantalón miado"
-              loading="lazy"></div>
+          <div class="thumb"><img src="img/pantalon.webp" alt="Pantalón miado" loading="lazy"></div>
           <div class="card-body">
             <h3>Pantalón miado</h3>
             <p>Pambazo bañado con bastante queso derretido.</p>
@@ -1169,8 +1237,7 @@
       </div>
       <div class="grid">
         <div class="card" data-name="Takobañado (bañados en queso)" data-price="40">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/tacos,cheese?lock=9" alt="Takobañado"
-              loading="lazy"></div>
+          <div class="thumb"><img src="img/tacobañado.webp" alt="Takobañado" loading="lazy"></div>
           <div class="card-body">
             <h3>Takobañado</h3>
             <p>Tacos gratinados y bañados en queso fundido.</p>
@@ -1187,8 +1254,7 @@
           </div>
         </div>
         <div class="card" data-name="Takuaches (taco sencillo)" data-price="8">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/tacos,street?lock=10" alt="Takuaches"
-              loading="lazy"></div>
+          <div class="thumb"><img src="img/tacuaches.webp" alt="Takuaches" loading="lazy"></div>
           <div class="card-body">
             <h3>Takuaches</h3>
             <p>Taco sencillo con cebolla, cilantro y salsa al gusto.</p>
@@ -1204,12 +1270,11 @@
             </div>
           </div>
         </div>
-        <div class="card" data-name="Takabrón (tacos dorados con guisado + topo cubano)" data-price="125">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/tacos,platter?lock=11" alt="Takabrón"
-              loading="lazy"></div>
+        <div class="card" data-name="Takabrón (tacos dorados con guisado + tipo cubano)" data-price="125">
+          <div class="thumb"><img src="img/tacabron.webp" alt="Takabrón" loading="lazy"></div>
           <div class="card-body">
             <h3>Takabrón</h3>
-            <p>Tacos dorados con guisado + topo cubano.</p>
+            <p>Tacos dorados con guisado + tipo cubano.</p>
           </div>
           <div class="price">$125</div>
           <span class="chevron">▾</span>
@@ -1234,7 +1299,7 @@
       </div>
       <div class="grid">
         <div class="card" data-name="Tostanchos (tostada XL)" data-price="60">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/tostada?lock=12" alt="Tostanchos" loading="lazy">
+          <div class="thumb"><img src="img/zape.webp" alt="Tostanchos" loading="lazy">
           </div>
           <div class="card-body">
             <h3>Tostanchos</h3>
@@ -1252,8 +1317,7 @@
           </div>
         </div>
         <div class="card" data-name="Tozthadaz (tostada normal)" data-price="22">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/tostadas,mexican?lock=13" alt="Tozthadaz"
-              loading="lazy"></div>
+          <div class="thumb"><img src="img/zape.webp" alt="Tozthadaz" loading="lazy"></div>
           <div class="card-body">
             <h3>Tozthadaz</h3>
             <p>Tostada normal crujiente con frijoles y queso.</p>
@@ -1281,8 +1345,7 @@
       </div>
       <div class="grid">
         <div class="card" data-name="Quesobas (quesadilla con guisado)" data-price="28">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/quesadilla,mexican?lock=14" alt="Quesobas"
-              loading="lazy"></div>
+          <div class="thumb"><img src="img/quesobas.webp" alt="Quesobas" loading="lazy"></div>
           <div class="card-body">
             <h3>Quesobas</h3>
             <p>Quesadilla rellena de queso y guisado a elegir.</p>
@@ -1310,8 +1373,7 @@
       </div>
       <div class="grid">
         <div class="card" data-name="Tortugas (torta clásica)" data-price="50">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/torta,sandwich?lock=15" alt="Tortugas"
-              loading="lazy"></div>
+          <div class="thumb"><img src="img/tortuga.webp" alt="Tortugas" loading="lazy"></div>
           <div class="card-body">
             <h3>Tortugas</h3>
             <p>Torta clásica mexicana doradita con aguacate y frijoles.</p>
@@ -1339,7 +1401,7 @@
       </div>
       <div class="grid">
         <div class="card" data-name="Zape (sope clásico)" data-price="18">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/sope,mexican?lock=16" alt="Zape" loading="lazy">
+          <div class="thumb"><img src="img/zape.webp" alt="Zape" loading="lazy">
           </div>
           <div class="card-body">
             <h3>Zape</h3>
@@ -1366,8 +1428,7 @@
       </div>
       <div class="grid">
         <div class="card" data-name="Chescos (Refresco)" data-price="25">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/soda,drink?lock=25" alt="Refresco"
-              loading="lazy"></div>
+          <div class="thumb"><img src="img/Chescos.jpeg" alt="Refresco" loading="lazy"></div>
           <div class="card-body">
             <h3>Chescos (Refresco)</h3>
             <p>Sabores surtidos bien fríos.</p>
@@ -1384,8 +1445,7 @@
           </div>
         </div>
         <div class="card" data-name="Aguas locas (Agua del día chica)" data-price="25">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/horchata,drink?lock=22" alt="Agua del día chica"
-              loading="lazy"></div>
+          <div class="thumb"><img src="img/aguas.jpeg" alt="Agua del día chica" loading="lazy"></div>
           <div class="card-body">
             <h3>Aguas locas (Agua del día chica)</h3>
             <p>Refrescante agua fresca del día (tamaño chico).</p>
@@ -1402,8 +1462,7 @@
           </div>
         </div>
         <div class="card" data-name="Aguas locota (Agua del día grande)" data-price="40">
-          <div class="thumb"><img src="https://loremflickr.com/160/160/jamaica,drink?lock=23" alt="Agua del día grande"
-              loading="lazy"></div>
+          <div class="thumb"><img src="img/aguas.jpeg" alt="Agua del día grande" loading="lazy"></div>
           <div class="card-body">
             <h3>Aguas locota (Agua del día grande)</h3>
             <p>Refrescante agua fresca del día (tamaño grande).</p>
@@ -1427,7 +1486,7 @@
   <footer>
     <img src="https://lh3.googleusercontent.com/d/1ESpU18bgRhrxRYfQ-HF6ziob7pP4CPxr" alt="Encholadas y Panvaso"
       class="foot-logo-img">
-    <p style="color:var(--cream);font-size:14.5px;max-width:480px;margin:6px auto 4px;line-height:1.4;">📍 Mariano
+    <p style="color:var(--cream);font-size:14.5px;max-width:480px;margin:6px auto 4px;line-height:1.4;"> Mariano
       Jiménez #232, Col. Centro, La Piedad Michoacán de Ocampo, C.P. 59300</p>
     <p>Jueves–Martes · 07:00pm – 11:00pm</p>
 
@@ -1469,7 +1528,7 @@
 
   <!-- Cart bar -->
   <div class="cart-bar" id="cartBar">
-    <div class="cart-info"><b id="cartCount">0</b> platillos · <b id="cartTotal">$0</b></div>
+    <div class="cart-info"><b id="cartCount">0</b> <span id="cartUnit">platillos</span> · <b id="cartTotal">$0</b></div>
     <button type="button" class="cart-open-btn" id="cartOpenBtn">Ver pedido</button>
   </div>
 
@@ -1484,6 +1543,15 @@
       <div class="modal-total"><span>Total</span><span id="modalTotal">$0</span></div>
       <a href="#" id="whatsappBtn" class="whatsapp-btn disabled" target="_blank" rel="noopener">Enviar pedido por
         WhatsApp</a>
+    </div>
+  </div>
+
+  <!-- Image Lightbox Modal -->
+  <div class="modal-overlay img-modal-overlay" id="imgModal">
+    <div class="img-modal-content">
+      <button type="button" class="close-img-modal" id="closeImgModal">✕</button>
+      <img src="" alt="" id="lightboxImg">
+      <div id="lightboxCaption" class="lightbox-caption"></div>
     </div>
   </div>
 
@@ -1565,23 +1633,50 @@
 
     sections.forEach(sec => obs.observe(sec));
 
-    /* ---------------- CART ---------------- */
+    /* ---------------- CART & LIGHTBOX ---------------- */
     (function () {
-      const cart = {}; // name -> {price, qty}
-      const WHATSAPP_NUMBER = '523521079421'; // 52 = México
+      const cart = {}; // name -> {price, qty, isDrink}
+      const WHATSAPP_NUMBER = '523521466166'; // 52 = México
 
       const money = n => '$' + n;
+
+      const imgModal = document.getElementById('imgModal');
+      const lightboxImg = document.getElementById('lightboxImg');
+      const lightboxCaption = document.getElementById('lightboxCaption');
+      const closeImgModalBtn = document.getElementById('closeImgModal');
+
+      if (closeImgModalBtn) {
+        closeImgModalBtn.addEventListener('click', () => imgModal.classList.remove('show'));
+      }
+      if (imgModal) {
+        imgModal.addEventListener('click', e => { if (e.target === imgModal) imgModal.classList.remove('show'); });
+      }
 
       document.querySelectorAll('.card').forEach(card => {
         const minus = card.querySelector('.minus');
         const plus = card.querySelector('.plus');
         const qtyVal = card.querySelector('.qty-val');
         const addBtn = card.querySelector('.add-btn');
+        const thumb = card.querySelector('.thumb');
 
         card.addEventListener('click', () => {
           document.querySelectorAll('.card.expanded').forEach(c => { if (c !== card) c.classList.remove('expanded'); });
           card.classList.toggle('expanded');
         });
+
+        if (thumb) {
+          thumb.addEventListener('click', e => {
+            e.stopPropagation();
+            const img = thumb.querySelector('img');
+            if (img && imgModal && lightboxImg) {
+              lightboxImg.src = img.src;
+              lightboxImg.alt = img.alt || '';
+              const title = card.querySelector('h3')?.textContent || img.alt || '';
+              if (lightboxCaption) lightboxCaption.textContent = title;
+              imgModal.classList.add('show');
+            }
+          });
+        }
 
         [minus, plus, addBtn].forEach(btn => btn.addEventListener('click', e => e.stopPropagation()));
 
@@ -1597,7 +1692,8 @@
           const name = card.dataset.name;
           const price = parseFloat(card.dataset.price);
           const qty = parseInt(qtyVal.textContent, 10);
-          if (!cart[name]) cart[name] = { price, qty: 0 };
+          const isDrink = !!card.closest('#bebidas');
+          if (!cart[name]) cart[name] = { price, qty: 0, isDrink };
           cart[name].qty += qty;
           qtyVal.textContent = '1';
           addBtn.textContent = '✓ Agregado';
@@ -1613,6 +1709,7 @@
 
       const cartBar = document.getElementById('cartBar');
       const cartCountEl = document.getElementById('cartCount');
+      const cartUnitEl = document.getElementById('cartUnit');
       const cartTotalEl = document.getElementById('cartTotal');
       const cartOpenBtn = document.getElementById('cartOpenBtn');
       const cartModal = document.getElementById('cartModal');
@@ -1622,9 +1719,15 @@
       const whatsappBtn = document.getElementById('whatsappBtn');
 
       function totals() {
-        let count = 0, total = 0;
-        Object.values(cart).forEach(it => { count += it.qty; total += it.qty * it.price; });
-        return { count, total };
+        let count = 0, total = 0, drinkCount = 0;
+        const activeItems = Object.values(cart).filter(it => it.qty > 0);
+        activeItems.forEach(it => {
+          count += it.qty;
+          total += it.qty * it.price;
+          if (it.isDrink) drinkCount += it.qty;
+        });
+        const onlyDrinks = count > 0 && drinkCount === count;
+        return { count, total, onlyDrinks };
       }
 
       function renderModal() {
@@ -1677,9 +1780,16 @@
       }
 
       function updateCartUI() {
-        const { count, total } = totals();
+        const { count, total, onlyDrinks } = totals();
         cartCountEl.textContent = count;
         cartTotalEl.textContent = money(total);
+        if (cartUnitEl) {
+          if (onlyDrinks) {
+            cartUnitEl.textContent = count === 1 ? 'bebida' : 'bebidas';
+          } else {
+            cartUnitEl.textContent = count === 1 ? 'platillo' : 'platillos';
+          }
+        }
         cartBar.classList.toggle('show', count > 0);
         renderModal();
       }

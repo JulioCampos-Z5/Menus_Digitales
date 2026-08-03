@@ -1,368 +1,664 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Encholadas y Panvaso — Pantalla Vertical</title>
-<meta name="title" content="Encholadas y Panvaso — Pantalla Vertical">
-<meta name="description" content="Menú digital para pantalla vertical de Encholadas y Panvaso. Comida de barrio, sabor de casa en La Piedad Michoacán.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Encholadas y Panvaso — Pantalla Vertical</title>
+  <meta name="title" content="Encholadas y Panvaso — Pantalla Vertical">
+  <meta name="description"
+    content="Menú digital para pantalla vertical de Encholadas y Panvaso. Comida de barrio, sabor de casa en La Piedad Michoacán.">
 
-<!-- Open Graph / WhatsApp / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Encholadas y Panvaso">
-<meta property="og:title" content="Encholadas y Panvaso — Menú Digital">
-<meta property="og:description" content="Comida de Barrio, Sabor de Casa ✦ Encholadas, Panvasos, Takuaches, Combos Ciegos y más. 📍 Mariano Jiménez #232, La Piedad Michoacán.">
-<meta property="og:image" content="https://lh3.googleusercontent.com/d/1ESpU18bgRhrxRYfQ-HF6ziob7pP4CPxr">
-<meta property="og:image:secure_url" content="https://lh3.googleusercontent.com/d/1ESpU18bgRhrxRYfQ-HF6ziob7pP4CPxr">
-<meta property="og:image:type" content="image/png">
-<meta property="og:image:width" content="500">
-<meta property="og:image:height" content="500">
+  <!-- Open Graph / WhatsApp / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Encholadas y Panvaso">
+  <meta property="og:title" content="Encholadas y Panvaso — Menú Digital">
+  <meta property="og:description"
+    content="Comida de Barrio, Sabor de Casa ✦ Encholadas, Panvasos, Takuaches, Combos Ciegos y más. 📍 Mariano Jiménez #232, La Piedad Michoacán.">
+  <meta property="og:image" content="https://lh3.googleusercontent.com/d/1ESpU18bgRhrxRYfQ-HF6ziob7pP4CPxr">
+  <meta property="og:image:secure_url" content="https://lh3.googleusercontent.com/d/1ESpU18bgRhrxRYfQ-HF6ziob7pP4CPxr">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="500">
+  <meta property="og:image:height" content="500">
 
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Encholadas y Panvaso — Menú Digital">
-<meta name="twitter:description" content="Comida de Barrio, Sabor de Casa ✦ Encholadas, Panvasos, Takuaches y más.">
-<meta name="twitter:image" content="https://lh3.googleusercontent.com/d/1ESpU18bgRhrxRYfQ-HF6ziob7pP4CPxr">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Encholadas y Panvaso — Menú Digital">
+  <meta name="twitter:description" content="Comida de Barrio, Sabor de Casa ✦ Encholadas, Panvasos, Takuaches y más.">
+  <meta name="twitter:image" content="https://lh3.googleusercontent.com/d/1ESpU18bgRhrxRYfQ-HF6ziob7pP4CPxr">
 
-<link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1lcKrzXscte4HOkDrmBDMFD7gRxC-F4hL">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Bebas+Neue&family=Oswald:wght@300;400;500;600&family=Permanent+Marker&family=Cinzel:wght@400..900&family=UnifrakturMaguntia&family=Sedgwick+Ave+Display&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --black:#0d0c0b;
-    --black-2:#161412;
-    --gold:#d4af37;
-    --gold-2:#f2d675;
-    --red:#b81d24;
-    --red-2:#8a1319;
-    --green:#1f6f3f;
-    --cream:#f4e9d3;
-    --card:#1e1b18;
-    --line: rgba(212,175,55,.3);
-  }
-  *{box-sizing:border-box; font-optical-sizing:auto; -webkit-tap-highlight-color:transparent;}
-  html,body{
-    margin:0; padding:0; width:100%; height:100%;
-    background:#000;
-    overflow:hidden;
-    font-family:'Sedgwick Ave Display', cursive;
-  }
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1lcKrzXscte4HOkDrmBDMFD7gRxC-F4hL">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Bebas+Neue&family=Oswald:wght@300;400;500;600&family=Permanent+Marker&family=Cinzel:wght@400..900&family=UnifrakturMaguntia&family=Sedgwick+Ave+Display&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --black: #0d0c0b;
+      --black-2: #161412;
+      --gold: #d4af37;
+      --gold-2: #f2d675;
+      --red: #b81d24;
+      --red-2: #8a1319;
+      --green: #1f6f3f;
+      --cream: #f4e9d3;
+      --card: #1e1b18;
+      --line: rgba(212, 175, 55, .3);
+    }
 
-  /* Outer wrapper centers+scales the fixed 1080x1920 stage to fit any real screen */
-  #scaleWrap{
-    position:fixed; top:0; left:0;
-    width:1080px; height:1920px;
-    transform-origin: top left;
-  }
+    * {
+      box-sizing: border-box;
+      font-optical-sizing: auto;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-  .stage{
-    width:1080px; height:1920px;
-    position:relative;
-    background:
-      radial-gradient(ellipse at 50% 0%, #221e19 0%, var(--black) 55%),
-      var(--black);
-    color:var(--cream);
-    display:flex; flex-direction:column;
-    overflow:hidden;
-  }
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+      font-family: 'Sedgwick Ave Display', cursive;
+    }
 
-  .serape{
-    height:16px; width:100%; flex:0 0 auto;
-    background:repeating-linear-gradient(90deg,
-      var(--red) 0 30px, var(--gold) 30px 60px, var(--black-2) 60px 90px,
-      var(--green) 90px 120px, var(--gold) 120px 150px, var(--black-2) 150px 180px);
-    background-size:180px 100%;
-  }
+    /* Outer wrapper centers+scales the fixed 1080x1920 stage to fit any real screen */
+    #scaleWrap {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 1080px;
+      height: 1920px;
+      transform-origin: top left;
+    }
 
-  /* ---------- HEADER ---------- */
-  header{
-    flex:0 0 auto;
-    text-align:center;
-    padding:38px 20px 20px;
-    position:relative;
-    border-bottom:1px solid var(--line);
-  }
-  .logo-img{
-    width:220px; height:220px;
-    margin:0 auto;
-    display:block;
-    filter:drop-shadow(0 8px 20px rgba(0,0,0,.55));
-  }
-  .tagline{
-    font-family:'UnifrakturMaguntia', cursive;
-    font-weight:400;
-    font-size:34px; letter-spacing:1px;
-    color:var(--cream); opacity:.9; margin-top:10px;
-  }
-  .clock{
-    position:absolute; top:40px; right:40px;
-    text-align:right; font-family:'Sedgwick Ave Display', cursive;
-  }
-  .clock .time{font-weight:400; font-size:44px; color:var(--gold-2); line-height:1;}
-  .clock .date{font-size:18px; color:#cdbfa4; letter-spacing:1px; text-transform:capitalize;}
+    .stage {
+      width: 1080px;
+      height: 1920px;
+      position: relative;
+      background:
+        radial-gradient(ellipse at 50% 0%, #221e19 0%, var(--black) 55%),
+        var(--black);
+      color: var(--cream);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
 
-  /* ---------- CAROUSEL ---------- */
-  .carousel{
-    flex:1 1 auto;
-    position:relative;
-    overflow:hidden;
-  }
-  .slide{
-    position:absolute; inset:0;
-    padding:50px 60px 30px;
-    display:flex; flex-direction:column;
-    opacity:0; transform: translateX(60px);
-    transition: opacity .7s ease, transform .7s ease;
-    pointer-events:none;
-  }
-  .slide.active{
-    opacity:1; transform:translateX(0);
-    pointer-events:auto;
-  }
-  .slide h1{
-    font-family:'UnifrakturMaguntia', cursive;
-    font-weight:400;
-    font-size:74px; letter-spacing:1px;
-    text-align:center; margin:0 0 6px;
-    color:var(--gold-2);
-    text-shadow: 0 0 24px rgba(212,175,55,.3);
-  }
-  .slide .sub{
-    text-align:center; font-size:20px; color:#c9bda3;
-    letter-spacing:2px; margin-bottom:34px; text-transform:uppercase;
-  }
-  .items{
-    display:grid; grid-template-columns:repeat(2,1fr); gap:24px;
-    flex:1; align-content:start;
-  }
-  .item{
-    background:linear-gradient(160deg, var(--card), #17140f);
-    border:1px solid var(--line);
-    border-radius:24px;
-    overflow:hidden;
-    display:flex; flex-direction:column;
-    position:relative;
-    box-shadow: 0 10px 26px rgba(0,0,0,.4);
-  }
-  .item.wide{ grid-column:1 / -1; }
-  .item .badge{
-    width:100%; height:260px; border-radius:0; border:none;
-    background:var(--black-2);
-  }
-  .item .badge img{
-    width:100%; height:100%; object-fit:cover; display:block;
-  }
-  .item .info{padding:22px 26px 26px;}
-  .item .info h3{
-    font-family:'UnifrakturMaguntia', cursive;
-    font-weight:400;
-    font-size:34px; letter-spacing:1px; margin:0 0 8px; color:var(--cream);
-  }
-  .item .info p{
-    margin:0; font-size:17px; color:#b9ac91; line-height:1.35;
-  }
-  .item .price{
-    position:absolute; top:20px; right:20px;
-    font-family:'Sedgwick Ave Display', cursive;
-    font-weight:400;
-    font-size:30px; color:var(--cream);
-    background:var(--red-2);
-    padding:8px 18px; border-radius:12px;
-    border:1px solid rgba(255,255,255,.15);
-    box-shadow:0 4px 14px rgba(0,0,0,.4);
-  }
+    .serape {
+      height: 16px;
+      width: 100%;
+      flex: 0 0 auto;
+      background: repeating-linear-gradient(90deg,
+          var(--red) 0 30px, var(--gold) 30px 60px, var(--black-2) 60px 90px,
+          var(--green) 90px 120px, var(--gold) 120px 150px, var(--black-2) 150px 180px);
+      background-size: 180px 100%;
+    }
 
-  /* ---------- DOTS ---------- */
-  .dots{
-    flex:0 0 auto;
-    display:flex; justify-content:center; gap:14px;
-    padding:22px 0;
-  }
-  .dot{
-    width:16px; height:16px; border-radius:50%;
-    background:var(--black-2); border:2px solid var(--gold);
-    transition:.3s;
-  }
-  .dot.active{ background:var(--gold); box-shadow:0 0 12px rgba(212,175,55,.6); }
+    /* ---------- HEADER ---------- */
+    header {
+      flex: 0 0 auto;
+      text-align: center;
+      padding: 38px 20px 20px;
+      position: relative;
+      border-bottom: 1px solid var(--line);
+    }
 
-  /* ---------- FOOTER ---------- */
-  footer{
-    flex:0 0 auto;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:24px 60px 40px;
-    border-top:1px solid var(--line);
-    background:var(--black-2);
-  }
-  footer .addr{font-size:20px; color:#cdbfa4; line-height:1.4;}
-  footer .addr b{color:var(--gold-2); font-family:'Sedgwick Ave Display', cursive; font-weight:400; font-size:24px; letter-spacing:1px; display:block;}
-  .qr{
-    width:110px; height:110px; border-radius:12px;
-    background:#ffffff;
-    border:4px solid var(--cream);
-    object-fit:contain;
-    padding:4px;
-    box-shadow: 0 4px 14px rgba(0,0,0,.5);
-    display:block;
-  }
-</style>
+    .logo-img {
+      width: 220px;
+      height: 220px;
+      margin: 0 auto;
+      display: block;
+      filter: drop-shadow(0 8px 20px rgba(0, 0, 0, .55));
+    }
+
+    .tagline {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-weight: 400;
+      font-size: 34px;
+      letter-spacing: 1px;
+      color: var(--cream);
+      opacity: .9;
+      margin-top: 10px;
+    }
+
+    .clock {
+      position: absolute;
+      top: 40px;
+      right: 40px;
+      text-align: right;
+      font-family: 'Sedgwick Ave Display', cursive;
+    }
+
+    .clock .time {
+      font-weight: 400;
+      font-size: 44px;
+      color: var(--gold-2);
+      line-height: 1;
+    }
+
+    .clock .date {
+      font-size: 18px;
+      color: #cdbfa4;
+      letter-spacing: 1px;
+      text-transform: capitalize;
+    }
+
+    /* ---------- CAROUSEL ---------- */
+    .carousel {
+      flex: 1 1 auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 50px 60px 30px;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transform: translateX(60px);
+      transition: opacity .7s ease, transform .7s ease;
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+
+    .slide h1 {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-weight: 400;
+      font-size: 74px;
+      letter-spacing: 1px;
+      text-align: center;
+      margin: 0 0 6px;
+      color: var(--gold-2);
+      text-shadow: 0 0 24px rgba(212, 175, 55, .3);
+    }
+
+    .slide .sub {
+      text-align: center;
+      font-size: 20px;
+      color: #c9bda3;
+      letter-spacing: 2px;
+      margin-bottom: 34px;
+      text-transform: uppercase;
+    }
+
+    .items {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      flex: 1;
+      align-content: start;
+    }
+
+    .item {
+      background: linear-gradient(160deg, var(--card), #17140f);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, .4);
+    }
+
+    .item.wide {
+      grid-column: 1 / -1;
+    }
+
+    .item .badge {
+      width: 100%;
+      height: 260px;
+      border-radius: 0;
+      border: none;
+      background: var(--black-2);
+    }
+
+    .item .badge img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .item .info {
+      padding: 22px 26px 26px;
+    }
+
+    .item .info h3 {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-weight: 400;
+      font-size: 34px;
+      letter-spacing: 1px;
+      margin: 0 0 8px;
+      color: var(--cream);
+    }
+
+    .item .info p {
+      margin: 0;
+      font-size: 17px;
+      color: #b9ac91;
+      line-height: 1.35;
+    }
+
+    .item .price {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-family: 'Sedgwick Ave Display', cursive;
+      font-weight: 400;
+      font-size: 30px;
+      color: var(--cream);
+      background: var(--red-2);
+      padding: 8px 18px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, .15);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, .4);
+    }
+
+    /* ---------- DOTS ---------- */
+    .dots {
+      flex: 0 0 auto;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      padding: 22px 0;
+    }
+
+    .dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--black-2);
+      border: 2px solid var(--gold);
+      transition: .3s;
+    }
+
+    .dot.active {
+      background: var(--gold);
+      box-shadow: 0 0 12px rgba(212, 175, 55, .6);
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 60px 40px;
+      border-top: 1px solid var(--line);
+      background: var(--black-2);
+    }
+
+    footer .addr {
+      font-size: 20px;
+      color: #cdbfa4;
+      line-height: 1.4;
+    }
+
+    footer .addr b {
+      color: var(--gold-2);
+      font-family: 'Sedgwick Ave Display', cursive;
+      font-weight: 400;
+      font-size: 24px;
+      letter-spacing: 1px;
+      display: block;
+    }
+
+    .qr {
+      width: 110px;
+      height: 110px;
+      border-radius: 12px;
+      background: #ffffff;
+      border: 4px solid var(--cream);
+      object-fit: contain;
+      padding: 4px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, .5);
+      display: block;
+    }
+  </style>
 </head>
+
 <body>
 
-<div id="scaleWrap">
-  <div class="stage">
-    <div class="serape"></div>
+  <div id="scaleWrap">
+    <div class="stage">
+      <div class="serape"></div>
 
-    <header>
-      <img src="https://lh3.googleusercontent.com/d/1ESpU18bgRhrxRYfQ-HF6ziob7pP4CPxr" alt="Encholadas y Panvaso - Cenaduría" class="logo-img">
-      <p class="tagline">Sabor del Barrio</p>
-      <div class="clock">
-        <div class="time" id="clockTime">--:--</div>
-        <div class="date" id="clockDate">-- de -- --</div>
+      <header>
+        <img src="https://lh3.googleusercontent.com/d/1ESpU18bgRhrxRYfQ-HF6ziob7pP4CPxr"
+          alt="Encholadas y Panvaso - Cenaduría" class="logo-img">
+        <p class="tagline">Sabor del Barrio</p>
+        <div class="clock">
+          <div class="time" id="clockTime">--:--</div>
+          <div class="date" id="clockDate">-- de -- --</div>
+        </div>
+      </header>
+
+      <div class="carousel" id="carousel">
+
+        <section class="slide active" data-cat="combos-ciegos">
+          <h1>Combos Ciegos</h1>
+          <div class="sub">Promocionales de $100 MXN</div>
+          <div class="items">
+            <div class="item wide">
+              <div class="badge"><img src="https://loremflickr.com/500/300/mexican,combo?lock=30"
+                  alt="Combo Al Cien #1"></div>
+              <div class="info">
+                <h3>Combo Al Cien #1 <span style="font-size:16px;color:var(--gold-2);">(Valor real $117)</span></h3>
+                <p>Tortuga + Agua Loca chica o Chesco + Zape + Encholada + Enchiluda + Takuache.</p>
+              </div>
+              <div class="price">$100</div>
+            </div>
+            <div class="item wide">
+              <div class="badge"><img src="https://loremflickr.com/500/300/tacos,combo?lock=31" alt="Combo Al Cien #2">
+              </div>
+              <div class="info">
+                <h3>Combo Al Cien #2 <span style="font-size:16px;color:var(--gold-2);">(Valor real $120)</span></h3>
+                <p>2 Takuaches + Zape + Agua Loca chica o Chesco + Encholada + Enchiluda + Enchilarga + Takuache extra.
+                </p>
+              </div>
+              <div class="price">$100</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-cat="ciegos-tostoneados">
+          <h1>Ciegos Tostoneados</h1>
+          <div class="sub">Promocionales de $150 MXN</div>
+          <div class="items">
+            <div class="item wide">
+              <div class="badge"><img src="https://loremflickr.com/500/300/pambazo,combo?lock=32"
+                  alt="Combo Del Barrio #1"></div>
+              <div class="info">
+                <h3>Combo Del Barrio #1 <span style="font-size:16px;color:var(--gold-2);">(Valor real $170)</span></h3>
+                <p>Pantalón (pambazo + 2 tacos) + Agua Loca grande + Tostanchos.</p>
+              </div>
+              <div class="price">$150</div>
+            </div>
+            <div class="item wide">
+              <div class="badge"><img src="https://loremflickr.com/500/300/mexican,feast?lock=33"
+                  alt="Combo Del Barrio #2"></div>
+              <div class="info">
+                <h3>Combo Del Barrio #2 <span style="font-size:16px;color:var(--gold-2);">(Valor real $181)</span></h3>
+                <p>Takabrón + Agua Loca chica o Chesco + Encholada + Enchiluda + Enchilarga.</p>
+              </div>
+              <div class="price">$150</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-cat="encholadas">
+          <h1>Encholadas</h1>
+          <div class="sub">Enchiladas del Barrio</div>
+          <div class="items">
+            <div class="item">
+              <div class="badge"><img src="https://loremflickr.com/500/300/enchiladas?lock=1" alt="Enchilargas"></div>
+              <div class="info">
+                <h3>Enchilargas</h3>
+                <p>Enchiladas largas estilo casero.</p>
+              </div>
+              <div class="price">$15</div>
+            </div>
+            <div class="item">
+              <div class="badge"><img src="https://loremflickr.com/500/300/enchiladas,spicy?lock=2" alt="Enchiludas">
+              </div>
+              <div class="info">
+                <h3>Enchiludas</h3>
+                <p>En salsa habanera, picantes y sabrosas.</p>
+              </div>
+              <div class="price">$8</div>
+            </div>
+            <div class="item">
+              <div class="badge"><img src="https://loremflickr.com/500/300/enchiladas,mexican?lock=3" alt="Encholadas">
+              </div>
+              <div class="info">
+                <h3>Encholadas</h3>
+                <p>La enchilada clásica de la casa.</p>
+              </div>
+              <div class="price">$8</div>
+            </div>
+            <div class="item">
+              <div class="badge"><img src="https://loremflickr.com/500/300/enchiladas,stew?lock=4" alt="Enchilocas">
+              </div>
+              <div class="info">
+                <h3>Enchilocas</h3>
+                <p>Servidas con abundante guiso.</p>
+              </div>
+              <div class="price">$17</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-cat="panvasos">
+          <h1>Panvasos</h1>
+          <div class="sub">Pambazos Tradicionales</div>
+          <div class="items">
+            <div class="item">
+              <div class="badge"><img src="https://loremflickr.com/500/300/pambazo?lock=5" alt="Panvaso"></div>
+              <div class="info">
+                <h3>Panvaso</h3>
+                <p>Pambazo clásico con guajillo.</p>
+              </div>
+              <div class="price">$55</div>
+            </div>
+            <div class="item">
+              <div class="badge"><img src="https://loremflickr.com/500/300/pambazo,sandwich?lock=6" alt="Panzaso"></div>
+              <div class="info">
+                <h3>Panzaso</h3>
+                <p>Pambazo doble bien preparado.</p>
+              </div>
+              <div class="price">$85</div>
+            </div>
+            <div class="item">
+              <div class="badge"><img src="https://loremflickr.com/500/300/pambazo,tacos?lock=7" alt="Pantalón"></div>
+              <div class="info">
+                <h3>Pantalón</h3>
+                <p>Pambazo con 2 tacos dorados.</p>
+              </div>
+              <div class="price">$70</div>
+            </div>
+            <div class="item">
+              <div class="badge"><img src="https://loremflickr.com/500/300/pambazo,cheese?lock=8" alt="Pantalón miado">
+              </div>
+              <div class="info">
+                <h3>Pantalón miado</h3>
+                <p>Gratinado con bastante queso.</p>
+              </div>
+              <div class="price">$80</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-cat="takuaches">
+          <h1>Takuaches</h1>
+          <div class="sub">Tacos del Barrio</div>
+          <div class="items">
+            <div class="item">
+              <div class="badge"><img src="https://loremflickr.com/500/300/tacos,cheese?lock=9" alt="Takobañado"></div>
+              <div class="info">
+                <h3>Takobañado</h3>
+                <p>Bañados en queso fundido.</p>
+              </div>
+              <div class="price">$40</div>
+            </div>
+            <div class="item">
+              <div class="badge"><img src="https://loremflickr.com/500/300/tacos,street?lock=10" alt="Takuaches"></div>
+              <div class="info">
+                <h3>Takuaches</h3>
+                <p>Taco sencillo con gran sazón.</p>
+              </div>
+              <div class="price">$8</div>
+            </div>
+            <div class="item wide">
+              <div class="badge"><img src="https://loremflickr.com/500/300/tacos,platter?lock=11" alt="Takabrón"></div>
+              <div class="info">
+                <h3>Takabrón</h3>
+                <p>Tacos dorados con guisado + tipo cubano.</p>
+              </div>
+              <div class="price">$125</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-cat="tostadas">
+          <h1>Tostadas & Quesobas</h1>
+          <div class="sub">Tostones y Quesadillas</div>
+          <div class="items">
+            <div class="item">
+              <div class="badge"><img src="https://loremflickr.com/500/300/tostada?lock=12" alt="Tostanchos"></div>
+              <div class="info">
+                <h3>Tostanchos</h3>
+                <p>Tostada XL surtida.</p>
+              </div>
+              <div class="price">$60</div>
+            </div>
+            <div class="item">
+              <div class="badge"><img src="https://loremflickr.com/500/300/tostadas,mexican?lock=13" alt="Tozthadaz">
+              </div>
+              <div class="info">
+                <h3>Tozthadaz</h3>
+                <p>Tostada normal clásica.</p>
+              </div>
+              <div class="price">$22</div>
+            </div>
+            <div class="item wide">
+              <div class="badge"><img src="https://loremflickr.com/500/300/quesadilla,mexican?lock=14" alt="Quesobas">
+              </div>
+              <div class="info">
+                <h3>Quesobas</h3>
+                <p>Quesadilla rellena con guisado a elegir.</p>
+              </div>
+              <div class="price">$28</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-cat="tortugas-zapes">
+          <h1>Tortugas & Zapes</h1>
+          <div class="sub">Tortas y Sopes</div>
+          <div class="items">
+            <div class="item wide">
+              <div class="badge"><img src="https://loremflickr.com/500/300/torta,sandwich?lock=15" alt="Tortugas"></div>
+              <div class="info">
+                <h3>Tortugas</h3>
+                <p>Torta clásica mexicana bien doradita.</p>
+              </div>
+              <div class="price">$50</div>
+            </div>
+            <div class="item wide">
+              <div class="badge"><img src="https://loremflickr.com/500/300/sope,mexican?lock=16" alt="Zape"></div>
+              <div class="info">
+                <h3>Zape</h3>
+                <p>Sope clásico hecho a mano.</p>
+              </div>
+              <div class="price">$18</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-cat="bebidas">
+          <h1>Bebidas</h1>
+          <div class="sub">Chescos y Aguas Locas</div>
+          <div class="items">
+            <div class="item wide">
+              <div class="badge"><img src="https://loremflickr.com/500/300/soda,drink?lock=25" alt="Refresco"></div>
+              <div class="info">
+                <h3>Refresco (chescos)</h3>
+                <p>Sabores surtidos bien fríos.</p>
+              </div>
+              <div class="price">$25</div>
+            </div>
+            <div class="item">
+              <div class="badge"><img src="https://loremflickr.com/500/300/horchata,drink?lock=22"
+                  alt="Agua del dia chica"></div>
+              <div class="info">
+                <h3>Agua del día (chica)</h3>
+                <p>Aguas locas refrescantes.</p>
+              </div>
+              <div class="price">$25</div>
+            </div>
+            <div class="item">
+              <div class="badge"><img src="https://loremflickr.com/500/300/jamaica,drink?lock=23"
+                  alt="Agua del dia grande"></div>
+              <div class="info">
+                <h3>Agua del día (grande)</h3>
+                <p>Aguas locas refrescantes.</p>
+              </div>
+              <div class="price">$40</div>
+            </div>
+          </div>
+        </section>
+
       </div>
-    </header>
 
-    <div class="carousel" id="carousel">
+      <div class="dots" id="dots"></div>
 
-      <section class="slide active" data-cat="combos-ciegos">
-        <h1>Combos Ciegos</h1>
-        <div class="sub">Promocionales de $100 MXN</div>
-        <div class="items">
-          <div class="item wide"><div class="badge"><img src="https://loremflickr.com/500/300/mexican,combo?lock=30" alt="Combo Al Cien #1"></div><div class="info"><h3>Combo Al Cien #1 <span style="font-size:16px;color:var(--gold-2);">(Valor real $117)</span></h3><p>Tortuga + Agua Loca chica o Chesco + Zape + Encholada + Enchiluda + Takuache.</p></div><div class="price">$100</div></div>
-          <div class="item wide"><div class="badge"><img src="https://loremflickr.com/500/300/tacos,combo?lock=31" alt="Combo Al Cien #2"></div><div class="info"><h3>Combo Al Cien #2 <span style="font-size:16px;color:var(--gold-2);">(Valor real $120)</span></h3><p>2 Takuaches + Zape + Agua Loca chica o Chesco + Encholada + Enchiluda + Enchilarga + Takuache extra.</p></div><div class="price">$100</div></div>
+      <footer>
+        <div class="addr">
+          <b>Encholadas y Panvaso</b>
+          Mariano Jiménez #232, Col. Centro, La Piedad Michoacán · Jueves–Martes 07:00pm–11:00pm
         </div>
-      </section>
-
-      <section class="slide" data-cat="ciegos-tostoneados">
-        <h1>Ciegos Tostoneados</h1>
-        <div class="sub">Promocionales de $150 MXN</div>
-        <div class="items">
-          <div class="item wide"><div class="badge"><img src="https://loremflickr.com/500/300/pambazo,combo?lock=32" alt="Combo Del Barrio #1"></div><div class="info"><h3>Combo Del Barrio #1 <span style="font-size:16px;color:var(--gold-2);">(Valor real $170)</span></h3><p>Pantalón (pambazo + 2 tacos) + Agua Loca grande + Tostanchos.</p></div><div class="price">$150</div></div>
-          <div class="item wide"><div class="badge"><img src="https://loremflickr.com/500/300/mexican,feast?lock=33" alt="Combo Del Barrio #2"></div><div class="info"><h3>Combo Del Barrio #2 <span style="font-size:16px;color:var(--gold-2);">(Valor real $181)</span></h3><p>Takabrón + Agua Loca chica o Chesco + Encholada + Enchiluda + Enchilarga.</p></div><div class="price">$150</div></div>
-        </div>
-      </section>
-
-      <section class="slide" data-cat="encholadas">
-        <h1>Encholadas</h1>
-        <div class="sub">Enchiladas del Barrio</div>
-        <div class="items">
-          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/enchiladas?lock=1" alt="Enchilargas"></div><div class="info"><h3>Enchilargas</h3><p>Enchiladas largas estilo casero.</p></div><div class="price">$15</div></div>
-          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/enchiladas,spicy?lock=2" alt="Enchiludas"></div><div class="info"><h3>Enchiludas</h3><p>En salsa habanera, picantes y sabrosas.</p></div><div class="price">$8</div></div>
-          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/enchiladas,mexican?lock=3" alt="Encholadas"></div><div class="info"><h3>Encholadas</h3><p>La enchilada clásica de la casa.</p></div><div class="price">$8</div></div>
-          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/enchiladas,stew?lock=4" alt="Enchilocas"></div><div class="info"><h3>Enchilocas</h3><p>Servidas con abundante guiso.</p></div><div class="price">$17</div></div>
-        </div>
-      </section>
-
-      <section class="slide" data-cat="panvasos">
-        <h1>Panvasos</h1>
-        <div class="sub">Pambazos Tradicionales</div>
-        <div class="items">
-          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/pambazo?lock=5" alt="Panvaso"></div><div class="info"><h3>Panvaso</h3><p>Pambazo clásico con guajillo.</p></div><div class="price">$55</div></div>
-          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/pambazo,sandwich?lock=6" alt="Panzaso"></div><div class="info"><h3>Panzaso</h3><p>Pambazo doble bien preparado.</p></div><div class="price">$85</div></div>
-          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/pambazo,tacos?lock=7" alt="Pantalón"></div><div class="info"><h3>Pantalón</h3><p>Pambazo con 2 tacos dorados.</p></div><div class="price">$70</div></div>
-          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/pambazo,cheese?lock=8" alt="Pantalón miado"></div><div class="info"><h3>Pantalón miado</h3><p>Gratinado con bastante queso.</p></div><div class="price">$80</div></div>
-        </div>
-      </section>
-
-      <section class="slide" data-cat="takuaches">
-        <h1>Takuaches</h1>
-        <div class="sub">Tacos del Barrio</div>
-        <div class="items">
-          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/tacos,cheese?lock=9" alt="Takobañado"></div><div class="info"><h3>Takobañado</h3><p>Bañados en queso fundido.</p></div><div class="price">$40</div></div>
-          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/tacos,street?lock=10" alt="Takuaches"></div><div class="info"><h3>Takuaches</h3><p>Taco sencillo con gran sazón.</p></div><div class="price">$8</div></div>
-          <div class="item wide"><div class="badge"><img src="https://loremflickr.com/500/300/tacos,platter?lock=11" alt="Takabrón"></div><div class="info"><h3>Takabrón</h3><p>Tacos dorados con guisado + topo cubano.</p></div><div class="price">$125</div></div>
-        </div>
-      </section>
-
-      <section class="slide" data-cat="tostadas">
-        <h1>Tostadas & Quesobas</h1>
-        <div class="sub">Tostones y Quesadillas</div>
-        <div class="items">
-          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/tostada?lock=12" alt="Tostanchos"></div><div class="info"><h3>Tostanchos</h3><p>Tostada XL surtida.</p></div><div class="price">$60</div></div>
-          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/tostadas,mexican?lock=13" alt="Tozthadaz"></div><div class="info"><h3>Tozthadaz</h3><p>Tostada normal clásica.</p></div><div class="price">$22</div></div>
-          <div class="item wide"><div class="badge"><img src="https://loremflickr.com/500/300/quesadilla,mexican?lock=14" alt="Quesobas"></div><div class="info"><h3>Quesobas</h3><p>Quesadilla rellena con guisado a elegir.</p></div><div class="price">$28</div></div>
-        </div>
-      </section>
-
-      <section class="slide" data-cat="tortugas-zapes">
-        <h1>Tortugas & Zapes</h1>
-        <div class="sub">Tortas y Sopes</div>
-        <div class="items">
-          <div class="item wide"><div class="badge"><img src="https://loremflickr.com/500/300/torta,sandwich?lock=15" alt="Tortugas"></div><div class="info"><h3>Tortugas</h3><p>Torta clásica mexicana bien doradita.</p></div><div class="price">$50</div></div>
-          <div class="item wide"><div class="badge"><img src="https://loremflickr.com/500/300/sope,mexican?lock=16" alt="Zape"></div><div class="info"><h3>Zape</h3><p>Sope clásico hecho a mano.</p></div><div class="price">$18</div></div>
-        </div>
-      </section>
-
-      <section class="slide" data-cat="bebidas">
-        <h1>Bebidas</h1>
-        <div class="sub">Chescos y Aguas Locas</div>
-        <div class="items">
-          <div class="item wide"><div class="badge"><img src="https://loremflickr.com/500/300/soda,drink?lock=25" alt="Refresco"></div><div class="info"><h3>Refresco (chescos)</h3><p>Sabores surtidos bien fríos.</p></div><div class="price">$25</div></div>
-          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/horchata,drink?lock=22" alt="Agua del dia chica"></div><div class="info"><h3>Agua del día (chica)</h3><p>Aguas locas refrescantes.</p></div><div class="price">$25</div></div>
-          <div class="item"><div class="badge"><img src="https://loremflickr.com/500/300/jamaica,drink?lock=23" alt="Agua del dia grande"></div><div class="info"><h3>Agua del día (grande)</h3><p>Aguas locas refrescantes.</p></div><div class="price">$40</div></div>
-        </div>
-      </section>
+        <img src="img/QR.png" alt="Escanea para menú completo" class="qr">
+      </footer>
 
     </div>
-
-    <div class="dots" id="dots"></div>
-
-    <footer>
-      <div class="addr">
-        <b>Encholadas y Panvaso</b>
-        Mariano Jiménez #232, Col. Centro, La Piedad Michoacán · Jueves–Martes 07:00pm–11:00pm
-      </div>
-      <img src="img/QR.png" alt="Escanea para menú completo" class="qr">
-    </footer>
-
   </div>
-</div>
 
-<script>
-  // Scale the fixed 1080x1920 stage to fit whatever real screen this loads on
-  function fitStage(){
-    const scale = Math.min(window.innerWidth / 1080, window.innerHeight / 1920);
-    const wrap = document.getElementById('scaleWrap');
-    const offX = (window.innerWidth - 1080 * scale) / 2;
-    const offY = (window.innerHeight - 1920 * scale) / 2;
-    wrap.style.transform = `translate(${offX}px, ${offY}px) scale(${scale})`;
-  }
-  window.addEventListener('resize', fitStage);
-  fitStage();
+  <script>
+    // Scale the fixed 1080x1920 stage to fit whatever real screen this loads on
+    function fitStage() {
+      const scale = Math.min(window.innerWidth / 1080, window.innerHeight / 1920);
+      const wrap = document.getElementById('scaleWrap');
+      const offX = (window.innerWidth - 1080 * scale) / 2;
+      const offY = (window.innerHeight - 1920 * scale) / 2;
+      wrap.style.transform = `translate(${offX}px, ${offY}px) scale(${scale})`;
+    }
+    window.addEventListener('resize', fitStage);
+    fitStage();
 
-  // Clock
-  function tick(){
-    const now = new Date();
-    document.getElementById('clockTime').textContent =
-      now.toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'});
-    document.getElementById('clockDate').textContent =
-      now.toLocaleDateString('es-MX', {weekday:'long', day:'numeric', month:'long'});
-  }
-  tick();
-  setInterval(tick, 1000 * 15);
+    // Clock
+    function tick() {
+      const now = new Date();
+      document.getElementById('clockTime').textContent =
+        now.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
+      document.getElementById('clockDate').textContent =
+        now.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' });
+    }
+    tick();
+    setInterval(tick, 1000 * 15);
 
-  // Carousel autoplay
-  const slides = Array.from(document.querySelectorAll('.slide'));
-  const dotsWrap = document.getElementById('dots');
-  slides.forEach((_, i)=>{
-    const d = document.createElement('div');
-    d.className = 'dot' + (i===0 ? ' active' : '');
-    dotsWrap.appendChild(d);
-  });
-  const dots = Array.from(dotsWrap.children);
-  let current = 0;
-  const INTERVAL_MS = 7000;
+    // Carousel autoplay
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const dotsWrap = document.getElementById('dots');
+    slides.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      dotsWrap.appendChild(d);
+    });
+    const dots = Array.from(dotsWrap.children);
+    let current = 0;
+    const INTERVAL_MS = 7000;
 
-  function goTo(index){
-    slides[current].classList.remove('active');
-    dots[current].classList.remove('active');
-    current = (index + slides.length) % slides.length;
-    slides[current].classList.add('active');
-    dots[current].classList.add('active');
-  }
+    function goTo(index) {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = (index + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+    }
 
-  setInterval(()=> goTo(current + 1), INTERVAL_MS);
-</script>
+    setInterval(() => goTo(current + 1), INTERVAL_MS);
+  </script>
 
 </body>
+
 </html>
